@@ -1,3 +1,31 @@
+#include <iostream>
+#include <ng_imploder/imploder/Imploder.hpp>
+#include <extras/filesystem/paths.hpp>
+#include <extras/filesystem/system.hpp>
+#include <filesystem>
+
+namespace fs = std::filesystem;
+
+namespace extras {
+    namespace ng {
+
+        void Imploder::unzip() const {
+            if (fs::exists(tempDir())) {
+                auto rmdir = "rm -rf " + tempDir();
+                SystemException::assertion(rmdir, __INFO__);
+            }
+            auto mkdir = "mkdir " + tempDir();;
+            SystemException::assertion(mkdir, __INFO__);
+            auto unzip = "unzip -o " + before() + " -d " + tempDir();
+            SystemException::assertion(unzip.c_str(), __INFO__);
+        }
+
+    }
+}
+
+
+
+
 // #include "../include/Imploder/Linux/Imploder.hpp"
 // #include "../extra/include/Directory.hpp"
 // #include "../extra/include/string_support.hpp"

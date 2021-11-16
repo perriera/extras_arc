@@ -1,37 +1,29 @@
 
-// #include <iostream>
-// #include <ng_imploder/imploder/Imploder.hpp>
-// #include <extras/filesystem/paths.hpp>
+#include <iostream>
+#include <ng_imploder/imploder/Imploder.hpp>
+#include <extras/filesystem/paths.hpp>
 
-// #include "../vendor/catch.hpp"
-// #include "../vendor/fakeit.hpp"
+#include "../vendor/catch.hpp"
+#include "../vendor/fakeit.hpp"
+#include <filesystem>
 
-// using namespace extras;
-// using namespace fakeit;
+namespace fs = std::filesystem;
 
-// SCENARIO("Test ImploderInterface: toOctal", "[ImploderInterface]") {
+using namespace extras;
 
-//     ng::Filename before = ~extras::Paths("data/exparx.webflow.zip");
-//     ng::Filename after = ~extras::Paths("data/exparx.webflow.zip_imploded");
-//     Mock<ng::ImploderInterface> mock;
-//     When(Method(mock, before)).Return(before);
-//     When(Method(mock, after)).Return(after);
-//     When(Method(mock, unzip)).Return();
-//     When(Method(mock, implode)).Return();
-//     When(Method(mock, explode)).Return();
-//     When(Method(mock, rezip)).Return();
+SCENARIO("Test ImploderInterface: toOctal", "[ImploderInterface]") {
 
-//     ng::ImploderInterface& i = mock.get();
+    ng::Filename before = ~extras::Paths("data/exparx.webflow.zip");
+    ng::Filename after = before + "_imploded";
+    ng::Imploder imploder(before);
 
-//     REQUIRE(i.before() == before);
-//     i.unzip();
-//     i.implode();
-//     i.explode();
-//     i.rezip();
-//     REQUIRE(i.after() == after);
-//     Verify(Method(mock, unzip));
-//     Verify(Method(mock, implode));
-//     Verify(Method(mock, explode));
-//     Verify(Method(mock, rezip));
-// }
+    ng::ImploderInterface& i = imploder;
+    REQUIRE(i.before() == before);
+    i.unzip();
+    REQUIRE(fs::exists(i.tempDir()));
+    i.implode();
+    i.explode();
+    i.rezip();
+    REQUIRE(i.after() == after);
+}
 
