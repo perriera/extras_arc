@@ -4,8 +4,8 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).</br>
 > To add a tag to the git repository do:
-> > git tag -a v0.1.0 -m "Initial content"</br>
-> > git push origin v0.1.0
+> > git tag -a v0.2.0 -m "Renamed project"</br>
+> > git push origin v0.2.0
 > 
 
 IMPORTANT: 
@@ -29,67 +29,11 @@ Adding mock test cases </br>
 Adding unit test cases </br>
 Updated README.md accordinging</br>
 
-#### 0.7.0 (2021-11-14)
+#### 0.2.0 (2021-11-14)
 ### Changed 
-- Updated README.md
+- Renamed project
 
-#### 0.6.0 (2021-11-8)
-### Changed 
-- Now using perroera/extras 5.0.9
-
-#### 0.5.6 (2021-11-8)
-### Changed 
-- Now using perroera/extras 5.0.8
-- Added additional VSC docs 
-- Added additional CPM docs 
- 
-#### 0.5.5 (2021-11-8)
-### Changed 
-- Now using perroera/extras 5.0.7 
-
-#### 0.5.4 (2021-11-8)
-### Changed 
-- Updated to use perriera/extras v5.0.4
-
-#### 0.5.3 (2021-11-8)
-### Changed 
-- Updated to use perriera/extras v4.19.0
-
-#### 0.5.2 (2021-11-8)
-### Changed 
-- Updated to use perriera/extras v4.16.0
-
-#### 0.5.1 (2021-10-17)
-### Changed 
-- Fixed Link issue 
-
-#### 0.5.0 (2021-10-17)
-### Changed 
-- Update for use with perriera/extras 3.22 
-
-#### 0.4.2 (2021-09-07)
-### Changed 
-- Added instances/ directory
-
-#### 0.4.1 (2021-09-07)
-### Changed 
-- CMakeLists.txt entry for runtime instances 
-### Removed 
-- Unnecessary file
-
-#### 0.4.0 (2021-09-03)
-### Moved 
-- Vendor files
-
-#### 0.3.1 (2021-09-03)
-### Removed 
-- Renamed identifier
-
-#### 0.3.0 (2021-09-03)
-### Removed 
-- ng_imploder source code
-
-#### 0.2.0 (2021-09-03)
+#### 0.1.0 (2021-09-03)
 ### Added
 - SHARED library support
 - (perriera) extras library support, (3.11.0)
@@ -111,7 +55,7 @@ Updated README.md accordinging</br>
 - placed all source into /src
 - placed all headers into /include/ng_imploder
 
-#### 0.1.0 (2021-08-26)
+#### 0.0.0 (2021-08-26)
 ### Added
 - Fetch_Content support
 - changelog.md
@@ -125,18 +69,15 @@ Updated README.md accordinging</br>
 - extra/interfaces.hpp support
 - Unit test casses support, (Catch2)
 - Mock framework support, (FakeIt)
-
 ### Changed
 - CMakeLists.txt revamped & streamlined
 - README.md revamped & streamlined
 - Added documentation on code
 - cxx_std_17 on all targets
 - std::filesystem on all targets
-
 ### Maintained
 - @brief style formatting
 - Doxygen support 
-
 ### Removed
 - Conan package manager deprecated
 
