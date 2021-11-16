@@ -119,3 +119,20 @@ SCENARIO("Test ImploderInterface: unzip src", "[ImploderInterface]") {
     i.reset();
 
 }
+
+// SCENARIO("Test ImploderInterface: rezip webflow", "[ImploderInterface]") {
+
+//     ng::Filename before = ~extras::Paths("data/exparx.webflow.zip");
+//     ng::Filename after = before + "_imploded";
+//     ng::Imploder imploder(before);
+
+//     ng::ImploderInterface& i = imploder;
+
+//     REQUIRE(fs::exists(i.original()));
+//     i.setup();
+//     i.rezip(i.imploded(), i.implodedDir());
+//     REQUIRE(fs::exists(i.original()));
+//     REQUIRE(fs::exists(i.imploded()));
+//     REQUIRE(fs::exists(i.exploded()));
+//     REQUIRE(fs::exists(i.implodedDir()));
+// }
