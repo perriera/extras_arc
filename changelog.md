@@ -4,8 +4,8 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).</br>
 > To add a tag to the git repository do:
-> > git tag -a v0.7.0 -m "perriera/extras v5.0.9"</br>
-> > git push origin v0.7.0
+> > git tag -a v0.1.0 -m "Initial content"</br>
+> > git push origin v0.1.0
 > 
 
 IMPORTANT: 
@@ -87,7 +87,7 @@ Updated README.md accordinging</br>
 
 #### 0.3.0 (2021-09-03)
 ### Removed 
-- cpp_starter source code
+- ng_imploder source code
 
 #### 0.2.0 (2021-09-03)
 ### Added
@@ -109,7 +109,7 @@ Updated README.md accordinging</br>
 - spdlog is now used as a shared library, (libspdlog.so)
 - cpr is now used as a shared library, (libcpr.so)
 - placed all source into /src
-- placed all headers into /include/cpp_starter
+- placed all headers into /include/ng_imploder
 
 #### 0.1.0 (2021-08-26)
 ### Added
@@ -140,20 +140,7 @@ Updated README.md accordinging</br>
 ### Removed
 - Conan package manager deprecated
 
-[Unreleased]: https://github.com/perriera/cpp_starter/compare/v0.7.0...HEAD
-[0.7.0]: https://github.com/perriera/cpp_starter/compare/v0.6.6...v0.7.0
-[0.6.6]: https://github.com/perriera/cpp_starter/compare/v0.5.6...v0.6.0
-[0.5.6]: https://github.com/perriera/cpp_starter/compare/v0.5.5...v0.5.6
-[0.5.5]: https://github.com/perriera/cpp_starter/compare/v0.5.4...v0.5.5
-[0.5.4]: https://github.com/perriera/cpp_starter/compare/v0.5.3...v0.5.4
-[0.5.3]: https://github.com/perriera/cpp_starter/compare/v0.5.2...v0.5.3
-[0.5.2]: https://github.com/perriera/cpp_starter/compare/v0.5.1...v0.5.2
-[0.5.1]: https://github.com/perriera/cpp_starter/compare/v0.5.0...v0.5.1
-[0.5.0]: https://github.com/perriera/cpp_starter/compare/v0.4.2...v0.5.0
-[0.4.2]: https://github.com/perriera/cpp_starter/compare/v0.4.1...v0.4.2
-[0.4.1]: https://github.com/perriera/cpp_starter/compare/v0.4.0...v0.4.1
-[0.4.0]: https://github.com/perriera/cpp_starter/compare/v0.3.1...v0.4.0
-[0.3.1]: https://github.com/perriera/cpp_starter/compare/v0.3.0...v0.3.1
-[0.3.0]: https://github.com/perriera/cpp_starter/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/perriera/cpp_starter/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/perriera/cpp_starter/releases/tag/v0.1.0
+[Unreleased]: https://github.com/perriera/ng_imploder/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/perriera/ng_imploder/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/perriera/ng_imploder/releases/tag/v0.1.0
+

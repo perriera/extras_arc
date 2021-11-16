@@ -1,28 +1,28 @@
 ## Shared Library support
-If wish to install your cpp_starter-based project as a shared library there are two methods.
+If wish to install your ng_imploder-based project as a shared library there are two methods.
 
 ## standard sudo make install
 
 The following command will install all the targets specified in your CMakeLists.txt into the standard Linux areas for header files and binaries:
 
 	sudo make install
-However, quite often you will be upgrading **cpp_starter** so a better way to install **cpp_starter** is by using **sudo checkinstall**.
+However, quite often you will be upgrading **ng_imploder** so a better way to install **ng_imploder** is by using **sudo checkinstall**.
 
 ## sudo checkinstall
-Since you will be working on different versions of **cpp_starter** it is important that you be able to make a clean uninstall, (when required) , To be able to uninstall you will need to install the Ubuntu **checkinstall** package: [here](https://help.ubuntu.com/community/CheckInstall). 
+Since you will be working on different versions of **ng_imploder** it is important that you be able to make a clean uninstall, (when required) , To be able to uninstall you will need to install the Ubuntu **checkinstall** package: [here](https://help.ubuntu.com/community/CheckInstall). 
 
 `sudo apt-get update && sudo apt-get install checkinstall`
 
 With the **checkinstall** package installed your installation process now becomes:
     
-     git git@github.com:perriera/<cpp_starter>.git 
-     cd <cpp_starter>
+     git git@github.com:perriera/<ng_imploder>.git 
+     cd <ng_imploder>
      mkdir build
      cd build
      cmake ..
      make
      ./run-unittests
-     sudo dpkg -r <cpp_starter>
+     sudo dpkg -r <ng_imploder>
      sudo checkinstall
      
 The above command will by default install all header file, (of your project) into the shared include (**/usr/local/include**) directory and all shared libraries into the shared libraries directory (**/usr/local/lib**).
@@ -57,24 +57,24 @@ Where all the named programs you see will be installed into: **/usr/local/bin**.
 **NOTE**: Just be sure to have LD_LIBRARY_PATH set, (see below) if your executables use any shared libraries.
 
 ## Uninstall command
-Assuming you installed **<cpp_starter>** with **checkinstall** you may uninstall at any time with:
+Assuming you installed **<ng_imploder>** with **checkinstall** you may uninstall at any time with:
 
-     sudo dpkg -r <cpp_starter>
+     sudo dpkg -r <ng_imploder>
 
 ## PRODUCTION vs. DEBUG
 Near line 57 of CMakeLists.txt you may specify a production version here:
 
-	option(<cpp_starter>_PRODUCTION "Production build"  OFF)
+	option(<ng_imploder>_PRODUCTION "Production build"  OFF)
 	
 In a PRODUCTION build of your project no DEBUG code is included in your installed code.
 
 ## Important note on using shared libraries
-After installation the **cpp_starter** library should be found in your **/usr/local/include** and your **/usr/local/lib** directories. Also, set **LD_LIBRARY_PATH**, (if you haven't already done so). 
+After installation the **ng_imploder** library should be found in your **/usr/local/include** and your **/usr/local/lib** directories. Also, set **LD_LIBRARY_PATH**, (if you haven't already done so). 
 
      export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 ##  Ubuntu PPA support 
-If you are interested in having <cpp_starter> setup for deployment as a Ubuntu PPA, then this is a good starting point.
+If you are interested in having <ng_imploder> setup for deployment as a Ubuntu PPA, then this is a good starting point.
 
 >
 >  ### Adding a PPA using the command-line
@@ -106,6 +106,6 @@ If you are interested in having <cpp_starter> setup for deployment as a Ubuntu P
 >
  	sudo add-apt-repository ppa:admin/ppa-dmg
  	sudo apt update
-	sudo apt install openssl libssl-dev libcurlpp-dev cpp_starter
+	sudo apt install openssl libssl-dev libcurlpp-dev ng_imploder
 	
  

@@ -46,7 +46,7 @@ class Packager:
     a debian package
     """
 
-    PKGNAME = "cpp_starter"
+    PKGNAME = "ng_imploder"
 
     def __init__(self, args: argparse.Namespace):
         self.pkg_root_dir = Path(__file__).resolve(strict=True).parent

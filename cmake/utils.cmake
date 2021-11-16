@@ -1,37 +1,37 @@
-function(cpp_starter_get_version)
-  file(READ "${CMAKE_CURRENT_LIST_DIR}/include/cpp_starter/version.hpp" file_contents)
-  string(REGEX MATCH "CPP_STARTER_VER_MAJOR ([0-9]+)" _ "${file_contents}")
+function(ng_imploder_get_version)
+  file(READ "${CMAKE_CURRENT_LIST_DIR}/include/ng_imploder/version.hpp" file_contents)
+  string(REGEX MATCH "NG_IMPLODER_VER_MAJOR ([0-9]+)" _ "${file_contents}")
   if(NOT CMAKE_MATCH_COUNT EQUAL 1)
     message(FATAL_ERROR "Could not extract the major version from version.hpp")
   endif()
   set(ver_major ${CMAKE_MATCH_1})
 
-  string(REGEX MATCH "CPP_STARTER_VER_MINOR ([0-9]+)" _ "${file_contents}")
+  string(REGEX MATCH "NG_IMPLODER_VER_MINOR ([0-9]+)" _ "${file_contents}")
   if(NOT CMAKE_MATCH_COUNT EQUAL 1)
     message(FATAL_ERROR "Could not extract the minor version from version.hpp")
   endif()
   set(ver_minor ${CMAKE_MATCH_1})
 
-  string(REGEX MATCH "CPP_STARTER_VER_PATCH ([0-9]+)" _ "${file_contents}")
+  string(REGEX MATCH "NG_IMPLODER_VER_PATCH ([0-9]+)" _ "${file_contents}")
   if(NOT CMAKE_MATCH_COUNT EQUAL 1)
     message(FATAL_ERROR "Could not extract the patch version from version.hpp")
   endif()
   set(ver_patch ${CMAKE_MATCH_1})
 
-  set(CPP_STARTER_VERSION_MAJOR
+  set(NG_IMPLODER_VERSION_MAJOR
       ${ver_major}
       PARENT_SCOPE
   )
-  set(CPP_STARTER_VERSION_MINOR
+  set(NG_IMPLODER_VERSION_MINOR
       ${ver_minor}
       PARENT_SCOPE
   )
-  set(CPP_STARTER_VERSION_PATCH
+  set(NG_IMPLODER_VERSION_PATCH
       ${ver_patch}
       PARENT_SCOPE
   )
 
-  set(CPP_STARTER_VERSION
+  set(NG_IMPLODER_VERSION
       "${ver_major}.${ver_minor}.${ver_patch}"
       PARENT_SCOPE
   )
