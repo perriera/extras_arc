@@ -4,8 +4,8 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).</br>
 > To add a tag to the git repository do:
-> > git tag -a v0.2.0 -m "Renamed project"</br>
-> > git push origin v0.2.0
+> > git tag -a v0.3.0 -m "Added ImploderInterface"</br>
+> > git push origin v0.3.0
 > 
 
 IMPORTANT: 
@@ -28,6 +28,11 @@ Correct URL for github, (for source compare)</br>
 Adding mock test cases </br>
 Adding unit test cases </br>
 Updated README.md accordinging</br>
+
+#### 0.3.0 (2021-11-14)
+### Added 
+- ImploderInterface
+- MAKE_NG_IMPLODER_LIBRARY_ONLY support
 
 #### 0.2.0 (2021-11-14)
 ### Changed 
@@ -81,7 +86,8 @@ Updated README.md accordinging</br>
 ### Removed
 - Conan package manager deprecated
 
-[Unreleased]: https://github.com/perriera/ng_imploder/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/perriera/ng_imploder/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/perriera/ng_imploder/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/perriera/ng_imploder/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/perriera/ng_imploder/releases/tag/v0.1.0
 

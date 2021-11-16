@@ -59,18 +59,32 @@ option(NG_IMPLODER_PRODUCTION "Production build" OFF)
 #
 # NOTE: Build defaults to production, cmake -DNG_IMPLODER_PRODUCTION=OFF will build debug with tests
 #
-if(NOT NG_IMPLODER_PRODUCTION)
-  print(STATUS "Building ${PROJECT_NAME}-${PROJECT_VERSION} [DEBUG]")
-  set(CMAKE_BUILD_TYPE Debug)
-  set(NG_IMPLODER_TESTS ON)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
-else()
-  print(STATUS "Building ${PROJECT_NAME}-${PROJECT_VERSION} [RELEASE]")
+message(STATUS "MAKE_NG_IMPLODER_LIBRARY_ONLY is ${MAKE_NG_IMPLODER_LIBRARY_ONLY}")
+if(MAKE_NG_IMPLODER_LIBRARY_ONLY)
+  option(BUILD_TESTS "Build tests" OFF)
+  option(DEBUG "Debug Build" OFF)
   set(NG_IMPLODER_TESTS OFF)
-  set(CMAKE_BUILD_TYPE Release)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3")
+  message(STATUS "BUILD_TESTS is ${BUILD_TESTS}")
+  message(STATUS "DEBUG is ${DEBUG}")
+else()
+  option(BUILD_TESTS "Build tests" ON)
+  option(DEBUG "Debug Build" ON)
+  message(STATUS "BUILD_TESTS is ${BUILD_TESTS}")
+  message(STATUS "DEBUG is ${DEBUG}")
+
+  if(NOT NG_IMPLODER_PRODUCTION)
+    print(STATUS "Building ${PROJECT_NAME}-${PROJECT_VERSION} [DEBUG]")
+    set(CMAKE_BUILD_TYPE Debug)
+    set(NG_IMPLODER_TESTS ON)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
+  else()
+    print(STATUS "Building ${PROJECT_NAME}-${PROJECT_VERSION} [RELEASE]")
+    set(NG_IMPLODER_TESTS OFF)
+    set(CMAKE_BUILD_TYPE Release)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3")
+  endif()
 endif()
 
 #
@@ -91,7 +105,7 @@ print(STATUS "CMAKE_C_FLAGS: ${CMAKE_C_FLAGS}")
 CPMAddPackage(
   NAME extras
   GITHUB_REPOSITORY perriera/extras
-  VERSION 5.0.9
+  VERSION 5.1.1
   OPTIONS "MAKE_SPDLOG_SHARED OFF"
   OPTIONS "MAKE_EXTRAS_LIBRARY_ONLY ON"
 )
@@ -138,9 +152,11 @@ endif()
 # includes ALL headers and sources under include/ and src/. So, to keep two or more main() 
 # declarations seperate, we place any sources that have a main() in the instances/ folder
 #
+if(NOT MAKE_NG_IMPLODER_LIBRARY_ONLY OR MAKE_NG_IMPLODER_LIBRARY_EXECUTABLES)
 add_executable(main instances/main.cpp) 
 target_include_directories(main PUBLIC ${INCLUDES})
 target_link_libraries(main PRIVATE ${PROJECT_NAME} stdc++fs extras )
+endif()
 
 #
 # NOTE: Install all shared libraries
