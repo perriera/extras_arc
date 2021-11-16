@@ -45,7 +45,7 @@ namespace extras {
 
     public:
       Imploder(const Filename& original) :
-        _original(original), _imploded(original + "_imploded"), _exploded(original + "_exploded") {}
+        _original(original), _imploded(original + "_imploded.zip"), _exploded(original + "_exploded.zip") {}
 
       virtual const Filename& original() const override {
         return _original;
@@ -58,13 +58,13 @@ namespace extras {
       }
 
       virtual Filename originalDir() const override {
-        return _original + "Dir";
+        return _original + "_original.zip_Dir";
       }
       virtual Filename implodedDir() const override {
-        return _imploded + "Dir";
+        return _imploded + "_Dir";
       }
       virtual Filename explodedDir() const override {
-        return _exploded + "Dir";
+        return _exploded + "_Dir";
       }
 
       virtual void move(const Filename& file, const Path& path) const override;
