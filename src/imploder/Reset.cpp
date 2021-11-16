@@ -12,19 +12,26 @@ using namespace std;
 namespace extras {
     namespace ng {
 
-        void Imploder::unzip(const Filename& zipFile, const Path& to) const {
-            auto unzip = "unzip -o " + zipFile + " -d " + to;
-            SystemException::assertion(unzip.c_str(), __INFO__);
+        void Imploder::reset() const {
+            if (fs::exists(originalDir()))
+                fs::remove_all(originalDir());
+            if (fs::exists(implodedDir()))
+                fs::remove_all(implodedDir());
+            if (fs::exists(explodedDir()))
+                fs::remove_all(explodedDir());
+            if (fs::exists(imploded()))
+                fs::remove(imploded());
+            if (fs::exists(exploded()))
+                fs::remove(exploded());
         }
 
-        void Imploder::move(const Filename&, const Path&) const {}
-        void Imploder::backup(const Filename&) const {}
-        void Imploder::restore(const Filename&) const {}
-
-        void Imploder::implode() const {
+        void Imploder::setup() const {
+            extras::FileNotFoundException::assertion(original());
             reset();
-            setup();
-            // unzip();
+            if (!fs::exists(imploded()))
+                fs::copy_file(original(), imploded());
+            if (!fs::exists(exploded()))
+                fs::copy_file(original(), exploded());
         }
 
     }
