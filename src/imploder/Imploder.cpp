@@ -9,7 +9,32 @@ namespace fs = std::filesystem;
 namespace extras {
     namespace ng {
 
+        void Imploder::setup() const {
+            if (fs::exists(tempDir())) {
+                auto rmdir = "rm -rf " + tempDir();
+                SystemException::assertion(rmdir, __INFO__);
+                auto mkdir = "mkdir " + tempDir();;
+                SystemException::assertion(mkdir, __INFO__);
+            }
+            if (fs::exists(backDir())) {
+                auto rmdir = "rm -rf " + backDir();
+                SystemException::assertion(rmdir, __INFO__);
+                auto mkdir = "mkdir " + backDir();;
+                SystemException::assertion(mkdir, __INFO__);
+            }
+        }
+
         void Imploder::unzip() const {
+            setup();
+            auto unzip = "unzip -o " + before() + " -d " + tempDir();
+            SystemException::assertion(unzip.c_str(), __INFO__);
+        }
+
+        void Imploder::move(const Filename& file, const Path& path) const {};
+        void Imploder::backup(const Filename& file) const {};
+        void Imploder::restore(const Filename& file) const {};
+
+        void Imploder::implode() const {
             if (fs::exists(tempDir())) {
                 auto rmdir = "rm -rf " + tempDir();
                 SystemException::assertion(rmdir, __INFO__);
