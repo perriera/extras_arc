@@ -1,7 +1,6 @@
 #include <iostream>
 #include <ng_imploder/imploder/Imploder.hpp>
 #include <extras/filesystem/paths.hpp>
-#include <extras/filesystem/files.hpp>
 #include <extras/filesystem/system.hpp>
 #include <filesystem>
 #include <fstream>
@@ -12,41 +11,25 @@ using namespace std;
 namespace extras {
     namespace ng {
 
-        void Imploder::reset() const {
-            if (fs::exists(originalDir()))
-                fs::remove_all(originalDir());
-            if (fs::exists(implodedDir()))
-                fs::remove_all(implodedDir());
-            if (fs::exists(explodedDir()))
-                fs::remove_all(explodedDir());
-            if (fs::exists(imploded()))
-                fs::remove(imploded());
-            if (fs::exists(exploded()))
-                fs::remove(exploded());
-        }
-
-        void Imploder::setup() const {
-            extras::FileNotFoundException::assertion(original());
-            reset();
-            if (!fs::exists(imploded()))
-                fs::copy_file(original(), imploded());
-            if (!fs::exists(exploded()))
-                fs::copy_file(original(), exploded());
-        }
-
-        void Imploder::unzip(const Filename& zipFile, const Path& to) const {
-            auto unzip = "unzip -o " + zipFile + " -d " + to;
-            SystemException::assertion(unzip.c_str(), __INFO__);
-        }
-
-        void Imploder::move(const Filename&, const Path&) const {}
-        void Imploder::backup(const Filename&) const {}
-        void Imploder::restore(const Filename&) const {}
-
-        void Imploder::implode() const {
-            reset();
-            setup();
-            // unzip();
+        void Imploder::rezip(const Filename&, const Path& from) const {
+            // {
+            // ng:Filename script_name = "/tmp/script.sh";
+            //     ofstream script(script_name);
+            //     script << "cd /tmp/t1/" << endl;
+            //     script << "cp " << before << " " << imploded_name << endl;
+            //     script << "cd /tmp/t1/t2" << endl;
+            //     script << "zip -r ../" << imploded_name << " . " << endl;
+            //     script << "cd /tmp/t1/t3" << endl;
+            //     script << "zip -r ../" << implosion_name << " . " << endl;
+            //     script << "cp /tmp/t1/" << imploded_name << " "
+            //         << "/tmp/" << imploded_name << endl;
+            //     script << "cp /tmp/t1/" << implosion_name << " "
+            //         << "/tmp/" << implosion_name << endl;
+            //     script << "cp /tmp/t1/" << just_the_filename << " "
+            //         << "/tmp/" << just_the_filename << endl;
+            //     script << "rm -rf /tmp/t1/" << endl;
+            // }
+            // SystemException::assertion(unzip.c_str(), __INFO__);
         }
 
     }

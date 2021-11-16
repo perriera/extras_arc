@@ -11,24 +11,32 @@ using namespace fakeit;
 
 SCENARIO("Mock ImploderInterface: toOctal", "[ImploderInterface]") {
 
-    ng::Filename before = ~extras::Paths("data/exparx.webflow.zip");
-    ng::Filename after = before += "_imploded";
+    ng::Filename original = ~extras::Paths("data/exparx.webflow.zip");
+    ng::Path originalDir = original + ".dir";
+    ng::Filename imploded = original += "_imploded";
+    ng::Filename exploded = original += "_exploded";
     Mock<ng::ImploderInterface> mock;
-    When(Method(mock, before)).Return(before);
-    When(Method(mock, after)).Return(after);
-    When(Method(mock, unzip)).Return();
+    When(Method(mock, original)).Return(original);
+    When(Method(mock, imploded)).Return(imploded);
+    When(Method(mock, exploded)).Return(exploded);
+    When(Method(mock, unzip)).AlwaysDo([](const ng::Filename&, const ng::Path&) {});
+    When(Method(mock, rezip)).AlwaysDo([](const ng::Filename&, const ng::Path&) {});
     When(Method(mock, implode)).Return();
     When(Method(mock, explode)).Return();
     When(Method(mock, rezip)).Return();
 
     ng::ImploderInterface& i = mock.get();
 
-    REQUIRE(i.before() == before);
-    i.unzip();
+    REQUIRE(i.original() == original);
+    REQUIRE(i.imploded() == imploded);
+    REQUIRE(i.exploded() == exploded);
+    i.unzip(original, originalDir);
     i.implode();
     i.explode();
-    i.rezip();
-    REQUIRE(i.after() == after);
+    i.rezip(original, originalDir);
+    Verify(Method(mock, original));
+    Verify(Method(mock, imploded));
+    Verify(Method(mock, exploded));
     Verify(Method(mock, unzip));
     Verify(Method(mock, implode));
     Verify(Method(mock, explode));
