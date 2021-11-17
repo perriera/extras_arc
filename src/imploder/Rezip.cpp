@@ -19,24 +19,14 @@ namespace extras {
          * @param from
          */
         void Imploder::rezip(const Filename& filename, const Path& from) const {
-            // {
-            // ng:Filename script_name = "/tmp/script.sh";
-            //     ofstream script(script_name);
-            //     script << "cd /tmp/t1/" << endl;
-            //     script << "cp " << before << " " << imploded_name << endl;
-            //     script << "cd /tmp/t1/t2" << endl;
-            //     script << "zip -r ../" << imploded_name << " . " << endl;
-            //     script << "cd /tmp/t1/t3" << endl;
-            //     script << "zip -r ../" << implosion_name << " . " << endl;
-            //     script << "cp /tmp/t1/" << imploded_name << " "
-            //         << "/tmp/" << imploded_name << endl;
-            //     script << "cp /tmp/t1/" << implosion_name << " "
-            //         << "/tmp/" << implosion_name << endl;
-            //     script << "cp /tmp/t1/" << just_the_filename << " "
-            //         << "/tmp/" << just_the_filename << endl;
-            //     script << "rm -rf /tmp/t1/" << endl;
-            // }
-            // SystemException::assertion(unzip.c_str(), __INFO__);
+            std::string script = "/tmp/script.sh";
+            {
+                ofstream out(script);
+                out << "cd /tmp" << endl;
+                out << "ls -la " << endl;
+            }
+            SystemException::assertion(script, __INFO__);
+            SystemException::assertion(script, __INFO__);
         }
 
         bool Imploder::rezipped(const Path& to) const {
