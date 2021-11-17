@@ -11,8 +11,8 @@
 // std::ostream &operator<<(std::ostream &out, const LinuxExploder &obj) {
 //   for (auto line : obj._lines) {
 //     if (line.isImplodable()) {
-//       out << obj.delete_stub(line.path()) << endl;
-//       out << obj.move_content(line.path()) << endl;
+//       out << obj.delete_stub(line) << endl;
+//       out << obj.move_content(line) << endl;
 //     }
 //   }
 //   return out;

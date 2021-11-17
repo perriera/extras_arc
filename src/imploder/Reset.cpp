@@ -54,9 +54,9 @@ namespace extras {
 //   out << "rm -rf /tmp/t1/t3" << endl;
 //   for (auto line : obj._lines) {
 //     if (line.isImplodable()) {
-//       out << obj.create_path(line.path()) << endl;
-//       out << obj.move_content(line.path()) << endl;
-//       out << obj.stub_content(line.path()) << endl;
+//       out << obj.create_path(line) << endl;
+//       out << obj.move_content(line) << endl;
+//       out << obj.stub_content(line) << endl;
 //     }
 //   }
 //   return out;

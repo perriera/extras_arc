@@ -31,6 +31,8 @@ namespace extras {
       virtual void implode() const pure;
       virtual void explode() const pure;
       virtual void rezip(const Filename&, const Path& from) const pure;
+      virtual bool unzipped(const Path& to) const pure;
+      virtual bool rezipped(const Path& to) const pure;
     };
 
     /**
@@ -72,10 +74,13 @@ namespace extras {
       virtual void restore(const Filename& file) const override;
       virtual void setup() const override;
       virtual void unzip(const Filename&, const Path& to) const override;
+      virtual bool unzipped(const Path& to) const override;
       virtual void implode() const override;
       virtual void explode() const override {}
       virtual void rezip(const Filename&, const Path& from) const override;
+      virtual bool rezipped(const Path& to) const override;
       virtual void reset() const override;
+
     };
 
     /**

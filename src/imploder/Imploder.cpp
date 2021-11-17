@@ -12,15 +12,29 @@ using namespace std;
 namespace extras {
     namespace ng {
 
+        /**
+         * @brief unzip
+         *
+         * @param zipFile
+         * @param to
+         */
         void Imploder::unzip(const Filename& zipFile, const Path& to) const {
             auto unzip = "unzip -o " + zipFile + " -d " + to;
             SystemException::assertion(unzip.c_str(), __INFO__);
+        }
+
+        bool Imploder::unzipped(const Path& to) const {
+            return fs::exists(to) && fs::hard_link_count(to) > 2;
         }
 
         void Imploder::move(const Filename&, const Path&) const {}
         void Imploder::backup(const Filename&) const {}
         void Imploder::restore(const Filename&) const {}
 
+        /**
+         * @brief implode
+         *
+         */
         void Imploder::implode() const {
             reset();
             setup();
@@ -47,9 +61,9 @@ namespace extras {
 //   out << "rm -rf /tmp/t1/t3" << endl;
 //   for (auto line : obj._lines) {
 //     if (line.isImplodable()) {
-//       out << obj.create_path(line.path()) << endl;
-//       out << obj.move_content(line.path()) << endl;
-//       out << obj.stub_content(line.path()) << endl;
+//       out << obj.create_path(line) << endl;
+//       out << obj.move_content(line) << endl;
+//       out << obj.stub_content(line) << endl;
 //     }
 //   }
 //   return out;

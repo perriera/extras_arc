@@ -11,7 +11,14 @@ using namespace std;
 namespace extras {
     namespace ng {
 
-        void Imploder::rezip(const Filename&, const Path& from) const {
+
+        /**
+         * @brief rezip
+         *
+         * @param filename
+         * @param from
+         */
+        void Imploder::rezip(const Filename& filename, const Path& from) const {
             // {
             // ng:Filename script_name = "/tmp/script.sh";
             //     ofstream script(script_name);
@@ -30,6 +37,10 @@ namespace extras {
             //     script << "rm -rf /tmp/t1/" << endl;
             // }
             // SystemException::assertion(unzip.c_str(), __INFO__);
+        }
+
+        bool Imploder::rezipped(const Path& to) const {
+            return fs::exists(to) && fs::hard_link_count(to) > 2;
         }
 
     }
@@ -52,9 +63,9 @@ namespace extras {
 //   out << "rm -rf /tmp/t1/t3" << endl;
 //   for (auto line : obj._lines) {
 //     if (line.isImplodable()) {
-//       out << obj.create_path(line.path()) << endl;
-//       out << obj.move_content(line.path()) << endl;
-//       out << obj.stub_content(line.path()) << endl;
+//       out << obj.create_path(line) << endl;
+//       out << obj.move_content(line) << endl;
+//       out << obj.stub_content(line) << endl;
 //     }
 //   }
 //   return out;
