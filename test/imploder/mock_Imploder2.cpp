@@ -2,6 +2,7 @@
 #include <iostream>
 #include <ng_imploder/imploder/Imploder.hpp>
 #include <extras/filesystem/paths.hpp>
+#include <extras/strings.hpp>
 #include <extras/filesystem/system.hpp>
 #include <fstream>
 #include <filesystem>
@@ -39,17 +40,37 @@ SCENARIO("Mock ImploderInterface: part2", "[ImploderInterface]") {
         imploder.rmdir(originalDir);
         });
 
+    When(Method(mock, explode)).AlwaysDo([&imploder, &original, &imploded, &exploded]() {
+        auto cp = "cp " + imploded + " " + exploded;
+        SystemException::assertion(cp.c_str(), __INFO__);
+        imploder.unzip(exploded, exploded + ".dir");
+        imploder.unzip(original, original + ".dir");
+        for (auto& p : fs::recursive_directory_iterator(exploded + ".dir"))
+            if (!p.is_directory() && imploder.isImplodable(p.path())) {
+                auto script = original + ".sh";
+                std::string to = p.path();
+                std::string from = extras::replace_all(to, "_exploded.zip", "");
+                std::ofstream ss(script);
+                ss << "cp " + from << " " + to << std::endl;
+                ss.close();
+                ScriptException::assertion(script.c_str(), __INFO__);
+            }
+        imploder.rezip(exploded, exploded + ".dir");
+        imploder.rmdir(exploded + ".dir");
+        imploder.rmdir(original + ".dir");
+        });
+
     ng::ImploderInterface& i = mock.get();
 
     REQUIRE(i.original() == original);
     REQUIRE(i.imploded() == imploded);
     REQUIRE(i.exploded() == exploded);
     i.implode();
-    // i.explode();
+    i.explode();
     Verify(Method(mock, original));
     Verify(Method(mock, imploded));
     Verify(Method(mock, exploded));
     Verify(Method(mock, implode));
-    // Verify(Method(mock, explode));
+    Verify(Method(mock, explode));
 }
 
