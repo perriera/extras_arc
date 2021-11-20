@@ -16,18 +16,40 @@ namespace extras {
     using Path = std::string;
 
     interface ImploderInterface {
+
+      /**
+       * @brief original/imploded/exploded
+       *
+       * @return const Filename&
+       */
       virtual const Filename& original() const pure;
       virtual Filename imploded() const pure;
       virtual Filename exploded() const pure;
-      virtual void setup() const pure;
-      virtual void reset() const pure;
+
+      /**
+       * @brief unzip/rezip
+       *
+       * @return const Filename&
+       */
       virtual void unzip(const Filename&, const Path& to) const pure;
+      virtual void rezip(const Filename&, const Path& from) const pure;
+
+      /**
+       * @brief implode/explode
+       *
+       * @return const Filename&
+       */
+      virtual void implode() const pure;
       virtual bool isImplodable(const Filename&) const pure;
+      virtual void explode() const pure;
+
+      /**
+       * @brief rm/rmdir
+       *
+       * @return const Filename&
+       */
       virtual void rm(const Filename& to) const pure;
       virtual void rmdir(const Path& to) const pure;
-      virtual void implode() const pure;
-      virtual void explode() const pure;
-      virtual void rezip(const Filename&, const Path& from) const pure;
     };
 
     /**
@@ -52,14 +74,12 @@ namespace extras {
         return _original + "_exploded.zip";;
       }
 
-      virtual void setup() const override;
       virtual void unzip(const Filename&, const Path& to) const override;
       virtual bool isImplodable(const Filename&) const override;
 
       virtual void implode() const override;
       virtual void explode() const override;
       virtual void rezip(const Filename&, const Path& from) const override;
-      virtual void reset() const override;
       virtual void rm(const Filename& to) const override;
       virtual void rmdir(const Path& to) const override;
 

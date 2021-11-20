@@ -13,26 +13,6 @@ namespace extras {
     namespace ng {
 
         /**
-         * @brief reset()
-         *
-         */
-        void Imploder::reset() const {
-            if (fs::exists(imploded()))
-                fs::remove(imploded());
-            if (fs::exists(exploded()))
-                fs::remove(exploded());
-        }
-
-        void Imploder::setup() const {
-            extras::FileNotFoundException::assertion(original());
-            reset();
-            if (!fs::exists(imploded()))
-                fs::copy_file(original(), imploded());
-            if (!fs::exists(exploded()))
-                fs::copy_file(original(), exploded());
-        }
-
-        /**
          * @brief unzip
          *
          * @param zipFile
@@ -70,7 +50,7 @@ namespace extras {
                     auto script = original() + ".sh";
                     std::string file = p.path();
                     std::ofstream ss(script);
-                    ss << "echo hello > " + file << std::endl;
+                    ss << "echo *imploded* > " + file << std::endl;
                     ss.close();
                     ScriptException::assertion(script.c_str(), __INFO__);
                 }
