@@ -4,7 +4,7 @@
 
 using namespace  extras;
 
-int main(int argc, char const* argv[]) {
+int main(int, char const* argv[]) {
     try {
         std::cout << extras::start(argv[0]) << std::endl;
         ng::Imploder imploder(argv[1]);
