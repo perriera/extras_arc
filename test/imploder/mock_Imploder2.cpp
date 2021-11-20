@@ -17,7 +17,6 @@ namespace fs = std::filesystem;
 SCENARIO("Mock ImploderInterface: part2", "[ImploderInterface]") {
 
     ng::Filename original = ~extras::Paths("data/exparx.webflow.zip");
-    ng::Path originalDir = original + ".dir";
     ng::Filename imploded = original + "_imploded.zip";
     ng::Filename exploded = original + "_exploded.zip";
     ng::Imploder imploder(original);
@@ -25,9 +24,9 @@ SCENARIO("Mock ImploderInterface: part2", "[ImploderInterface]") {
     When(Method(mock, original)).Return(original);
     When(Method(mock, imploded)).Return(imploded);
     When(Method(mock, exploded)).Return(exploded);
-    When(Method(mock, implode)).AlwaysDo([&imploder, &original, &originalDir, &imploded]() {
-        imploder.unzip(original, originalDir);
-        for (auto& p : fs::recursive_directory_iterator(originalDir))
+    When(Method(mock, implode)).AlwaysDo([&imploder, &original, &imploded]() {
+        imploder.unzip(original, original + ".dir");
+        for (auto& p : fs::recursive_directory_iterator(original + ".dir"))
             if (!p.is_directory() && imploder.isImplodable(p.path())) {
                 auto script = original + ".sh";
                 std::string file = p.path();
@@ -36,8 +35,8 @@ SCENARIO("Mock ImploderInterface: part2", "[ImploderInterface]") {
                 ss.close();
                 ScriptException::assertion(script.c_str(), __INFO__);
             }
-        imploder.rezip(imploded, originalDir);
-        imploder.rmdir(originalDir);
+        imploder.rezip(imploded, original + ".dir");
+        imploder.rmdir(original + ".dir");
         });
 
     When(Method(mock, explode)).AlwaysDo([&imploder, &original, &imploded, &exploded]() {

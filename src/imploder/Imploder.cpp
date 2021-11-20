@@ -82,9 +82,19 @@ namespace extras {
          *
          */
         void Imploder::implode() const {
-            reset();
-            setup();
-            // unzip();
+            // unzip(original(), originalDir);
+            // for (auto& p : fs::recursive_directory_iterator(originalDir))
+            //     if (!p.is_directory() && imploder.isImplodable(p.path())) {
+            //         auto script = original + ".sh";
+            //         std::string file = p.path();
+            //         std::ofstream ss(script);
+            //         ss << "echo hello > " + file << std::endl;
+            //         ss.close();
+            //         ScriptException::assertion(script.c_str(), __INFO__);
+            //     }
+            // imploder.rezip(imploded, originalDir);
+            // imploder.rmdir(originalDir);
+            // // unzip();
         }
 
         bool Imploder::isImplodable(const Filename& filename) const {
