@@ -17,12 +17,6 @@ namespace extras {
          *
          */
         void Imploder::reset() const {
-            if (fs::exists(originalDir()))
-                fs::remove_all(originalDir());
-            if (fs::exists(implodedDir()))
-                fs::remove_all(implodedDir());
-            if (fs::exists(explodedDir()))
-                fs::remove_all(explodedDir());
             if (fs::exists(imploded()))
                 fs::remove(imploded());
             if (fs::exists(exploded()))
@@ -49,10 +43,6 @@ namespace extras {
             SystemException::assertion(unzip.c_str(), __INFO__);
         }
 
-        bool Imploder::unzipped(const Path& to) const {
-            return fs::exists(to) && fs::hard_link_count(to) > 2;
-        }
-
         /**
          * @brief rezip()
          *
@@ -69,34 +59,32 @@ namespace extras {
             ScriptException::assertion(script.c_str(), __INFO__);
         }
 
-        bool Imploder::rezipped(const Path& to) const {
-            return fs::exists(to) && fs::hard_link_count(to) > 2;
-        }
-
-        void Imploder::move(const Filename&, const Path&) const {}
-        void Imploder::backup(const Filename&) const {}
-        void Imploder::restore(const Filename&) const {}
-
         /**
          * @brief implode
          *
          */
         void Imploder::implode() const {
-            // unzip(original(), originalDir);
-            // for (auto& p : fs::recursive_directory_iterator(originalDir))
-            //     if (!p.is_directory() && imploder.isImplodable(p.path())) {
-            //         auto script = original + ".sh";
-            //         std::string file = p.path();
-            //         std::ofstream ss(script);
-            //         ss << "echo hello > " + file << std::endl;
-            //         ss.close();
-            //         ScriptException::assertion(script.c_str(), __INFO__);
-            //     }
-            // imploder.rezip(imploded, originalDir);
-            // imploder.rmdir(originalDir);
-            // // unzip();
+            unzip(original(), original() + ".dir");
+            for (auto& p : fs::recursive_directory_iterator(original() + ".dir"))
+                if (!p.is_directory() && isImplodable(p.path())) {
+                    auto script = original() + ".sh";
+                    std::string file = p.path();
+                    std::ofstream ss(script);
+                    ss << "echo hello > " + file << std::endl;
+                    ss.close();
+                    ScriptException::assertion(script.c_str(), __INFO__);
+                }
+            rezip(imploded(), original() + ".dir");
+            rmdir(original() + ".dir");
         }
 
+        /**
+         * @brief isImplodable()
+         *
+         * @param filename
+         * @return true
+         * @return false
+         */
         bool Imploder::isImplodable(const Filename& filename) const {
             string lp = to_lower(filename);
             bool _isImage = ends_with(lp, ".png") || ends_with(lp, ".jpg") ||
@@ -109,10 +97,41 @@ namespace extras {
             return _isImage;
         }
 
-        void Imploder::rm(const Filename& to) const { fs::remove(to); }
+        /**
+         * @brief explode()
+         *
+         */
+        void Imploder::explode() const {
+            auto cp = "cp " + imploded() + " " + exploded();
+            SystemException::assertion(cp.c_str(), __INFO__);
+            unzip(exploded(), exploded() + ".dir");
+            unzip(original(), original() + ".dir");
+            for (auto& p : fs::recursive_directory_iterator(exploded() + ".dir"))
+                if (!p.is_directory() && isImplodable(p.path())) {
+                    auto script = original() + ".sh";
+                    std::string to = p.path();
+                    std::string from = extras::replace_all(to, "_exploded.zip", "");
+                    std::ofstream ss(script);
+                    ss << "cp " + from << " " + to << std::endl;
+                    ss.close();
+                    ScriptException::assertion(script.c_str(), __INFO__);
+                }
+            rezip(exploded(), exploded() + ".dir");
+            rmdir(exploded() + ".dir");
+            rmdir(original() + ".dir");
+        }
+
+        /**
+         * @brief rm/rmdir
+         *
+         * @param to
+         */
+        void Imploder::rm(const Filename& to) const {
+            fs::remove(to);
+        }
+
         void Imploder::rmdir(const Path& to) const {
-            auto fuckoff = to;
-            fs::remove_all(fuckoff);
+            fs::remove_all(to);
         }
 
     }

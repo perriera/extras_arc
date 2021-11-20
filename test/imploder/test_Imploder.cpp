@@ -22,8 +22,6 @@ SCENARIO("Test ImploderInterface: reset/setup webflow", "[ImploderInterface]") {
     i.reset();
     REQUIRE(!fs::exists(i.imploded()));
     REQUIRE(!fs::exists(i.exploded()));
-    REQUIRE(!fs::exists(i.implodedDir()));
-    REQUIRE(!fs::exists(i.explodedDir()));
 
     i.setup();
     REQUIRE(fs::exists(i.original()));
@@ -34,8 +32,6 @@ SCENARIO("Test ImploderInterface: reset/setup webflow", "[ImploderInterface]") {
     REQUIRE(fs::exists(i.original()));
     REQUIRE(!fs::exists(i.imploded()));
     REQUIRE(!fs::exists(i.exploded()));
-    REQUIRE(!fs::exists(i.implodedDir()));
-    REQUIRE(!fs::exists(i.explodedDir()));
 
 }
 
@@ -50,8 +46,6 @@ SCENARIO("Test ImploderInterface: reset/setup src", "[ImploderInterface]") {
     i.reset();
     REQUIRE(!fs::exists(i.imploded()));
     REQUIRE(!fs::exists(i.exploded()));
-    REQUIRE(!fs::exists(i.implodedDir()));
-    REQUIRE(!fs::exists(i.explodedDir()));
 
     i.setup();
     REQUIRE(fs::exists(i.original()));
@@ -62,8 +56,6 @@ SCENARIO("Test ImploderInterface: reset/setup src", "[ImploderInterface]") {
     REQUIRE(fs::exists(i.original()));
     REQUIRE(!fs::exists(i.imploded()));
     REQUIRE(!fs::exists(i.exploded()));
-    REQUIRE(!fs::exists(i.implodedDir()));
-    REQUIRE(!fs::exists(i.explodedDir()));
 
 }
 
@@ -81,15 +73,7 @@ SCENARIO("Test ImploderInterface: unzip webflow", "[ImploderInterface]") {
     REQUIRE(fs::exists(i.imploded()));
     REQUIRE(fs::exists(i.exploded()));
 
-    REQUIRE(!fs::exists(i.originalDir()));
-    i.unzip(i.original(), i.originalDir());
-    REQUIRE(fs::exists(i.originalDir()));
-    REQUIRE(!fs::exists(i.implodedDir()));
-    i.unzip(i.imploded(), i.implodedDir());
-    REQUIRE(fs::exists(i.implodedDir()));
-    REQUIRE(!fs::exists(i.explodedDir()));
-    i.unzip(i.exploded(), i.explodedDir());
-    REQUIRE(fs::exists(i.explodedDir()));
+    i.unzip(i.original(), i.original() + ".dir");
     i.reset();
 }
 
@@ -107,15 +91,7 @@ SCENARIO("Test ImploderInterface: unzip src", "[ImploderInterface]") {
     REQUIRE(fs::exists(i.imploded()));
     REQUIRE(fs::exists(i.exploded()));
 
-    REQUIRE(!fs::exists(i.originalDir()));
-    i.unzip(i.original(), i.originalDir());
-    REQUIRE(fs::exists(i.originalDir()));
-    REQUIRE(!fs::exists(i.implodedDir()));
-    i.unzip(i.imploded(), i.implodedDir());
-    REQUIRE(fs::exists(i.implodedDir()));
-    REQUIRE(!fs::exists(i.explodedDir()));
-    i.unzip(i.exploded(), i.explodedDir());
-    REQUIRE(fs::exists(i.explodedDir()));
+    i.unzip(i.original(), i.original() + ".dir");
     i.reset();
 
 }
