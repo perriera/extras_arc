@@ -121,6 +121,12 @@ namespace extras {
                 fs::remove_all(to);
         }
 
+        void Imploder::merge() const {
+            FileNotFoundException::assertion(exploded(), __INFO__);
+            fs::copy_file(exploded(), original());
+            fs::remove(exploded());
+        }
+
         void Imploder::clean() const {
             fs::remove(imploded());
             fs::remove(exploded());
