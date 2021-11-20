@@ -19,6 +19,7 @@ namespace extras {
          * @param to
          */
         void Imploder::unzip(const Filename& zipFile, const Path& to) const {
+            FileNotFoundException::assertion(zipFile, __INFO__);
             auto unzip = "unzip -o " + zipFile + " -d " + to;
             SystemException::assertion(unzip.c_str(), __INFO__);
         }
@@ -30,6 +31,8 @@ namespace extras {
          * @param from
          */
         void Imploder::rezip(const Filename& filename, const Path& from) const {
+            FileNotFoundException::assertion(filename, __INFO__);
+            FileNotFoundException::assertion(from, __INFO__);
             auto script = original() + ".sh";
             std::ofstream ss(script);
             ss << "cp " + original() << ' ' << filename << std::endl;
@@ -44,6 +47,7 @@ namespace extras {
          *
          */
         void Imploder::implode() const {
+            FileNotFoundException::assertion(original(), __INFO__);
             unzip(original(), original() + ".dir");
             for (auto& p : fs::recursive_directory_iterator(original() + ".dir"))
                 if (!p.is_directory() && isImplodable(p.path())) {
@@ -82,6 +86,7 @@ namespace extras {
          *
          */
         void Imploder::explode() const {
+            FileNotFoundException::assertion(imploded(), __INFO__);
             auto cp = "cp " + imploded() + " " + exploded();
             SystemException::assertion(cp.c_str(), __INFO__);
             unzip(exploded(), exploded() + ".dir");
