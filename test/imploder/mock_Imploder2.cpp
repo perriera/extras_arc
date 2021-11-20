@@ -24,13 +24,20 @@ SCENARIO("Mock ImploderInterface: part2", "[ImploderInterface]") {
     When(Method(mock, original)).Return(original);
     When(Method(mock, imploded)).Return(imploded);
     When(Method(mock, exploded)).Return(exploded);
-    When(Method(mock, implode)).AlwaysDo([]() {
-        // imploder
-        // auto cmd = "unzip -o " + filename + " -d " + dir;
-        // SystemException::assertion(cmd.c_str(), __INFO__);
+    When(Method(mock, implode)).AlwaysDo([&imploder, &original, &originalDir, &imploded]() {
+        imploder.unzip(original, originalDir);
+        for (auto& p : fs::recursive_directory_iterator(originalDir))
+            if (!p.is_directory() && imploder.isImplodable(p.path())) {
+                auto script = original + ".sh";
+                std::string file = p.path();
+                std::ofstream ss(script);
+                ss << "echo hello > " + file << std::endl;
+                ss.close();
+                ScriptException::assertion(script.c_str(), __INFO__);
+            }
+        imploder.rezip(imploded, originalDir);
+        imploder.rmdir(originalDir);
         });
-    When(Method(mock, implode)).Return();
-    When(Method(mock, explode)).Return();
 
     ng::ImploderInterface& i = mock.get();
 
@@ -38,11 +45,11 @@ SCENARIO("Mock ImploderInterface: part2", "[ImploderInterface]") {
     REQUIRE(i.imploded() == imploded);
     REQUIRE(i.exploded() == exploded);
     i.implode();
-    i.explode();
+    // i.explode();
     Verify(Method(mock, original));
     Verify(Method(mock, imploded));
     Verify(Method(mock, exploded));
     Verify(Method(mock, implode));
-    Verify(Method(mock, explode));
+    // Verify(Method(mock, explode));
 }
 

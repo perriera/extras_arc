@@ -60,11 +60,11 @@ namespace extras {
          * @param from
          */
         void Imploder::rezip(const Filename& filename, const Path& from) const {
-            auto script = imploded() + ".sh";
+            auto script = original() + ".sh";
             std::ofstream ss(script);
-            ss << "cp " + original() << ' ' << imploded() << std::endl;
-            ss << "cd " + originalDir() << std::endl;
-            ss << "zip -r " + imploded() + " . " << std::endl;
+            ss << "cp " + original() << ' ' << filename << std::endl;
+            ss << "cd " + from << std::endl;
+            ss << "zip -r " + filename + " . " << std::endl;
             ss.close();
             ScriptException::assertion(script.c_str(), __INFO__);
         }
@@ -85,6 +85,24 @@ namespace extras {
             reset();
             setup();
             // unzip();
+        }
+
+        bool Imploder::isImplodable(const Filename& filename) const {
+            string lp = to_lower(filename);
+            bool _isImage = ends_with(lp, ".png") || ends_with(lp, ".jpg") ||
+                ends_with(lp, ".jpeg") || ends_with(lp, ".bmp") ||
+                ends_with(lp, ".raw") || ends_with(lp, ".pdf") ||
+                ends_with(lp, ".gif") || ends_with(lp, ".psd") ||
+                ends_with(lp, ".eps") || ends_with(lp, ".ai") ||
+                ends_with(lp, ".indd") || ends_with(lp, ".tiff")
+                || ends_with(lp, ".svg");
+            return _isImage;
+        }
+
+        void Imploder::rm(const Filename& to) const { fs::remove(to); }
+        void Imploder::rmdir(const Path& to) const {
+            auto fuckoff = to;
+            fs::remove_all(fuckoff);
         }
 
     }
