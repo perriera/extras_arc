@@ -18,6 +18,7 @@ data/masked
 data/ctx
 logfile.txt
 data/exparx.webflow.zip_*
+data/exparx.webflow.zip.*
 data/src.zip_*
 
 

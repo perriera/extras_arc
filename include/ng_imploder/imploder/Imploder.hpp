@@ -16,23 +16,41 @@ namespace extras {
     using Path = std::string;
 
     interface ImploderInterface {
+
+      /**
+       * @brief original/imploded/exploded
+       *
+       * @return const Filename&
+       */
       virtual const Filename& original() const pure;
-      virtual const Filename& imploded() const pure;
-      virtual const Filename& exploded() const pure;
-      virtual Filename originalDir() const pure;
-      virtual Filename implodedDir() const pure;
-      virtual Filename explodedDir() const pure;
-      virtual void setup() const pure;
-      virtual void reset() const pure;
-      virtual void move(const Filename& file, const Path& path) const pure;
-      virtual void backup(const Filename& file) const pure;
-      virtual void restore(const Filename& file) const pure;
+      virtual Filename imploded() const pure;
+      virtual Filename exploded() const pure;
+
+      /**
+       * @brief unzip/rezip
+       *
+       * @return const Filename&
+       */
       virtual void unzip(const Filename&, const Path& to) const pure;
-      virtual void implode() const pure;
-      virtual void explode() const pure;
       virtual void rezip(const Filename&, const Path& from) const pure;
-      virtual bool unzipped(const Path& to) const pure;
-      virtual bool rezipped(const Path& to) const pure;
+
+      /**
+       * @brief implode/explode
+       *
+       * @return const Filename&
+       */
+      virtual void implode() const pure;
+      virtual bool isImplodable(const Filename&) const pure;
+      virtual void explode() const pure;
+      virtual void clean() const pure;
+
+      /**
+       * @brief rm/rmdir
+       *
+       * @return const Filename&
+       */
+      virtual void rm(const Filename& to) const pure;
+      virtual void rmdir(const Path& to) const pure;
     };
 
     /**
@@ -42,44 +60,31 @@ namespace extras {
 
     concrete class Imploder implements ImploderInterface {
       Filename _original;
-      Filename _imploded;
-      Filename _exploded;
 
     public:
       Imploder(const Filename& original) :
-        _original(original), _imploded(original + "_imploded.zip"), _exploded(original + "_exploded.zip") {}
+        _original(original) {}
 
       virtual const Filename& original() const override {
         return _original;
       }
-      virtual const Filename& imploded() const override {
-        return _imploded;
+      virtual Filename imploded() const override {
+        return _original + "_imploded.zip";
       }
-      virtual const Filename& exploded() const override {
-        return _exploded;
-      }
-
-      virtual Filename originalDir() const override {
-        return _original + "_original.zip_Dir";
-      }
-      virtual Filename implodedDir() const override {
-        return _imploded + "_Dir";
-      }
-      virtual Filename explodedDir() const override {
-        return _exploded + "_Dir";
+      virtual Filename exploded() const override {
+        return _original + "_exploded.zip";;
       }
 
-      virtual void move(const Filename& file, const Path& path) const override;
-      virtual void backup(const Filename& file) const override;
-      virtual void restore(const Filename& file) const override;
-      virtual void setup() const override;
       virtual void unzip(const Filename&, const Path& to) const override;
-      virtual bool unzipped(const Path& to) const override;
+      virtual bool isImplodable(const Filename&) const override;
+
       virtual void implode() const override;
-      virtual void explode() const override {}
+      virtual void explode() const override;
       virtual void rezip(const Filename&, const Path& from) const override;
-      virtual bool rezipped(const Path& to) const override;
-      virtual void reset() const override;
+      virtual void rm(const Filename& to) const override;
+      virtual void rmdir(const Path& to) const override;
+      virtual void clean() const override;
+
 
     };
 
