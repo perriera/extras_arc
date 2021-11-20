@@ -3,19 +3,22 @@
 #include <ng_imploder/imploder/Imploder.hpp>
 #include <extras/filesystem/paths.hpp>
 #include <extras/filesystem/system.hpp>
+#include <fstream>
+#include <filesystem>
 
 #include "../vendor/catch.hpp"
 #include "../vendor/fakeit.hpp"
 
 using namespace extras;
 using namespace fakeit;
+namespace fs = std::filesystem;
 
 SCENARIO("Mock ImploderInterface: toOctal", "[ImploderInterface]") {
 
     ng::Filename original = ~extras::Paths("data/exparx.webflow.zip");
     ng::Path originalDir = original + ".dir";
-    ng::Filename imploded = original + "_imploded";
-    ng::Filename exploded = original + "_exploded";
+    ng::Filename imploded = original + "_imploded.zip";
+    ng::Filename exploded = original + "_exploded.zip";
     Mock<ng::ImploderInterface> mock;
     When(Method(mock, original)).Return(original);
     When(Method(mock, imploded)).Return(imploded);
@@ -24,10 +27,24 @@ SCENARIO("Mock ImploderInterface: toOctal", "[ImploderInterface]") {
         auto cmd = "unzip -o " + filename + " -d " + dir;
         SystemException::assertion(cmd.c_str(), __INFO__);
         });
-    When(Method(mock, rezip)).AlwaysDo([](const ng::Filename&, const ng::Path&) {});
+    When(Method(mock, rezip)).AlwaysDo([&original](const ng::Filename& imploded, const ng::Path& dir) {
+        // std::cout << "hello" << std::endl;
+        auto script = imploded + ".sh";
+        std::ofstream ss(script);
+        ss << "cp " + original << ' ' << imploded << std::endl;
+        ss << "cd " + dir << std::endl;
+        ss << "zip -r " + imploded + " . " << std::endl;
+        ss.close();
+        ScriptException::assertion(script.c_str(), __INFO__);
+        });
+    When(Method(mock, rmdir)).AlwaysDo([](const ng::Path& dir) {
+        fs::remove_all(dir);
+        });
+    When(Method(mock, rm)).AlwaysDo([](const ng::Filename& filename) {
+        fs::remove(filename);
+        });
     When(Method(mock, implode)).Return();
     When(Method(mock, explode)).Return();
-    When(Method(mock, rezip)).Return();
 
     ng::ImploderInterface& i = mock.get();
 
@@ -37,7 +54,9 @@ SCENARIO("Mock ImploderInterface: toOctal", "[ImploderInterface]") {
     i.unzip(original, originalDir);
     i.implode();
     i.explode();
-    i.rezip(original, originalDir);
+    i.rezip(imploded, originalDir);
+    i.rmdir(originalDir);
+    i.rm(imploded);
     Verify(Method(mock, original));
     Verify(Method(mock, imploded));
     Verify(Method(mock, exploded));
