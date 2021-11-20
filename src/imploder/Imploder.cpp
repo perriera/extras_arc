@@ -107,11 +107,20 @@ namespace extras {
          * @param to
          */
         void Imploder::rm(const Filename& to) const {
-            fs::remove(to);
+            if (fs::exists(to))
+                fs::remove(to);
         }
 
         void Imploder::rmdir(const Path& to) const {
-            fs::remove_all(to);
+            if (fs::exists(to))
+                fs::remove_all(to);
+        }
+
+        void Imploder::clean() const {
+            fs::remove(imploded());
+            fs::remove(exploded());
+            rmdir(exploded() + ".dir");
+            rmdir(original() + ".dir");
         }
 
     }

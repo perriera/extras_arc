@@ -42,6 +42,7 @@ namespace extras {
       virtual void implode() const pure;
       virtual bool isImplodable(const Filename&) const pure;
       virtual void explode() const pure;
+      virtual void clean() const pure;
 
       /**
        * @brief rm/rmdir
@@ -82,6 +83,7 @@ namespace extras {
       virtual void rezip(const Filename&, const Path& from) const override;
       virtual void rm(const Filename& to) const override;
       virtual void rmdir(const Path& to) const override;
+      virtual void clean() const override;
 
 
     };
