@@ -13,6 +13,32 @@ namespace extras {
     namespace ng {
 
         /**
+         * @brief reset()
+         *
+         */
+        void Imploder::reset() const {
+            if (fs::exists(originalDir()))
+                fs::remove_all(originalDir());
+            if (fs::exists(implodedDir()))
+                fs::remove_all(implodedDir());
+            if (fs::exists(explodedDir()))
+                fs::remove_all(explodedDir());
+            if (fs::exists(imploded()))
+                fs::remove(imploded());
+            if (fs::exists(exploded()))
+                fs::remove(exploded());
+        }
+
+        void Imploder::setup() const {
+            extras::FileNotFoundException::assertion(original());
+            reset();
+            if (!fs::exists(imploded()))
+                fs::copy_file(original(), imploded());
+            if (!fs::exists(exploded()))
+                fs::copy_file(original(), exploded());
+        }
+
+        /**
          * @brief unzip
          *
          * @param zipFile
@@ -24,6 +50,26 @@ namespace extras {
         }
 
         bool Imploder::unzipped(const Path& to) const {
+            return fs::exists(to) && fs::hard_link_count(to) > 2;
+        }
+
+        /**
+         * @brief rezip()
+         *
+         * @param filename
+         * @param from
+         */
+        void Imploder::rezip(const Filename& filename, const Path& from) const {
+            auto script = imploded() + ".sh";
+            std::ofstream ss(script);
+            ss << "cp " + original() << ' ' << imploded() << std::endl;
+            ss << "cd " + originalDir() << std::endl;
+            ss << "zip -r " + imploded() + " . " << std::endl;
+            ss.close();
+            ScriptException::assertion(script.c_str(), __INFO__);
+        }
+
+        bool Imploder::rezipped(const Path& to) const {
             return fs::exists(to) && fs::hard_link_count(to) > 2;
         }
 
