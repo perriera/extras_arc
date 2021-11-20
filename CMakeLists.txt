@@ -105,7 +105,7 @@ print(STATUS "CMAKE_C_FLAGS: ${CMAKE_C_FLAGS}")
 CPMAddPackage(
   NAME extras
   GITHUB_REPOSITORY perriera/extras
-  VERSION 5.2.1
+  VERSION 5.3.1
   OPTIONS "MAKE_SPDLOG_SHARED OFF"
   OPTIONS "MAKE_EXTRAS_LIBRARY_ONLY ON"
 )
@@ -153,9 +153,13 @@ endif()
 # declarations seperate, we place any sources that have a main() in the instances/ folder
 #
 if(NOT MAKE_NG_IMPLODER_LIBRARY_ONLY OR MAKE_NG_IMPLODER_LIBRARY_EXECUTABLES)
-add_executable(main instances/main.cpp) 
-target_include_directories(main PUBLIC ${INCLUDES})
-target_link_libraries(main PRIVATE ${PROJECT_NAME} stdc++fs extras )
+add_executable(implode instances/implode.cpp) 
+target_include_directories(implode PUBLIC ${INCLUDES})
+target_link_libraries(implode PRIVATE ${PROJECT_NAME} stdc++fs extras )
+
+add_executable(explode instances/explode.cpp) 
+target_include_directories(explode PUBLIC ${INCLUDES})
+target_link_libraries(explode PRIVATE ${PROJECT_NAME} stdc++fs extras )
 endif()
 
 #
