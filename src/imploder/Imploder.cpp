@@ -123,6 +123,8 @@ namespace extras {
 
         void Imploder::merge() const {
             FileNotFoundException::assertion(exploded(), __INFO__);
+            if (fs::exists(original()))
+                fs::remove(original());
             fs::copy_file(exploded(), original());
             fs::remove(exploded());
         }
