@@ -20,7 +20,7 @@ namespace extras {
          */
         void Imploder::unzip(const Filename& zipFile, const Path& to) const {
             FileNotFoundException::assertion(zipFile, __INFO__);
-            auto unzip = "unzip -o " + zipFile + " -d " + to;
+            auto unzip = "unzip -o " + zipFile + " -d " + to + " >/dev/null";
             SystemException::assertion(unzip.c_str(), __INFO__);
         }
 
@@ -37,7 +37,7 @@ namespace extras {
             std::ofstream ss(script);
             ss << "cp " + original() << ' ' << filename << std::endl;
             ss << "cd " + from << std::endl;
-            ss << "zip -r " + filename + " . " << std::endl;
+            ss << "zip -r " + filename + " . " << ">/dev/null" << std::endl;
             ss.close();
             ScriptException::assertion(script.c_str(), __INFO__);
         }

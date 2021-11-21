@@ -24,7 +24,7 @@ SCENARIO("Mock ImploderInterface: part1", "[ImploderInterface]") {
     When(Method(mock, imploded)).Return(imploded);
     When(Method(mock, exploded)).Return(exploded);
     When(Method(mock, unzip)).AlwaysDo([](const ng::Filename& filename, const ng::Path& dir) {
-        auto cmd = "unzip -o " + filename + " -d " + dir;
+        auto cmd = "unzip -o " + filename + " -d " + dir + " >/dev/null";
         SystemException::assertion(cmd.c_str(), __INFO__);
         });
     When(Method(mock, rezip)).AlwaysDo([&original](const ng::Filename& imploded, const ng::Path& dir) {
@@ -33,7 +33,7 @@ SCENARIO("Mock ImploderInterface: part1", "[ImploderInterface]") {
         std::ofstream ss(script);
         ss << "cp " + original << ' ' << imploded << std::endl;
         ss << "cd " + dir << std::endl;
-        ss << "zip -r " + imploded + " . " << std::endl;
+        ss << "zip -r " + imploded + " . " << " >/dev/null" << std::endl;
         ss.close();
         ScriptException::assertion(script.c_str(), __INFO__);
         });
