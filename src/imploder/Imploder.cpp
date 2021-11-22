@@ -37,7 +37,9 @@ namespace extras {
             std::ofstream ss(script);
             ss << "cp " + original() << ' ' << filename << std::endl;
             ss << "cd " + from << std::endl;
-            ss << "zip -r " + filename + " . " << ">/dev/null" << std::endl;
+            fs::path p = filename;
+            std::string fn = p.filename();
+            ss << "zip -r ../" + fn + " . " << ">/dev/null" << std::endl;
             ss.close();
             ScriptException::assertion(script.c_str(), __INFO__);
         }

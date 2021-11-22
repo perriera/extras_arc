@@ -4,7 +4,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).</br>
 > To add a tag to the git repository do:
-> > git tag -a v0.6.2 -m "Using extras 5.3.4"</br>
+> > git tag -a v0.6.3 -m "Fixed script"</br>
 > > git push origin v0.6.2
 > 
 
@@ -28,6 +28,10 @@ Correct URL for github, (for source compare)</br>
 Adding mock test cases </br>
 Adding unit test cases </br>
 Updated README.md accordinging</br>
+
+#### 0.6.3 (2021-11-21)
+### Added 
+- Fixed script
 
 #### 0.6.2 (2021-11-20)
 ### Added 
@@ -119,7 +123,8 @@ Updated README.md accordinging</br>
 ### Removed
 - Conan package manager deprecated
 
-[Unreleased]: https://github.com/perriera/ng_imploder/compare/v0.6.2...HEAD
+[Unreleased]: https://github.com/perriera/ng_imploder/compare/v0.6.3...HEAD
+[0.6.3]: https://github.com/perriera/ng_imploder/compare/v0.6.2...v0.6.3
 [0.6.2]: https://github.com/perriera/ng_imploder/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/perriera/ng_imploder/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/perriera/ng_imploder/compare/v0.5.2...v0.6.0
