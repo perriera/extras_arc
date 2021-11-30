@@ -4,8 +4,8 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).</br>
 > To add a tag to the git repository do:
-> > git tag -a v0.6.5 -m "Using v5.3.6"</br>
-> > git push origin v0.6.5
+> > git tag -a v0.7.0 -m "Added LICENSE.md"</br>
+> > git push origin v0.7.0
 > 
 
 IMPORTANT: 
@@ -28,6 +28,11 @@ Correct URL for github, (for source compare)</br>
 Adding mock test cases </br>
 Adding unit test cases </br>
 Updated README.md accordinging</br>
+
+#### 0.7.0 (2021-11-29)
+### Changed 
+- Now using v5.4.0
+- Added LICENSE.md
 
 #### 0.6.5 (2021-11-24)
 ### Changed 
