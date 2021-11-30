@@ -27,4 +27,4 @@ promote the sale, use or other dealings in this Software without
 prior written authorization from EXPARX INCORPORATED.
 
 exparx.com and www.exparx.com  are domain names  registered with 
-EXPARX INCORPORATED, (other GPL-themed licenses are included).
+EXPARX INCORPORATED. Other MIT/GPL-themed licenses are included.

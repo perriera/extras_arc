@@ -29,6 +29,11 @@ Adding mock test cases </br>
 Adding unit test cases </br>
 Updated README.md accordinging</br>
 
+#### 0.8.0 (2021-11-30)
+### Changed 
+- Now using v5.5.0
+- Added LICENSE.md
+
 #### 0.7.0 (2021-11-29)
 ### Changed 
 - Now using v5.4.0
@@ -136,7 +141,9 @@ Updated README.md accordinging</br>
 ### Removed
 - Conan package manager deprecated
 
-[Unreleased]: https://github.com/perriera/ng_imploder/compare/v0.6.5...HEAD
+[Unreleased]: https://github.com/perriera/ng_imploder/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/perriera/ng_imploder/compare/v0.7.0...v0.8.0
+[0.7.0]: https://github.com/perriera/ng_imploder/compare/v0.6.5...v0.7.0
 [0.6.5]: https://github.com/perriera/ng_imploder/compare/v0.6.4...v0.6.5
 [0.6.4]: https://github.com/perriera/ng_imploder/compare/v0.6.3...v0.6.4
 [0.6.3]: https://github.com/perriera/ng_imploder/compare/v0.6.2...v0.6.3
