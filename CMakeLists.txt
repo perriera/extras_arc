@@ -137,13 +137,15 @@ target_link_libraries(${PROJECT_NAME} PRIVATE stdc++fs extras)
 # NOTE: declare unit test cases here all source should have adequate test cases whether they be mock
 # or unit tests, (or both)
 #
-if(EXTRAS_ARC_TESTS)
-  print(STATUS "Building tests")
-  file(GLOB_RECURSE EXTRAS_ARC_TESTS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/test/*.cpp")
-  set(TEST_EXEC "run-unittests-${PROJECT_NAME}")
-  add_executable(${TEST_EXEC} ${EXTRAS_ARC_TESTS})
-  target_include_directories(${TEST_EXEC} PUBLIC ${INCLUDES})
-  target_link_libraries(${TEST_EXEC} PRIVATE ${PROJECT_NAME} stdc++fs extras )
+if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY)
+  if(EXTRAS_ARC_TESTS)
+    print(STATUS "Building tests")
+    file(GLOB_RECURSE EXTRAS_ARC_TESTS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/test/*.cpp")
+    set(TEST_EXEC "run-unittests-${PROJECT_NAME}")
+    add_executable(${TEST_EXEC} ${EXTRAS_ARC_TESTS})
+    target_include_directories(${TEST_EXEC} PUBLIC ${INCLUDES})
+    target_link_libraries(${TEST_EXEC} PRIVATE ${PROJECT_NAME} stdc++fs extras )
+  endif()
 endif()
 
 #
