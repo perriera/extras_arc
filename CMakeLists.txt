@@ -173,14 +173,16 @@ endif()
 #
 # NOTE: Install all shared libraries
 #
-install(TARGETS 
-  parcel
-  implode
-  explode
-  ${PROJECT_NAME}
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin)
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION include)
+if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_EXECUTABLES)
+  install(TARGETS 
+    parcel
+    implode
+    explode
+    ${PROJECT_NAME}
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin)
+  install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION include)
+endif()
 
 #
 # NOTE: if the compiler supports iter-procedural optimization, turn it on
