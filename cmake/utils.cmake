@@ -1,5 +1,5 @@
-function(ng_imploder_get_version)
-  file(READ "${CMAKE_CURRENT_LIST_DIR}/include/ng_imploder/version.hpp" file_contents)
+function(extras_arc_get_version)
+  file(READ "${CMAKE_CURRENT_LIST_DIR}/include/extras_arc/version.hpp" file_contents)
   string(REGEX MATCH "NG_IMPLODER_VER_MAJOR ([0-9]+)" _ "${file_contents}")
   if(NOT CMAKE_MATCH_COUNT EQUAL 1)
     message(FATAL_ERROR "Could not extract the major version from version.hpp")

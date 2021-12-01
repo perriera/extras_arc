@@ -16,7 +16,7 @@
  *
  */
 
-#include <ng_imploder/bin2hex/ConvertFile.hpp>
+#include <extras_arc/bin2hex/ConvertFile.hpp>
 #include <iostream>
 #include <fstream>
 #include <extras/filesystem/paths.hpp>
@@ -130,8 +130,8 @@ SCENARIO("Mock ConvertFileInterface: loadBin", "[ConvertInterface]") {
     imploder::BinFile binFile;
     imploder::HexFile hexFile;
 
-    std::string b1 = ~extras::Paths("build/run-unittests-ng_imploder");
-    auto b2 = "/tmp/run-unittests-ng_imploder";
+    std::string b1 = ~extras::Paths("build/run-unittests-extras_arc");
+    auto b2 = "/tmp/run-unittests-extras_arc";
     std::string h1 = ~extras::Paths("data/send.txt");
     auto h2 = "/tmp/send.txt";
 
