@@ -42,7 +42,7 @@
 #include <sys/socket.h>
 
 namespace extras {
-    namespace imploder {
+    namespace arc {
         /**
          * @brief ParcelInterface
          *
@@ -102,7 +102,7 @@ namespace extras {
 
         };
 
-    }  // namespace imploder
+    }  // namespace arc
 
 }  // namespace extras
 

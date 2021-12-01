@@ -34,47 +34,47 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock WrapInterface: Imploder", "[WrapInterface]") {
 
-    imploder::Parameter original = ~extras::Paths("data/exparx.webflow.zip");
-    imploder::Parameter imploded = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip");
-    imploder::Parameter exploded = extras::replace_all(original, "webflow.zip", "webflow.zip_exploded.zip");
-    Mock<imploder::WrapInterface> mock;
+    arc::Parameter original = ~extras::Paths("data/exparx.webflow.zip");
+    arc::Parameter imploded = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip");
+    arc::Parameter exploded = extras::replace_all(original, "webflow.zip", "webflow.zip_exploded.zip");
+    Mock<arc::WrapInterface> mock;
 
     When(Method(mock, wrap))
         .AlwaysDo(
-            [](const imploder::Filename& filename) {
-                ng::Imploder imploder(filename);
-                imploder.implode();
-                return imploder.imploded();
+            [](const arc::Filename& filename) {
+                ng::Imploder arc(filename);
+                arc.implode();
+                return arc.imploded();
             });
 
     When(Method(mock, unWrap))
         .AlwaysDo(
-            [](const imploder::Filename& filename) {
-                ng::Imploder imploder(filename);
-                imploder.explode();
-                return imploder.exploded();
+            [](const arc::Filename& filename) {
+                ng::Imploder arc(filename);
+                arc.explode();
+                return arc.exploded();
             });
 
-    imploder::WrapInterface& i = mock.get();
+    arc::WrapInterface& i = mock.get();
 
-    ng::Imploder imploder(original);
-    imploder.clean();
+    ng::Imploder arc(original);
+    arc.clean();
 
-    REQUIRE(fs::exists(imploder.original()));
-    REQUIRE(!fs::exists(imploder.imploded()));
-    REQUIRE(!fs::exists(imploder.exploded()));
+    REQUIRE(fs::exists(arc.original()));
+    REQUIRE(!fs::exists(arc.imploded()));
+    REQUIRE(!fs::exists(arc.exploded()));
     REQUIRE(i.wrap(original) == imploded);
-    REQUIRE(fs::exists(imploder.original()));
-    REQUIRE(fs::exists(imploder.imploded()));
-    REQUIRE(!fs::exists(imploder.exploded()));
+    REQUIRE(fs::exists(arc.original()));
+    REQUIRE(fs::exists(arc.imploded()));
+    REQUIRE(!fs::exists(arc.exploded()));
     REQUIRE(i.unWrap(original) == exploded);
-    REQUIRE(fs::exists(imploder.original()));
-    REQUIRE(fs::exists(imploder.imploded()));
-    REQUIRE(fs::exists(imploder.exploded()));
-    imploder.clean();
-    REQUIRE(fs::exists(imploder.original()));
-    REQUIRE(!fs::exists(imploder.imploded()));
-    REQUIRE(!fs::exists(imploder.exploded()));
+    REQUIRE(fs::exists(arc.original()));
+    REQUIRE(fs::exists(arc.imploded()));
+    REQUIRE(fs::exists(arc.exploded()));
+    arc.clean();
+    REQUIRE(fs::exists(arc.original()));
+    REQUIRE(!fs::exists(arc.imploded()));
+    REQUIRE(!fs::exists(arc.exploded()));
     Verify(Method(mock, wrap));
     Verify(Method(mock, unWrap));
 

@@ -36,7 +36,7 @@
 #include <extras_arc/imploder/Imploder.hpp>
 
 namespace extras {
-    namespace imploder {
+    namespace arc {
         /**
          * @brief WrapInterface
          *
@@ -73,7 +73,7 @@ namespace extras {
 
         };
 
-    }  // namespace imploder
+    }  // namespace arc
 
 }  // namespace extras
 

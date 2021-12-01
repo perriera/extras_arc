@@ -35,7 +35,7 @@
 #include <iostream>
 
 namespace extras {
-    namespace imploder {
+    namespace arc {
 
         /**
          * @brief ConvertFileInterface
@@ -59,19 +59,19 @@ namespace extras {
         concrete class ConvertFile implements ConvertFileInterface {
         public:
             virtual BinFile hexToBin(const HexFile& hexFile) const override {
-                imploder::BinFile binFile;
-                imploder::ConvertLine converter;
+                arc::BinFile binFile;
+                arc::ConvertLine converter;
                 for (auto hexLine : hexFile) {
-                    imploder::BinLine binline = converter.hexToBin(hexLine);
+                    arc::BinLine binline = converter.hexToBin(hexLine);
                     binFile.push_back(binline);
                 }
                 return binFile;
             }
             virtual HexFile binToHex(const BinFile& binFile) const override {
-                imploder::HexFile hexFile;
-                imploder::ConvertLine converter;
+                arc::HexFile hexFile;
+                arc::ConvertLine converter;
                 for (auto binLine : binFile) {
-                    imploder::HexLine hexline = converter.binToHex(binLine);
+                    arc::HexLine hexline = converter.binToHex(binLine);
                     hexFile.push_back(hexline);
                 }
                 return hexFile;

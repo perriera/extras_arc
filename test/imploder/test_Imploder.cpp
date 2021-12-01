@@ -34,9 +34,9 @@ SCENARIO("Test ImploderInterface: rezip webflow", "[ImploderInterface]") {
 
     ng::Filename before = ~extras::Paths("data/exparx.webflow.zip");
     ng::Filename after = before + "_imploded";
-    ng::Imploder imploder(before);
+    ng::Imploder arc(before);
 
-    ng::ImploderInterface& i = imploder;
+    ng::ImploderInterface& i = arc;
 
     REQUIRE(fs::exists(i.original()));
     i.clean();

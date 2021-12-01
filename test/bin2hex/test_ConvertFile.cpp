@@ -30,8 +30,8 @@ namespace fs = std::filesystem;
 
 SCENARIO("Test ConvertFileInterface: hexToBin", "[ConvertInterface]") {
 
-    imploder::HexFile hexFile;
-    imploder::BinFile binFile;
+    arc::HexFile hexFile;
+    arc::BinFile binFile;
 
     std::string h1 = ~extras::Paths("data/send.txt");
     std::ifstream in(h1);
@@ -44,8 +44,8 @@ SCENARIO("Test ConvertFileInterface: hexToBin", "[ConvertInterface]") {
             hexFile.push_back(line);
     }
 
-    imploder::ConvertFile converter;
-    imploder::ConvertFileInterface& i = converter;
+    arc::ConvertFile converter;
+    arc::ConvertFileInterface& i = converter;
     binFile = i.hexToBin(hexFile);
     hexFile = i.binToHex(binFile);
     REQUIRE(i.hexToBin(hexFile) == binFile);
@@ -64,11 +64,11 @@ SCENARIO("Test ConvertFileInterface: saveHex", "[ConvertInterface]") {
     std::ifstream inHex(h1);
     REQUIRE(inHex.good());
 
-    imploder::BinFile binFile;
-    imploder::HexFile hexFile;
+    arc::BinFile binFile;
+    arc::HexFile hexFile;
 
-    imploder::ConvertFile converter;
-    imploder::ConvertFileInterface& i = converter;
+    arc::ConvertFile converter;
+    arc::ConvertFileInterface& i = converter;
     binFile = i.loadBin(inBin, 40);
     hexFile = i.loadHex(inHex);
     {
@@ -92,19 +92,19 @@ SCENARIO("Test ConvertFileInterface: saveHex2", "[ConvertInterface]") {
 
     std::ifstream inBin(f1);
     REQUIRE(inBin.good());
-    imploder::BinFile binFile;
-    imploder::ConvertFile converter;
+    arc::BinFile binFile;
+    arc::ConvertFile converter;
     binFile = converter.loadBin(inBin);
     {
         std::ofstream outHex(f2);
         REQUIRE(outHex.good());
-        imploder::HexFile hexFile = converter.binToHex(binFile);
+        arc::HexFile hexFile = converter.binToHex(binFile);
         converter.saveHex(outHex, hexFile);
     }
 
     std::ifstream inHex(f2);
     REQUIRE(inHex.good());
-    imploder::HexFile hexFile = converter.loadHex(inHex);
+    arc::HexFile hexFile = converter.loadHex(inHex);
     binFile = converter.hexToBin(hexFile);
     {
         std::ofstream outBin(f3);

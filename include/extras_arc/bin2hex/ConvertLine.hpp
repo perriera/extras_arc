@@ -35,7 +35,7 @@
 #include <iostream>
 
 namespace extras {
-    namespace imploder {
+    namespace arc {
 
         /**
          * @brief ConvertLineInterface
@@ -53,10 +53,10 @@ namespace extras {
         concrete class ConvertLine implements ConvertLineInterface {
         public:
             virtual BinLine hexToBin(const HexLine& hexLine) const override {
-                return imploder::hexToBytes(hexLine);
+                return arc::hexToBytes(hexLine);
             }
             virtual HexLine binToHex(const BinLine& binLine) const override {
-                return imploder::bytesToHex(binLine);
+                return arc::bytesToHex(binLine);
             }
         };
 

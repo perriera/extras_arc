@@ -27,23 +27,23 @@ using namespace fakeit;
 
 SCENARIO("Mock ConvertLineInterface", "[ConvertInterface]") {
 
-    Mock<imploder::ConvertLineInterface> mock;
+    Mock<arc::ConvertLineInterface> mock;
     When(Method(mock, hexToBin))
         .AlwaysDo(
-            [](const imploder::HexLine& hexLine) {
-                imploder::BinLine binLine = imploder::hexToBytes(hexLine);
+            [](const arc::HexLine& hexLine) {
+                arc::BinLine binLine = arc::hexToBytes(hexLine);
                 return binLine;
             });
     When(Method(mock, binToHex))
         .AlwaysDo(
-            [](const imploder::BinLine& binLine) {
-                imploder::HexLine hexLine = imploder::bytesToHex(binLine);
+            [](const arc::BinLine& binLine) {
+                arc::HexLine hexLine = arc::bytesToHex(binLine);
                 return hexLine;
             });
 
-    imploder::ConvertLineInterface& i = mock.get();
-    imploder::BinLine binLine = { 'a', 'b', 'c' };
-    imploder::HexLine hexLine = i.binToHex(binLine);
+    arc::ConvertLineInterface& i = mock.get();
+    arc::BinLine binLine = { 'a', 'b', 'c' };
+    arc::HexLine hexLine = i.binToHex(binLine);
     REQUIRE(i.hexToBin(hexLine) == binLine);
     REQUIRE(i.binToHex(binLine) == hexLine);
     Verify(Method(mock, hexToBin));

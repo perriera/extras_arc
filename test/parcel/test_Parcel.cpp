@@ -35,9 +35,9 @@ namespace fs = std::filesystem;
 
 SCENARIO("Test ParcelInterface: hexToBin", "[ParcelInterface]") {
 
-    imploder::Parameter parcel = ~extras::Paths("data/cplusplusorg.freeformjs.imploded.zip");
+    arc::Parameter parcel = ~extras::Paths("data/cplusplusorg.freeformjs.imploded.zip");
 
-    imploder::Parcel packed(parcel);
+    arc::Parcel packed(parcel);
 
     if (fs::exists(packed.packed()))
         fs::remove(packed.packed());
@@ -46,7 +46,7 @@ SCENARIO("Test ParcelInterface: hexToBin", "[ParcelInterface]") {
     if (fs::exists(packed.duplicate()))
         fs::remove(packed.duplicate());
 
-    imploder::ParcelInterface& i = packed;
+    arc::ParcelInterface& i = packed;
     REQUIRE(i.original() == packed.original());
     REQUIRE(i.hexed() == packed.hexed());
     REQUIRE(i.packed() == packed.packed());

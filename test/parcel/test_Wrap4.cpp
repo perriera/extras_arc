@@ -37,7 +37,7 @@ namespace fs = std::filesystem;
 
 SCENARIO("Test WrapInterface: ParcelImploder", "[WrapInterface]") {
 
-    imploder::Parameter testdata = ~extras::Paths("data/exparx.webflow.zip");
+    arc::Parameter testdata = ~extras::Paths("data/exparx.webflow.zip");
 
     SystemException::assertion("rm -rf data/client", __INFO__);
     SystemException::assertion("rm -rf data/server", __INFO__);
@@ -46,15 +46,15 @@ SCENARIO("Test WrapInterface: ParcelImploder", "[WrapInterface]") {
     auto copydata = "cp " + testdata + " " + "data/client";
     SystemException::assertion(copydata, __INFO__);
 
-    imploder::Parameter original = extras::replace_all(testdata, "data/", "data/client/");
-    imploder::Parameter wrapped = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip_packed.txt");
-    imploder::Parameter unwrapped = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip");
-    imploder::Parameter duplicate = extras::replace_all(original, "webflow.zip", "webflow.zip_exploded.zip");
-    imploder::Parameter wrapped_onServer;
-    imploder::Parameter filename_onServer;
+    arc::Parameter original = extras::replace_all(testdata, "data/", "data/client/");
+    arc::Parameter wrapped = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip_packed.txt");
+    arc::Parameter unwrapped = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip");
+    arc::Parameter duplicate = extras::replace_all(original, "webflow.zip", "webflow.zip_exploded.zip");
+    arc::Parameter wrapped_onServer;
+    arc::Parameter filename_onServer;
 
-    imploder::ParcelImploder parcelImploder;
-    imploder::WrapInterface& i = parcelImploder;
+    arc::ParcelImploder parcelImploder;
+    arc::WrapInterface& i = parcelImploder;
 
     i.clean(original);
 

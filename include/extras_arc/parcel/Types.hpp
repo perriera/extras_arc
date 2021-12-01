@@ -41,7 +41,7 @@
 #include <sys/socket.h>
 
 namespace extras {
-    namespace imploder {
+    namespace arc {
         /**
          * @brief ParcelInterface
          *
@@ -54,7 +54,7 @@ namespace extras {
         using Parameters = std::deque<Parameter>;
         using Filename = std::string;
 
-    }  // namespace imploder
+    }  // namespace arc
 
 }  // namespace extras
 

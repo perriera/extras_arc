@@ -26,7 +26,7 @@ using namespace std;
 namespace fs = std::filesystem;
 
 namespace extras {
-    namespace imploder {
+    namespace arc {
 
         void ParcelException::assertion(const Filename& parcel, const Filename& unpacked, const extras::WhereAmI& ref) {
             FileNotFoundException::assertion(parcel, ref);
@@ -42,5 +42,5 @@ namespace extras {
                 throw ParcelException("Files are different: (see /tmp/out.txt)", ref);
         }
 
-    }  // namespace imploder
+    }  // namespace arc
 }  // namespace extras
