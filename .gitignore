@@ -21,4 +21,6 @@ data/exparx.webflow.zip_*
 data/exparx.webflow.zip.*
 data/src.zip_*
 
+data/client/*
+data/server/*
 
