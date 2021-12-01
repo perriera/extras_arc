@@ -35,13 +35,13 @@
 #include <extras/crcs.hpp>
 #include <iostream>
 #include <sstream>
-#include <ng_imploder/parcel/Exceptions.hpp>
-#include <ng_imploder/parcel/Line.hpp>
+#include <extras_arc/parcel/Exceptions.hpp>
+#include <extras_arc/parcel/Line.hpp>
 #include <netinet/in.h>
 #include <sys/socket.h>
 
 namespace extras {
-    namespace imploder {
+    namespace arc {
         /**
          * @brief ParcelInterface
          *
@@ -54,7 +54,7 @@ namespace extras {
         using Parameters = std::deque<Parameter>;
         using Filename = std::string;
 
-    }  // namespace imploder
+    }  // namespace arc
 
 }  // namespace extras
 

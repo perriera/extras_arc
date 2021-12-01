@@ -17,18 +17,18 @@
  */
 
 #include <iostream>
-#include <ng_imploder/bin2hex/ConvertFile.hpp>
+#include <extras_arc/bin2hex/ConvertFile.hpp>
 
 using namespace std;
 
 namespace extras {
-    namespace imploder {
+    namespace arc {
 
-        imploder::BinFile ConvertFile::loadBin(std::istream& in, int columns) const {
-            imploder::BinFile binFile;
-            imploder::ConvertLine converter;
+        arc::BinFile ConvertFile::loadBin(std::istream& in, int columns) const {
+            arc::BinFile binFile;
+            arc::ConvertLine converter;
             while (in.good()) {
-                imploder::BinLine line;
+                arc::BinLine line;
                 for (int i = 0; i < columns && in.good();i++) {
                     byte b = 0;
                     in >> std::noskipws >> b;
@@ -40,11 +40,11 @@ namespace extras {
             return binFile;
         }
 
-        imploder::HexFile ConvertFile::loadHex(std::istream& in) const {
-            imploder::HexFile hexFile;
-            imploder::ConvertLine converter;
+        arc::HexFile ConvertFile::loadHex(std::istream& in) const {
+            arc::HexFile hexFile;
+            arc::ConvertLine converter;
             while (in.good()) {
-                imploder::HexLine line;
+                arc::HexLine line;
                 getline(in, line);
                 hexFile.push_back(line);
             }
@@ -66,15 +66,15 @@ namespace extras {
         }
 
         HexFile ConvertFile::convertToHex(std::istream& inBin, std::ostream& outHex) const {
-            imploder::BinFile binFile = loadBin(inBin, 40);
-            imploder::HexFile hexFile = binToHex(binFile);
+            arc::BinFile binFile = loadBin(inBin, 40);
+            arc::HexFile hexFile = binToHex(binFile);
             saveHex(outHex, hexFile);
             return hexFile;
         }
 
         BinFile ConvertFile::convertToBin(std::istream& inHex, std::ostream& outBin) const {
-            imploder::HexFile hexFile = loadHex(inHex);
-            imploder::BinFile binFile = hexToBin(hexFile);
+            arc::HexFile hexFile = loadHex(inHex);
+            arc::BinFile binFile = hexToBin(hexFile);
             saveBin(outBin, binFile);
             return binFile;
         }

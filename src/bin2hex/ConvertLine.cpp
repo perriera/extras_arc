@@ -17,10 +17,10 @@
  */
 
 #include <iostream>
-#include <ng_imploder/bin2hex/ConvertLine.hpp>
+#include <extras_arc/bin2hex/ConvertLine.hpp>
 
 namespace extras {
-    namespace imploder {
+    namespace arc {
 
         /**
          * @brief hexToBytes

@@ -16,7 +16,7 @@
  *
  */
 
-#include <ng_imploder/bin2hex/ConvertFile.hpp>
+#include <extras_arc/bin2hex/ConvertFile.hpp>
 #include <iostream>
 #include <fstream>
 #include <extras/filesystem/paths.hpp>
@@ -31,32 +31,32 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock ConvertFileInterface: hexToBin", "[ConvertInterface]") {
 
-    Mock<imploder::ConvertFileInterface> mock;
+    Mock<arc::ConvertFileInterface> mock;
     When(Method(mock, hexToBin))
         .AlwaysDo(
-            [](const imploder::HexFile& hexFile) {
-                imploder::BinFile binFile;
-                imploder::ConvertLine converter;
+            [](const arc::HexFile& hexFile) {
+                arc::BinFile binFile;
+                arc::ConvertLine converter;
                 for (auto hexLine : hexFile) {
-                    imploder::BinLine binline = converter.hexToBin(hexLine);
+                    arc::BinLine binline = converter.hexToBin(hexLine);
                     binFile.push_back(binline);
                 }
                 return binFile;
             });
     When(Method(mock, binToHex))
         .AlwaysDo(
-            [](const imploder::BinFile& binFile) {
-                imploder::HexFile hexFile;
-                imploder::ConvertLine converter;
+            [](const arc::BinFile& binFile) {
+                arc::HexFile hexFile;
+                arc::ConvertLine converter;
                 for (auto binLine : binFile) {
-                    imploder::HexLine hexline = converter.binToHex(binLine);
+                    arc::HexLine hexline = converter.binToHex(binLine);
                     hexFile.push_back(hexline);
                 }
                 return hexFile;
             });
 
-    imploder::HexFile hexFile;
-    imploder::BinFile binFile;
+    arc::HexFile hexFile;
+    arc::BinFile binFile;
 
     std::string h1 = ~extras::Paths("data/send.txt");
 
@@ -69,7 +69,7 @@ SCENARIO("Mock ConvertFileInterface: hexToBin", "[ConvertInterface]") {
             hexFile.push_back(line);
     }
 
-    imploder::ConvertFileInterface& i = mock.get();
+    arc::ConvertFileInterface& i = mock.get();
     binFile = i.hexToBin(hexFile);
     hexFile = i.binToHex(binFile);
     REQUIRE(i.hexToBin(hexFile) == binFile);
@@ -80,14 +80,14 @@ SCENARIO("Mock ConvertFileInterface: hexToBin", "[ConvertInterface]") {
 
 SCENARIO("Mock ConvertFileInterface: loadBin", "[ConvertInterface]") {
 
-    Mock<imploder::ConvertFileInterface> mock;
+    Mock<arc::ConvertFileInterface> mock;
     When(Method(mock, loadBin))
         .AlwaysDo(
             [](std::istream& in, int columns) {
-                imploder::BinFile binFile;
-                imploder::ConvertLine converter;
+                arc::BinFile binFile;
+                arc::ConvertLine converter;
                 while (in.good()) {
-                    imploder::BinLine line;
+                    arc::BinLine line;
                     for (int i = 0; i < columns && in.good();i++) {
                         byte b = 0;
                         in >> std::noskipws >> b;
@@ -100,7 +100,7 @@ SCENARIO("Mock ConvertFileInterface: loadBin", "[ConvertInterface]") {
             });
     When(Method(mock, saveBin))
         .AlwaysDo(
-            [](std::ostream& out, const imploder::BinFile& binFile) {
+            [](std::ostream& out, const arc::BinFile& binFile) {
                 for (auto binLine : binFile) {
                     for (auto b : binLine)
                         out << std::skipws << b;
@@ -110,10 +110,10 @@ SCENARIO("Mock ConvertFileInterface: loadBin", "[ConvertInterface]") {
     When(Method(mock, loadHex))
         .AlwaysDo(
             [](std::istream& in) {
-                imploder::HexFile hexFile;
-                imploder::ConvertLine converter;
+                arc::HexFile hexFile;
+                arc::ConvertLine converter;
                 while (in.good()) {
-                    imploder::HexLine line;
+                    arc::HexLine line;
                     getline(in, line);
                     hexFile.push_back(line);
                 }
@@ -121,17 +121,17 @@ SCENARIO("Mock ConvertFileInterface: loadBin", "[ConvertInterface]") {
             });
     When(Method(mock, saveHex))
         .AlwaysDo(
-            [](std::ostream& out, const imploder::HexFile& hexFile) {
+            [](std::ostream& out, const arc::HexFile& hexFile) {
                 for (auto hexLine : hexFile) {
                     out << hexLine << std::endl;
                 }
             });
 
-    imploder::BinFile binFile;
-    imploder::HexFile hexFile;
+    arc::BinFile binFile;
+    arc::HexFile hexFile;
 
-    std::string b1 = ~extras::Paths("build/run-unittests-ng_imploder");
-    auto b2 = "/tmp/run-unittests-ng_imploder";
+    std::string b1 = ~extras::Paths("build/run-unittests-extras_arc");
+    auto b2 = "/tmp/run-unittests-extras_arc";
     std::string h1 = ~extras::Paths("data/send.txt");
     auto h2 = "/tmp/send.txt";
 
@@ -140,7 +140,7 @@ SCENARIO("Mock ConvertFileInterface: loadBin", "[ConvertInterface]") {
     std::ifstream inHex(h1);
     REQUIRE(inHex.good());
 
-    imploder::ConvertFileInterface& i = mock.get();
+    arc::ConvertFileInterface& i = mock.get();
     binFile = i.loadBin(inBin, 40);
     hexFile = i.loadHex(inHex);
     {

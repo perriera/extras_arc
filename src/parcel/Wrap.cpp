@@ -16,9 +16,9 @@
  *
  */
 
-#include <ng_imploder/parcel/Parcel.hpp>
-#include <ng_imploder/parcel/Wrap.hpp>
-#include <ng_imploder/imploder/Imploder.hpp>
+#include <extras_arc/parcel/Parcel.hpp>
+#include <extras_arc/parcel/Wrap.hpp>
+#include <extras_arc/imploder/Imploder.hpp>
 #include <extras/filesystem/system.hpp>
 #include <extras/filesystem/files.hpp>
 
@@ -30,7 +30,7 @@ using namespace std;
 namespace fs = std::filesystem;
 
 namespace extras {
-    namespace imploder {
+    namespace arc {
 
         /**
          * @brief wrap()
@@ -39,16 +39,16 @@ namespace extras {
          * @return Filename
          */
         Filename ParcelImploder::wrap(const Filename& filename) const {
-            ng::Imploder imploder(filename);
-            imploder.implode();
-            imploder::Parcel parcel(imploder.imploded());
+            arc::Imploder arc(filename);
+            arc.implode();
+            arc::Parcel parcel(arc.imploded());
             parcel.pack();
             return parcel.packed();
         }
 
         Filename ParcelImploder::wrapped(const Filename& filename) const {
-            ng::Imploder imploder(filename);
-            imploder::Parcel parcel(imploder.imploded());
+            arc::Imploder arc(filename);
+            arc::Parcel parcel(arc.imploded());
             return parcel.packed();
         }
 
@@ -59,22 +59,22 @@ namespace extras {
          * @return Filename
          */
         Filename ParcelImploder::unWrap(const Filename& filename) const {
-            ng::Imploder imploder(filename);
-            imploder::Parcel parcel(imploder.imploded());
+            arc::Imploder arc(filename);
+            arc::Parcel parcel(arc.imploded());
             parcel.unpack();
             parcel.merge();
             parcel.clean();
-            if (fs::exists(imploder.original())) {
-                imploder.explode();
-                return imploder.exploded();
+            if (fs::exists(arc.original())) {
+                arc.explode();
+                return arc.exploded();
             }
             return parcel.original();
         }
 
         Filename ParcelImploder::unWrapped(const Filename& filename) const {
-            ng::Imploder imploder(filename);
-            imploder::Parcel parcel(imploder.imploded());
-            return imploder.exploded();
+            arc::Imploder arc(filename);
+            arc::Parcel parcel(arc.imploded());
+            return arc.exploded();
         }
 
         /**
@@ -84,17 +84,17 @@ namespace extras {
          * @return Filename
          */
         Filename ParcelImploder::merge(const Filename& filename) const {
-            ng::Imploder imploder(filename);
-            if (fs::exists(imploder.original())) {
-                imploder.merge();
+            arc::Imploder arc(filename);
+            if (fs::exists(arc.original())) {
+                arc.merge();
                 return filename;
             }
-            FileNotFoundException::assertion(imploder.imploded(), __INFO__);
-            auto a = imploder.imploded();
-            auto b = imploder.original();
+            FileNotFoundException::assertion(arc.imploded(), __INFO__);
+            auto a = arc.imploded();
+            auto b = arc.original();
             auto cmd = "mv " + a + " " + b;
             SystemException::assertion(cmd, __INFO__);
-            imploder.clean();
+            arc.clean();
             return filename;
         }
 
@@ -105,10 +105,10 @@ namespace extras {
          * @return Filename
          */
         Filename ParcelImploder::clean(const Filename& filename) const {
-            ng::Imploder imploder(filename);
-            imploder::Parcel parcel(imploder.imploded());
+            arc::Imploder arc(filename);
+            arc::Parcel parcel(arc.imploded());
             parcel.clean();
-            imploder.clean();
+            arc.clean();
             return filename;
         }
 

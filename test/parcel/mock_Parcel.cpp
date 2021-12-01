@@ -16,10 +16,10 @@
  *
  */
 
-#include <ng_imploder/bin2hex/ConvertFile.hpp>
-#include <ng_imploder/parcel/Parcel.hpp>
-#include <ng_imploder/parcel/Exceptions.hpp>
-#include <ng_imploder/parcel/Line.hpp>
+#include <extras_arc/bin2hex/ConvertFile.hpp>
+#include <extras_arc/parcel/Parcel.hpp>
+#include <extras_arc/parcel/Exceptions.hpp>
+#include <extras_arc/parcel/Line.hpp>
 #include <extras/filesystem/paths.hpp>
 #include <extras/filesystem/files.hpp>
 #include <extras/filesystem/system.hpp>
@@ -36,11 +36,11 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock ParcelInterface: hexToBin", "[ParcelInterface]") {
 
-    imploder::Parameter original = ~extras::Paths("data/cplusplusorg.freeformjs.imploded.zip");
-    imploder::Parameter hexed = original + "_hexed";
-    imploder::Parameter packed = original + "_packed";
-    imploder::Parameter duplicate = original + "_unpacked";
-    Mock<imploder::ParcelInterface> mock;
+    arc::Parameter original = ~extras::Paths("data/cplusplusorg.freeformjs.imploded.zip");
+    arc::Parameter hexed = original + "_hexed";
+    arc::Parameter packed = original + "_packed";
+    arc::Parameter duplicate = original + "_unpacked";
+    Mock<arc::ParcelInterface> mock;
     When(Method(mock, original)).AlwaysReturn(original);
     When(Method(mock, hexed)).AlwaysReturn(hexed);
     When(Method(mock, packed)).AlwaysReturn(packed);
@@ -52,11 +52,11 @@ SCENARIO("Mock ParcelInterface: hexToBin", "[ParcelInterface]") {
                 FileNotFoundException::assertion(original, __INFO__);
                 std::ifstream inBin(original);
                 std::ofstream outHex(hexed);
-                imploder::HexFile hexFile = imploder::ConvertFile().convertToHex(inBin, outHex);
-                imploder::PackedFile packedFile;
+                arc::HexFile hexFile = arc::ConvertFile().convertToHex(inBin, outHex);
+                arc::PackedFile packedFile;
                 int cnt = 0;
                 for (auto hexLine : hexFile) {
-                    imploder::ParcelLine packedLine(++cnt, hexFile.size(), hexLine);
+                    arc::ParcelLine packedLine(++cnt, hexFile.size(), hexLine);
                     packedFile.push_back(packedLine);
                 }
                 std::ofstream outPacked(packed);
@@ -72,19 +72,19 @@ SCENARIO("Mock ParcelInterface: hexToBin", "[ParcelInterface]") {
             [&packed, &duplicate, &hexed]() {
                 FileNotFoundException::assertion(packed, __INFO__);
                 std::ifstream in(packed);
-                imploder::HexFile hexFile;
+                arc::HexFile hexFile;
                 while (in.good()) {
-                    imploder::ParcelLine line;
+                    arc::ParcelLine line;
                     in >> line;
                     if (in.good())
                         hexFile.push_back(line.hexLine());
                 }
                 std::ofstream outHex(hexed);
-                imploder::ConvertFile().saveHex(outHex, hexFile);
+                arc::ConvertFile().saveHex(outHex, hexFile);
                 outHex.close();
                 std::ifstream inHex(hexed);
                 std::ofstream outBin(duplicate);
-                imploder::ConvertFile().convertToBin(inHex, outBin);
+                arc::ConvertFile().convertToBin(inHex, outBin);
                 outBin.close();
                 FileNotFoundException::assertion(duplicate, __INFO__);
             }
@@ -95,7 +95,7 @@ SCENARIO("Mock ParcelInterface: hexToBin", "[ParcelInterface]") {
             [&original, &duplicate]() {
                 FileNotFoundException::assertion(original, __INFO__);
                 FileNotFoundException::assertion(duplicate, __INFO__);
-                imploder::ParcelException::assertion(original, duplicate, __INFO__);
+                arc::ParcelException::assertion(original, duplicate, __INFO__);
                 return true;
             }
     );
@@ -129,7 +129,7 @@ SCENARIO("Mock ParcelInterface: hexToBin", "[ParcelInterface]") {
     if (fs::exists(duplicate))
         fs::remove(duplicate);
 
-    imploder::ParcelInterface& i = mock.get();
+    arc::ParcelInterface& i = mock.get();
     REQUIRE(i.original() == original);
     REQUIRE(i.hexed() == hexed);
     REQUIRE(i.packed() == packed);

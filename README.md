@@ -1,7 +1,7 @@
 
 
-# perriera/ng_imploder
-Welcome to the perriera/ng_imploder project. 
+# perriera/extras_arc
+Welcome to the perriera/extras_arc project. 
 
 [![CMake](https://github.com/mattcoding4days/extras/actions/workflows/cmake.yml/badge.svg?branch=dev)](https://github.com/mattcoding4days/extras/actions/workflows/cmake.yml)
 
@@ -18,7 +18,7 @@ To use this template you will need a Linux environment, (Ubuntu is idea).
 
  1. [Install pip](https://linuxize.com/post/how-to-install-pip-on-ubuntu-18.04/), (either pip 2 or pip 3)
  2. [Install cmake](https://cmake-python-distributions.readthedocs.io/en/latest/installation.html) using pip, (cmake 3.2.1 or better required)
- 3. Create project on [Github.com](https://github.com) using **perriera/ng_imploder** out of the box, (or as a Github template).
+ 3. Create project on [Github.com](https://github.com) using **perriera/extras_arc** out of the box, (or as a Github template).
  
 Once you have established these THREE STEPS you may do the following
 
@@ -29,11 +29,11 @@ Once you have established these THREE STEPS you may do the following
 	cmake ..
 	make
 	cd ..
-	build/run-unittests-ng_imploder
+	build/run-unittests-extras_arc
 
 If you have done everything correctly, you will see a Catch2 diagnostic with all green, (similar to the following):
 
-	perry@ubuntu:~/Projects/ng_imploder$ build/run-unittests-ng_imploder 
+	perry@ubuntu:~/Projects/extras_arc$ build/run-unittests-extras_arc 
 	===============================================================================
 	All tests passed (1 assertion in 2 test cases)
 
@@ -41,9 +41,9 @@ However, you not done yet:
 
 Inside your favorite editor, (or search & replace command utility):
 
- 1. Global search and replace **ng_imploder** to <project_name> (case sensitive)
- 2. Global search and replace **NG_IMPLODER** to <PROJECT_NAME> (case sensitive)
- 3. change directory name '**include/ng_imploder**' to '**include/<project_name>**'
+ 1. Global search and replace **extras_arc** to <project_name> (case sensitive)
+ 2. Global search and replace **EXTRAS_ARC** to <PROJECT_NAME> (case sensitive)
+ 3. change directory name '**include/extras_arc**' to '**include/<project_name>**'
 
 Then do the following:
 
@@ -51,15 +51,15 @@ Then do the following:
 	cd build
 	make
 	cd ..
-This will re-create the project now with all references to ng_imploder changed to <your_project_name>. To test this do  the following:
+This will re-create the project now with all references to extras_arc changed to <your_project_name>. To test this do  the following:
 
 	build/run-unittests-<your_project_name>
 
 ## Changelog.md
-When you go to make changes to your changelog.md you should maintain the version number of your project using 'include/version.hpp'. For example, in your version.hpp will look something similiar to the following but all referenced to NG_IMPLODER will be changed to <YOUR_PROJECT_NAME>
+When you go to make changes to your changelog.md you should maintain the version number of your project using 'include/version.hpp'. For example, in your version.hpp will look something similiar to the following but all referenced to EXTRAS_ARC will be changed to <YOUR_PROJECT_NAME>
 
-	#ifndef _NG_IMPLODER_VERSION_HPP
-	#define _NG_IMPLODER_VERSION_HPP
+	#ifndef _EXTRAS_ARC_VERSION_HPP
+	#define _EXTRAS_ARC_VERSION_HPP
 
 	/**
 	 * @file version.hpp
@@ -69,14 +69,14 @@ When you go to make changes to your changelog.md you should maintain the version
 	 * @date 2021-08-08
 	 */
 
-	#define NG_IMPLODER_VER_MAJOR 0
-	#define NG_IMPLODER_VER_MINOR 5
-	#define NG_IMPLODER_VER_PATCH 4
+	#define EXTRAS_ARC_VER_MAJOR 0
+	#define EXTRAS_ARC_VER_MINOR 5
+	#define EXTRAS_ARC_VER_PATCH 4
 
-	#define NG_IMPLODER_VERSION \
-	  (NG_IMPLODER_VER_MAJOR * 10000 + NG_IMPLODER_VER_MINOR * 100 + NG_IMPLODER_VER_PATCH)
+	#define EXTRAS_ARC_VERSION \
+	  (EXTRAS_ARC_VER_MAJOR * 10000 + EXTRAS_ARC_VER_MINOR * 100 + EXTRAS_ARC_VER_PATCH)
 
-	#endif// _NG_IMPLODER_VERSION_HPP
+	#endif// _EXTRAS_ARC_VERSION_HPP
 
 From here add this to your github project and you are good to go:
 
@@ -101,7 +101,7 @@ This project is already setup for use with [FakeIt](https://github.com/eranpeer/
 This project is already setup for use with [Catch2](https://github.com/catchorg/Catch2). Anyone familiar with writing test cases, (as in [TDD - Test Driven Development](https://en.wikipedia.org/wiki/Test-driven_development) should find the built-in support for Catch2 to be indispensible here).
 
 ## JIRA/Confluence/Bitbucket support 
-This project is already setup for use with [Jira (software)](https://en.wikipedia.org/wiki/Jira_(software)). Anyone familiar with writing JIRA entries as part of morning [SCRUM](https://en.wikipedia.org/wiki/Scrum_(software_development)) meetings, (or bi-weekly [SCRUM SPRINT](https://en.wikipedia.org/wiki/Scrum_Sprint) meetings) will find **perriera/ng_imploder** to be well suited to the needs of JIRA/SCRUM/SPRINT.
+This project is already setup for use with [Jira (software)](https://en.wikipedia.org/wiki/Jira_(software)). Anyone familiar with writing JIRA entries as part of morning [SCRUM](https://en.wikipedia.org/wiki/Scrum_(software_development)) meetings, (or bi-weekly [SCRUM SPRINT](https://en.wikipedia.org/wiki/Scrum_Sprint) meetings) will find **perriera/extras_arc** to be well suited to the needs of JIRA/SCRUM/SPRINT.
 
 ## Conclusion
 Your brand new C++ project is now setup and ready for use with **[perriera/extras](https://github.com/perriera/extras)**, (which  comes bundled with [spdlog](https://github.com/gabime/spdlog), [cpr](https://github.com/libcpr/cpr), and [nlohmann json](https://github.com/nlohmann/json) support, plus others). 

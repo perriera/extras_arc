@@ -18,7 +18,7 @@
 
 
 #include <iostream>
-#include <ng_imploder/imploder/Imploder.hpp>
+#include <extras_arc/imploder/Imploder.hpp>
 #include <extras/filesystem/paths.hpp>
 
 #include "../vendor/catch.hpp"
@@ -32,11 +32,11 @@ using namespace extras;
 
 SCENARIO("Test ImploderInterface: rezip webflow", "[ImploderInterface]") {
 
-    ng::Filename before = ~extras::Paths("data/exparx.webflow.zip");
-    ng::Filename after = before + "_imploded";
-    ng::Imploder imploder(before);
+    arc::Filename before = ~extras::Paths("data/exparx.webflow.zip");
+    arc::Filename after = before + "_imploded";
+    arc::Imploder arc(before);
 
-    ng::ImploderInterface& i = imploder;
+    arc::ImploderInterface& i = arc;
 
     REQUIRE(fs::exists(i.original()));
     i.clean();

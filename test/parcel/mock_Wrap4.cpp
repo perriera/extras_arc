@@ -16,12 +16,12 @@
  *
  */
 
-#include <ng_imploder/parcel/Wrap.hpp>
-#include <ng_imploder/imploder/Imploder.hpp>
-#include <ng_imploder/parcel/Parcel.hpp>
+#include <extras_arc/parcel/Wrap.hpp>
+#include <extras_arc/imploder/Imploder.hpp>
+#include <extras_arc/parcel/Parcel.hpp>
 #include <extras/filesystem/paths.hpp>
 #include <extras/strings.hpp>
-#include <ng_imploder/imploder/Imploder.hpp>
+#include <extras_arc/imploder/Imploder.hpp>
 #include <iostream>
 #include <fstream>
 #include <filesystem>
@@ -37,7 +37,7 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
 
-    imploder::Parameter testdata = ~extras::Paths("data/exparx.webflow.zip");
+    arc::Parameter testdata = ~extras::Paths("data/exparx.webflow.zip");
 
     SystemException::assertion("rm -rf data/client", __INFO__);
     SystemException::assertion("rm -rf data/server", __INFO__);
@@ -46,67 +46,67 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
     auto copydata = "cp " + testdata + " " + "data/client";
     SystemException::assertion(copydata, __INFO__);
 
-    imploder::Parameter original = extras::replace_all(testdata, "data/", "data/client/");
-    imploder::Parameter wrapped = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip_packed.txt");
-    imploder::Parameter unwrapped = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip");
-    imploder::Parameter duplicate = extras::replace_all(original, "webflow.zip", "webflow.zip_exploded.zip");
-    imploder::Parameter wrapped_onServer;
-    imploder::Parameter filename_onServer;
-    Mock<imploder::WrapInterface> mock;
+    arc::Parameter original = extras::replace_all(testdata, "data/", "data/client/");
+    arc::Parameter wrapped = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip_packed.txt");
+    arc::Parameter unwrapped = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip");
+    arc::Parameter duplicate = extras::replace_all(original, "webflow.zip", "webflow.zip_exploded.zip");
+    arc::Parameter wrapped_onServer;
+    arc::Parameter filename_onServer;
+    Mock<arc::WrapInterface> mock;
 
     When(Method(mock, wrap))
         .AlwaysDo(
-            [](const imploder::Filename& filename) {
-                ng::Imploder imploder(filename);
-                imploder.implode();
-                imploder::Parcel parcel(imploder.imploded());
+            [](const arc::Filename& filename) {
+                arc::Imploder arc(filename);
+                arc.implode();
+                arc::Parcel parcel(arc.imploded());
                 parcel.pack();
                 return parcel.packed();
             });
 
     When(Method(mock, unWrap))
         .AlwaysDo(
-            [&wrapped_onServer](const imploder::Filename& filename) {
-                ng::Imploder imploder(filename);
-                imploder::Parcel parcel(imploder.imploded());
+            [&wrapped_onServer](const arc::Filename& filename) {
+                arc::Imploder arc(filename);
+                arc::Parcel parcel(arc.imploded());
                 parcel.unpack();
                 parcel.merge();
                 parcel.clean();
-                if (fs::exists(imploder.original())) {
-                    imploder.explode();
-                    return imploder.exploded();
+                if (fs::exists(arc.original())) {
+                    arc.explode();
+                    return arc.exploded();
                 }
                 return parcel.original();
             });
 
     When(Method(mock, merge))
         .AlwaysDo(
-            [](const imploder::Filename& filename) {
-                ng::Imploder imploder(filename);
-                if (fs::exists(imploder.original())) {
-                    imploder.merge();
+            [](const arc::Filename& filename) {
+                arc::Imploder arc(filename);
+                if (fs::exists(arc.original())) {
+                    arc.merge();
                     return filename;
                 }
-                FileNotFoundException::assertion(imploder.imploded(), __INFO__);
-                auto a = imploder.imploded();
-                auto b = imploder.original();
+                FileNotFoundException::assertion(arc.imploded(), __INFO__);
+                auto a = arc.imploded();
+                auto b = arc.original();
                 auto cmd = "mv " + a + " " + b;
                 SystemException::assertion(cmd, __INFO__);
-                imploder.clean();
+                arc.clean();
                 return filename;
             });
 
     When(Method(mock, clean))
         .AlwaysDo(
-            [](const imploder::Filename& filename) {
-                ng::Imploder imploder(filename);
-                imploder::Parcel parcel(imploder.imploded());
+            [](const arc::Filename& filename) {
+                arc::Imploder arc(filename);
+                arc::Parcel parcel(arc.imploded());
                 parcel.clean();
-                imploder.clean();
+                arc.clean();
                 return filename;
             });
 
-    imploder::WrapInterface& i = mock.get();
+    arc::WrapInterface& i = mock.get();
 
     i.clean(original);
 

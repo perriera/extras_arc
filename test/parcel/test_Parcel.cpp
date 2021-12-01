@@ -16,11 +16,11 @@
  *
  */
 
-#include <ng_imploder/parcel/Wrap.hpp>
-#include <ng_imploder/imploder/Imploder.hpp>
-#include <ng_imploder/parcel/Parcel.hpp>
-#include <ng_imploder/bin2hex/ConvertFile.hpp>
-#include <ng_imploder/parcel/Parcel.hpp>
+#include <extras_arc/parcel/Wrap.hpp>
+#include <extras_arc/imploder/Imploder.hpp>
+#include <extras_arc/parcel/Parcel.hpp>
+#include <extras_arc/bin2hex/ConvertFile.hpp>
+#include <extras_arc/parcel/Parcel.hpp>
 #include <extras/filesystem/paths.hpp>
 #include <iostream>
 #include <fstream>
@@ -35,9 +35,9 @@ namespace fs = std::filesystem;
 
 SCENARIO("Test ParcelInterface: hexToBin", "[ParcelInterface]") {
 
-    imploder::Parameter parcel = ~extras::Paths("data/cplusplusorg.freeformjs.imploded.zip");
+    arc::Parameter parcel = ~extras::Paths("data/cplusplusorg.freeformjs.imploded.zip");
 
-    imploder::Parcel packed(parcel);
+    arc::Parcel packed(parcel);
 
     if (fs::exists(packed.packed()))
         fs::remove(packed.packed());
@@ -46,7 +46,7 @@ SCENARIO("Test ParcelInterface: hexToBin", "[ParcelInterface]") {
     if (fs::exists(packed.duplicate()))
         fs::remove(packed.duplicate());
 
-    imploder::ParcelInterface& i = packed;
+    arc::ParcelInterface& i = packed;
     REQUIRE(i.original() == packed.original());
     REQUIRE(i.hexed() == packed.hexed());
     REQUIRE(i.packed() == packed.packed());

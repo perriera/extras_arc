@@ -16,9 +16,9 @@
  *
  */
 
-#include <ng_imploder/bin2hex/ConvertFile.hpp>
-#include <ng_imploder/parcel/Parcel.hpp>
-#include <ng_imploder/parcel/Exceptions.hpp>
+#include <extras_arc/bin2hex/ConvertFile.hpp>
+#include <extras_arc/parcel/Parcel.hpp>
+#include <extras_arc/parcel/Exceptions.hpp>
 #include <iostream>
 #include <fstream>
 #include <filesystem>
@@ -28,7 +28,7 @@ using namespace std;
 namespace fs = std::filesystem;
 
 namespace extras {
-    namespace imploder {
+    namespace arc {
 
         std::ostream& operator<<(std::ostream& out, const ParcelLine& obj) {
             out << " : " << std::hex << obj.lineNo();
@@ -69,11 +69,11 @@ namespace extras {
             FileNotFoundException::assertion(original(), __INFO__);
             std::ifstream inBin(original());
             std::ofstream outHex(hexed());
-            imploder::HexFile hexFile = imploder::ConvertFile().convertToHex(inBin, outHex);
-            imploder::PackedFile packedFile;
+            arc::HexFile hexFile = arc::ConvertFile().convertToHex(inBin, outHex);
+            arc::PackedFile packedFile;
             int cnt = 0;
             for (auto hexLine : hexFile) {
-                imploder::ParcelLine packedLine(++cnt, hexFile.size(), hexLine);
+                arc::ParcelLine packedLine(++cnt, hexFile.size(), hexLine);
                 packedFile.push_back(packedLine);
             }
             std::ofstream outPacked(packed());
@@ -88,12 +88,12 @@ namespace extras {
             FileNotFoundException::assertion(name, __INFO__);
             std::ifstream in(name);
 
-            imploder::HexFile hexFile;
-            imploder::PackedFile badCRC;
+            arc::HexFile hexFile;
+            arc::PackedFile badCRC;
 
-            imploder::HexFile buffer;
+            arc::HexFile buffer;
             while (in.good()) {
-                imploder::HexLine line;
+                arc::HexLine line;
                 getline(in, line);
                 if (line == "JUNK")
                     break;
@@ -104,7 +104,7 @@ namespace extras {
             for (auto text : buffer) {
                 std::stringstream ss;
                 ss << text;
-                imploder::ParcelLine line;
+                arc::ParcelLine line;
                 try {
                     ss >> line;
                     hexFile.push_back(line.hexLine());
@@ -119,11 +119,11 @@ namespace extras {
             if (badCRC.size() > 0)
                 cout << "BadCRC count: " << badCRC.size() << endl;
             std::ofstream outHex(hexed());
-            imploder::ConvertFile().saveHex(outHex, hexFile);
+            arc::ConvertFile().saveHex(outHex, hexFile);
             outHex.close();
             std::ifstream inHex(hexed());
             std::ofstream outBin(duplicate());
-            imploder::ConvertFile().convertToBin(inHex, outBin);
+            arc::ConvertFile().convertToBin(inHex, outBin);
             outBin.close();
             FileNotFoundException::assertion(duplicate(), __INFO__);
 
@@ -132,7 +132,7 @@ namespace extras {
         bool Parcel::verify_integrity() const {
             FileNotFoundException::assertion(original(), __INFO__);
             FileNotFoundException::assertion(duplicate(), __INFO__);
-            imploder::ParcelException::assertion(original(), duplicate(), __INFO__);
+            arc::ParcelException::assertion(original(), duplicate(), __INFO__);
             return true;
         }
 
@@ -172,5 +172,5 @@ namespace extras {
         }
 
 
-    }  // namespace imploder
+    }  // namespace arc
 }  // namespace extras

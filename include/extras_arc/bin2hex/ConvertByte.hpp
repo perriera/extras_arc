@@ -35,7 +35,7 @@
 #include <vector>
 
 namespace extras {
-    namespace imploder {
+    namespace arc {
 
         /**
          * @brief ByteArray, HexArray

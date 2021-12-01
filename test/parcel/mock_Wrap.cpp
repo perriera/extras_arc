@@ -16,7 +16,7 @@
  *
  */
 
-#include <ng_imploder/parcel/Wrap.hpp>
+#include <extras_arc/parcel/Wrap.hpp>
 #include <extras/filesystem/paths.hpp>
 #include <extras/strings.hpp>
 #include <iostream>
@@ -32,23 +32,23 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock WrapInterface: virgin", "[WrapInterface]") {
 
-    imploder::Parameter before = ~extras::Paths("data/exparx.webflow.zip");
-    imploder::Parameter after = extras::replace_all(before, "webflow.zip", "webflow.imploded.zip");
-    Mock<imploder::WrapInterface> mock;
+    arc::Parameter before = ~extras::Paths("data/exparx.webflow.zip");
+    arc::Parameter after = extras::replace_all(before, "webflow.zip", "webflow.imploded.zip");
+    Mock<arc::WrapInterface> mock;
 
     When(Method(mock, wrap))
         .AlwaysDo(
-            [&after](const imploder::Filename&) {
+            [&after](const arc::Filename&) {
                 return after;
             });
 
     When(Method(mock, unWrap))
         .AlwaysDo(
-            [&before](const imploder::Filename&) {
+            [&before](const arc::Filename&) {
                 return before;
             });
 
-    imploder::WrapInterface& i = mock.get();
+    arc::WrapInterface& i = mock.get();
     REQUIRE(i.wrap(before) == after);
     REQUIRE(i.unWrap(after) == before);
     Verify(Method(mock, wrap));

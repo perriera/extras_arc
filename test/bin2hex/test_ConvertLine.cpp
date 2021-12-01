@@ -16,7 +16,7 @@
  *
  */
 
-#include <ng_imploder/bin2hex/ConvertLine.hpp>
+#include <extras_arc/bin2hex/ConvertLine.hpp>
 #include <iostream>
 
 #include "../vendor/catch.hpp"
@@ -26,10 +26,10 @@ using namespace extras;
 
 SCENARIO("Test ConvertLineInterface", "[ConvertInterface]") {
 
-    imploder::ConvertLine converter;
-    imploder::ConvertLineInterface& i = converter;
-    imploder::BinLine binLine = { 'a', 'b', 'c' };
-    imploder::HexLine hexLine = i.binToHex(binLine);
+    arc::ConvertLine converter;
+    arc::ConvertLineInterface& i = converter;
+    arc::BinLine binLine = { 'a', 'b', 'c' };
+    arc::HexLine hexLine = i.binToHex(binLine);
     REQUIRE(i.hexToBin(hexLine) == binLine);
     REQUIRE(i.binToHex(binLine) == hexLine);
 }

@@ -32,11 +32,11 @@
 
 #include <extras/interfaces.hpp>
 #include <extras/strings.hpp>
-#include <ng_imploder/parcel/Parcel.hpp>
-#include <ng_imploder/imploder/Imploder.hpp>
+#include <extras_arc/parcel/Parcel.hpp>
+#include <extras_arc/imploder/Imploder.hpp>
 
 namespace extras {
-    namespace imploder {
+    namespace arc {
         /**
          * @brief WrapInterface
          *
@@ -73,7 +73,7 @@ namespace extras {
 
         };
 
-    }  // namespace imploder
+    }  // namespace arc
 
 }  // namespace extras
 

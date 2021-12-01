@@ -34,14 +34,14 @@
 #include <extras/filesystem/files.hpp>
 #include <extras/strings.hpp>
 #include <extras/crcs.hpp>
-#include <ng_imploder/parcel/Types.hpp>
+#include <extras_arc/parcel/Types.hpp>
 #include <iostream>
 #include <sstream>
 #include <netinet/in.h>
 #include <sys/socket.h>
 
 namespace extras {
-    namespace imploder {
+    namespace arc {
 
 
         /**
@@ -73,13 +73,13 @@ namespace extras {
                     throw ParcelException("Line number out of sync:"
                         + std::to_string(line_no1) + std::to_string(line_no2), ref);
             }
-            static void assertion(imploder::HexLine hexLine, const extras::WhereAmI& ref) {
+            static void assertion(arc::HexLine hexLine, const extras::WhereAmI& ref) {
                 for (auto c : hexLine)
                     if (!isxdigit(c))
                         throw ParcelException("Bad HexLine:" + hexLine, ref);
             }
-            static void assertion(imploder::CRC crc, imploder::HexLine hexLine, const extras::WhereAmI& ref) {
-                imploder::ParcelLine check(0, 0, hexLine);
+            static void assertion(arc::CRC crc, arc::HexLine hexLine, const extras::WhereAmI& ref) {
+                arc::ParcelLine check(0, 0, hexLine);
                 if (check.checksum() != crc)
                     throw ParcelException("Bad CRC:" + hexLine, ref);
             }
@@ -87,7 +87,7 @@ namespace extras {
             static void assertion(const Filename& parcel, const Filename& unpacked, const extras::WhereAmI& ref);
         };
 
-    }  // namespace imploder
+    }  // namespace arc
 
 }  // namespace extras
 

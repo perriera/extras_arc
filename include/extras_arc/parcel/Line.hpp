@@ -33,14 +33,14 @@
 #include <extras/interfaces.hpp>
 #include <extras/strings.hpp>
 #include <extras/crcs.hpp>
-#include <ng_imploder/bin2hex/ConvertLine.hpp>
+#include <extras_arc/bin2hex/ConvertLine.hpp>
 #include <iostream>
 #include <sstream>
 #include <netinet/in.h>
 #include <sys/socket.h>
 
 namespace extras {
-    namespace imploder {
+    namespace arc {
         /**
          * @brief ParcelLineInterface
          *
@@ -87,7 +87,7 @@ namespace extras {
 
         using PackedFile = std::vector<ParcelLine>;
 
-    }  // namespace imploder
+    }  // namespace arc
 
 }  // namespace extras
 

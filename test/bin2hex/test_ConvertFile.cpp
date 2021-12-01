@@ -16,7 +16,7 @@
  *
  */
 
-#include <ng_imploder/bin2hex/ConvertFile.hpp>
+#include <extras_arc/bin2hex/ConvertFile.hpp>
 #include <extras/filesystem/paths.hpp>
 #include <iostream>
 #include <fstream>
@@ -30,8 +30,8 @@ namespace fs = std::filesystem;
 
 SCENARIO("Test ConvertFileInterface: hexToBin", "[ConvertInterface]") {
 
-    imploder::HexFile hexFile;
-    imploder::BinFile binFile;
+    arc::HexFile hexFile;
+    arc::BinFile binFile;
 
     std::string h1 = ~extras::Paths("data/send.txt");
     std::ifstream in(h1);
@@ -44,8 +44,8 @@ SCENARIO("Test ConvertFileInterface: hexToBin", "[ConvertInterface]") {
             hexFile.push_back(line);
     }
 
-    imploder::ConvertFile converter;
-    imploder::ConvertFileInterface& i = converter;
+    arc::ConvertFile converter;
+    arc::ConvertFileInterface& i = converter;
     binFile = i.hexToBin(hexFile);
     hexFile = i.binToHex(binFile);
     REQUIRE(i.hexToBin(hexFile) == binFile);
@@ -55,8 +55,8 @@ SCENARIO("Test ConvertFileInterface: hexToBin", "[ConvertInterface]") {
 
 SCENARIO("Test ConvertFileInterface: saveHex", "[ConvertInterface]") {
 
-    std::string b1 = ~extras::Paths("build/run-unittests-ng_imploder");
-    auto b2 = "/tmp/run-unittests-ng_imploder";
+    std::string b1 = ~extras::Paths("build/run-unittests-extras_arc");
+    auto b2 = "/tmp/run-unittests-extras_arc";
     std::string h1 = ~extras::Paths("data/send.txt");
     auto h2 = "/tmp/send.txt";
     std::ifstream inBin(b1);
@@ -64,11 +64,11 @@ SCENARIO("Test ConvertFileInterface: saveHex", "[ConvertInterface]") {
     std::ifstream inHex(h1);
     REQUIRE(inHex.good());
 
-    imploder::BinFile binFile;
-    imploder::HexFile hexFile;
+    arc::BinFile binFile;
+    arc::HexFile hexFile;
 
-    imploder::ConvertFile converter;
-    imploder::ConvertFileInterface& i = converter;
+    arc::ConvertFile converter;
+    arc::ConvertFileInterface& i = converter;
     binFile = i.loadBin(inBin, 40);
     hexFile = i.loadHex(inHex);
     {
@@ -86,25 +86,25 @@ SCENARIO("Test ConvertFileInterface: saveHex", "[ConvertInterface]") {
 
 SCENARIO("Test ConvertFileInterface: saveHex2", "[ConvertInterface]") {
 
-    auto f1 = "build/run-unittests-ng_imploder";
-    auto f2 = "/tmp/run-unittests-ng_imploder.txt";
-    auto f3 = "/tmp/run-unittests-ng_imploder";
+    auto f1 = "build/run-unittests-extras_arc";
+    auto f2 = "/tmp/run-unittests-extras_arc.txt";
+    auto f3 = "/tmp/run-unittests-extras_arc";
 
     std::ifstream inBin(f1);
     REQUIRE(inBin.good());
-    imploder::BinFile binFile;
-    imploder::ConvertFile converter;
+    arc::BinFile binFile;
+    arc::ConvertFile converter;
     binFile = converter.loadBin(inBin);
     {
         std::ofstream outHex(f2);
         REQUIRE(outHex.good());
-        imploder::HexFile hexFile = converter.binToHex(binFile);
+        arc::HexFile hexFile = converter.binToHex(binFile);
         converter.saveHex(outHex, hexFile);
     }
 
     std::ifstream inHex(f2);
     REQUIRE(inHex.good());
-    imploder::HexFile hexFile = converter.loadHex(inHex);
+    arc::HexFile hexFile = converter.loadHex(inHex);
     binFile = converter.hexToBin(hexFile);
     {
         std::ofstream outBin(f3);
