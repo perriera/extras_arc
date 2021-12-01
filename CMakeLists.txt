@@ -155,6 +155,12 @@ endif()
 # declarations seperate, we place any sources that have a main() in the instances/ folder
 #
 if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_EXECUTABLES)
+add_executable(parcel instances/parcel.cpp) 
+target_include_directories(parcel PUBLIC ${INCLUDES})
+target_link_libraries(parcel PRIVATE ${PROJECT_NAME} stdc++fs extras extras_arc )
+endif()
+
+if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_EXECUTABLES)
 add_executable(implode instances/implode.cpp) 
 target_include_directories(implode PUBLIC ${INCLUDES})
 target_link_libraries(implode PRIVATE ${PROJECT_NAME} stdc++fs extras )
