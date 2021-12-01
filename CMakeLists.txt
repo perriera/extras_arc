@@ -157,7 +157,7 @@ endif()
 if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_EXECUTABLES)
 add_executable(parcel instances/parcel.cpp) 
 target_include_directories(parcel PUBLIC ${INCLUDES})
-target_link_libraries(parcel PRIVATE ${PROJECT_NAME} stdc++fs extras extras_arc )
+target_link_libraries(parcel PRIVATE ${PROJECT_NAME} stdc++fs extras )
 endif()
 
 if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_EXECUTABLES)
