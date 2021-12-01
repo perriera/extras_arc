@@ -4,8 +4,8 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).</br>
 > To add a tag to the git repository do:
-> > git tag -a v0.8.0 -m "Now using v5.5.0"</br>
-> > git push origin v0.8.0
+> > git tag -a v0.9.0 -m "Merged Parcel/Hex2bin"</br>
+> > git push origin v0.9.0
 > 
 
 IMPORTANT: 
@@ -28,6 +28,10 @@ Correct URL for github, (for source compare)</br>
 Adding mock test cases </br>
 Adding unit test cases </br>
 Updated README.md accordinging</br>
+
+#### 0.9.0 (2021-11-30)
+### Merged 
+- Merged Parcel/Hex2bin
 
 #### 0.8.0 (2021-11-30)
 ### Changed 
@@ -141,7 +145,8 @@ Updated README.md accordinging</br>
 ### Removed
 - Conan package manager deprecated
 
-[Unreleased]: https://github.com/perriera/ng_imploder/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/perriera/ng_imploder/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/perriera/ng_imploder/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/perriera/ng_imploder/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/perriera/ng_imploder/compare/v0.6.5...v0.7.0
 [0.6.5]: https://github.com/perriera/ng_imploder/compare/v0.6.4...v0.6.5
