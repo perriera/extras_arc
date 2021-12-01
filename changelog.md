@@ -91,7 +91,7 @@ Updated README.md accordinging</br>
 #### 0.3.0 (2021-11-14)
 ### Added 
 - ImploderInterface
-- MAKE_NG_IMPLODER_LIBRARY_ONLY support
+- MAKE_EXTRAS_ARC_LIBRARY_ONLY support
 
 #### 0.2.0 (2021-11-14)
 ### Changed 

@@ -42,7 +42,7 @@ However, you not done yet:
 Inside your favorite editor, (or search & replace command utility):
 
  1. Global search and replace **extras_arc** to <project_name> (case sensitive)
- 2. Global search and replace **NG_IMPLODER** to <PROJECT_NAME> (case sensitive)
+ 2. Global search and replace **EXTRAS_ARC** to <PROJECT_NAME> (case sensitive)
  3. change directory name '**include/extras_arc**' to '**include/<project_name>**'
 
 Then do the following:
@@ -56,10 +56,10 @@ This will re-create the project now with all references to extras_arc changed to
 	build/run-unittests-<your_project_name>
 
 ## Changelog.md
-When you go to make changes to your changelog.md you should maintain the version number of your project using 'include/version.hpp'. For example, in your version.hpp will look something similiar to the following but all referenced to NG_IMPLODER will be changed to <YOUR_PROJECT_NAME>
+When you go to make changes to your changelog.md you should maintain the version number of your project using 'include/version.hpp'. For example, in your version.hpp will look something similiar to the following but all referenced to EXTRAS_ARC will be changed to <YOUR_PROJECT_NAME>
 
-	#ifndef _NG_IMPLODER_VERSION_HPP
-	#define _NG_IMPLODER_VERSION_HPP
+	#ifndef _EXTRAS_ARC_VERSION_HPP
+	#define _EXTRAS_ARC_VERSION_HPP
 
 	/**
 	 * @file version.hpp
@@ -69,14 +69,14 @@ When you go to make changes to your changelog.md you should maintain the version
 	 * @date 2021-08-08
 	 */
 
-	#define NG_IMPLODER_VER_MAJOR 0
-	#define NG_IMPLODER_VER_MINOR 5
-	#define NG_IMPLODER_VER_PATCH 4
+	#define EXTRAS_ARC_VER_MAJOR 0
+	#define EXTRAS_ARC_VER_MINOR 5
+	#define EXTRAS_ARC_VER_PATCH 4
 
-	#define NG_IMPLODER_VERSION \
-	  (NG_IMPLODER_VER_MAJOR * 10000 + NG_IMPLODER_VER_MINOR * 100 + NG_IMPLODER_VER_PATCH)
+	#define EXTRAS_ARC_VERSION \
+	  (EXTRAS_ARC_VER_MAJOR * 10000 + EXTRAS_ARC_VER_MINOR * 100 + EXTRAS_ARC_VER_PATCH)
 
-	#endif// _NG_IMPLODER_VERSION_HPP
+	#endif// _EXTRAS_ARC_VERSION_HPP
 
 From here add this to your github project and you are good to go:
 

@@ -12,7 +12,7 @@ include(cmake/utils.cmake)
 extras_arc_get_version()
 project(
   extras_arc
-  VERSION ${NG_IMPLODER_VERSION}
+  VERSION ${EXTRAS_ARC_VERSION}
   LANGUAGES CXX
 )
 
@@ -54,16 +54,16 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -pedantic -fPIC")
 #
 # NOTE: add additional project options
 #
-option(NG_IMPLODER_PRODUCTION "Production build" OFF)
+option(EXTRAS_ARC_PRODUCTION "Production build" OFF)
 
 #
-# NOTE: Build defaults to production, cmake -DNG_IMPLODER_PRODUCTION=OFF will build debug with tests
+# NOTE: Build defaults to production, cmake -DEXTRAS_ARC_PRODUCTION=OFF will build debug with tests
 #
-message(STATUS "MAKE_NG_IMPLODER_LIBRARY_ONLY is ${MAKE_NG_IMPLODER_LIBRARY_ONLY}")
-if(MAKE_NG_IMPLODER_LIBRARY_ONLY)
+message(STATUS "MAKE_EXTRAS_ARC_LIBRARY_ONLY is ${MAKE_EXTRAS_ARC_LIBRARY_ONLY}")
+if(MAKE_EXTRAS_ARC_LIBRARY_ONLY)
   option(BUILD_TESTS "Build tests" OFF)
   option(DEBUG "Debug Build" OFF)
-  set(NG_IMPLODER_TESTS OFF)
+  set(EXTRAS_ARC_TESTS OFF)
   message(STATUS "BUILD_TESTS is ${BUILD_TESTS}")
   message(STATUS "DEBUG is ${DEBUG}")
 else()
@@ -72,15 +72,15 @@ else()
   message(STATUS "BUILD_TESTS is ${BUILD_TESTS}")
   message(STATUS "DEBUG is ${DEBUG}")
 
-  if(NOT NG_IMPLODER_PRODUCTION)
+  if(NOT EXTRAS_ARC_PRODUCTION)
     print(STATUS "Building ${PROJECT_NAME}-${PROJECT_VERSION} [DEBUG]")
     set(CMAKE_BUILD_TYPE Debug)
-    set(NG_IMPLODER_TESTS ON)
+    set(EXTRAS_ARC_TESTS ON)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
   else()
     print(STATUS "Building ${PROJECT_NAME}-${PROJECT_VERSION} [RELEASE]")
-    set(NG_IMPLODER_TESTS OFF)
+    set(EXTRAS_ARC_TESTS OFF)
     set(CMAKE_BUILD_TYPE Release)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3")
@@ -122,14 +122,14 @@ endif()
 #
 # HACK: glob src files and header files
 #
-file(GLOB_RECURSE NG_IMPLODER_HEADERS CONFIGURE_DEPENDS "${INCLUDES}/${PROJECT_NAME}/*.hpp")
-file(GLOB_RECURSE NG_IMPLODER_SOURCE CONFIGURE_DEPENDS "${SOURCES}/*.cpp")
+file(GLOB_RECURSE EXTRAS_ARC_HEADERS CONFIGURE_DEPENDS "${INCLUDES}/${PROJECT_NAME}/*.hpp")
+file(GLOB_RECURSE EXTRAS_ARC_SOURCE CONFIGURE_DEPENDS "${SOURCES}/*.cpp")
 
 #
 # NOTE: declare libraries here all source should be placed into a single library, (whether they be
 # shared or static)
 #
-add_library(${PROJECT_NAME} SHARED ${NG_IMPLODER_HEADERS} ${NG_IMPLODER_SOURCE})
+add_library(${PROJECT_NAME} SHARED ${EXTRAS_ARC_HEADERS} ${EXTRAS_ARC_SOURCE})
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_link_libraries(${PROJECT_NAME} PRIVATE stdc++fs extras)
 
@@ -137,11 +137,11 @@ target_link_libraries(${PROJECT_NAME} PRIVATE stdc++fs extras)
 # NOTE: declare unit test cases here all source should have adequate test cases whether they be mock
 # or unit tests, (or both)
 #
-if(NG_IMPLODER_TESTS)
+if(EXTRAS_ARC_TESTS)
   print(STATUS "Building tests")
-  file(GLOB_RECURSE NG_IMPLODER_TESTS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/test/*.cpp")
+  file(GLOB_RECURSE EXTRAS_ARC_TESTS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/test/*.cpp")
   set(TEST_EXEC "run-unittests-${PROJECT_NAME}")
-  add_executable(${TEST_EXEC} ${NG_IMPLODER_TESTS})
+  add_executable(${TEST_EXEC} ${EXTRAS_ARC_TESTS})
   target_include_directories(${TEST_EXEC} PUBLIC ${INCLUDES})
   target_link_libraries(${TEST_EXEC} PRIVATE ${PROJECT_NAME} stdc++fs extras )
 endif()
@@ -152,7 +152,7 @@ endif()
 # includes ALL headers and sources under include/ and src/. So, to keep two or more main() 
 # declarations seperate, we place any sources that have a main() in the instances/ folder
 #
-if(NOT MAKE_NG_IMPLODER_LIBRARY_ONLY OR MAKE_NG_IMPLODER_LIBRARY_EXECUTABLES)
+if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_EXECUTABLES)
 add_executable(implode instances/implode.cpp) 
 target_include_directories(implode PUBLIC ${INCLUDES})
 target_link_libraries(implode PRIVATE ${PROJECT_NAME} stdc++fs extras )

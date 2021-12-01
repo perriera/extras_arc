@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef _EXTRAS_NG_IMPLODER_HPP
-#define _EXTRAS_NG_IMPLODER_HPP
+#ifndef _EXTRAS_EXTRAS_ARC_HPP
+#define _EXTRAS_EXTRAS_ARC_HPP
 
  /**
   * @brief the "MIT/X Consortium License", (adapted for EXPARX.COM)
@@ -134,4 +134,4 @@ namespace extras {
   }
 }
 
-#endif // _EXTRAS_NG_IMPLODER_HPP
+#endif // _EXTRAS_EXTRAS_ARC_HPP
