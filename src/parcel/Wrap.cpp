@@ -39,7 +39,7 @@ namespace extras {
          * @return Filename
          */
         Filename ParcelImploder::wrap(const Filename& filename) const {
-            ng::Imploder arc(filename);
+            arc::Imploder arc(filename);
             arc.implode();
             arc::Parcel parcel(arc.imploded());
             parcel.pack();
@@ -47,7 +47,7 @@ namespace extras {
         }
 
         Filename ParcelImploder::wrapped(const Filename& filename) const {
-            ng::Imploder arc(filename);
+            arc::Imploder arc(filename);
             arc::Parcel parcel(arc.imploded());
             return parcel.packed();
         }
@@ -59,7 +59,7 @@ namespace extras {
          * @return Filename
          */
         Filename ParcelImploder::unWrap(const Filename& filename) const {
-            ng::Imploder arc(filename);
+            arc::Imploder arc(filename);
             arc::Parcel parcel(arc.imploded());
             parcel.unpack();
             parcel.merge();
@@ -72,7 +72,7 @@ namespace extras {
         }
 
         Filename ParcelImploder::unWrapped(const Filename& filename) const {
-            ng::Imploder arc(filename);
+            arc::Imploder arc(filename);
             arc::Parcel parcel(arc.imploded());
             return arc.exploded();
         }
@@ -84,7 +84,7 @@ namespace extras {
          * @return Filename
          */
         Filename ParcelImploder::merge(const Filename& filename) const {
-            ng::Imploder arc(filename);
+            arc::Imploder arc(filename);
             if (fs::exists(arc.original())) {
                 arc.merge();
                 return filename;
@@ -105,7 +105,7 @@ namespace extras {
          * @return Filename
          */
         Filename ParcelImploder::clean(const Filename& filename) const {
-            ng::Imploder arc(filename);
+            arc::Imploder arc(filename);
             arc::Parcel parcel(arc.imploded());
             parcel.clean();
             arc.clean();

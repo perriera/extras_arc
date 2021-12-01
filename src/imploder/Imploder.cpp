@@ -28,7 +28,7 @@ namespace fs = std::filesystem;
 using namespace std;
 
 namespace extras {
-    namespace ng {
+    namespace arc {
 
         /**
          * @brief unzip

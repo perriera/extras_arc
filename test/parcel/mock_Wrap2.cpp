@@ -42,7 +42,7 @@ SCENARIO("Mock WrapInterface: Imploder", "[WrapInterface]") {
     When(Method(mock, wrap))
         .AlwaysDo(
             [](const arc::Filename& filename) {
-                ng::Imploder arc(filename);
+                arc::Imploder arc(filename);
                 arc.implode();
                 return arc.imploded();
             });
@@ -50,14 +50,14 @@ SCENARIO("Mock WrapInterface: Imploder", "[WrapInterface]") {
     When(Method(mock, unWrap))
         .AlwaysDo(
             [](const arc::Filename& filename) {
-                ng::Imploder arc(filename);
+                arc::Imploder arc(filename);
                 arc.explode();
                 return arc.exploded();
             });
 
     arc::WrapInterface& i = mock.get();
 
-    ng::Imploder arc(original);
+    arc::Imploder arc(original);
     arc.clean();
 
     REQUIRE(fs::exists(arc.original()));

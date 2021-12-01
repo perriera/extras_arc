@@ -33,9 +33,9 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock ImploderInterface: part2", "[ImploderInterface]") {
 
-    ng::Filename original = ~extras::Paths("data/exparx.webflow.zip");
-    ng::Imploder arc(original);
-    Mock<ng::ImploderInterface> mock;
+    arc::Filename original = ~extras::Paths("data/exparx.webflow.zip");
+    arc::Imploder arc(original);
+    Mock<arc::ImploderInterface> mock;
 
     When(Method(mock, implode)).AlwaysDo([&arc, &original]() {
         arc.unzip(original, original + ".dir");
@@ -72,7 +72,7 @@ SCENARIO("Mock ImploderInterface: part2", "[ImploderInterface]") {
         arc.rmdir(original + ".dir");
         });
 
-    ng::ImploderInterface& i = mock.get();
+    arc::ImploderInterface& i = mock.get();
     i.implode();
     i.explode();
     Verify(Method(mock, implode));

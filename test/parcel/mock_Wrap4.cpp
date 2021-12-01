@@ -57,7 +57,7 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
     When(Method(mock, wrap))
         .AlwaysDo(
             [](const arc::Filename& filename) {
-                ng::Imploder arc(filename);
+                arc::Imploder arc(filename);
                 arc.implode();
                 arc::Parcel parcel(arc.imploded());
                 parcel.pack();
@@ -67,7 +67,7 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
     When(Method(mock, unWrap))
         .AlwaysDo(
             [&wrapped_onServer](const arc::Filename& filename) {
-                ng::Imploder arc(filename);
+                arc::Imploder arc(filename);
                 arc::Parcel parcel(arc.imploded());
                 parcel.unpack();
                 parcel.merge();
@@ -82,7 +82,7 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
     When(Method(mock, merge))
         .AlwaysDo(
             [](const arc::Filename& filename) {
-                ng::Imploder arc(filename);
+                arc::Imploder arc(filename);
                 if (fs::exists(arc.original())) {
                     arc.merge();
                     return filename;
@@ -99,7 +99,7 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
     When(Method(mock, clean))
         .AlwaysDo(
             [](const arc::Filename& filename) {
-                ng::Imploder arc(filename);
+                arc::Imploder arc(filename);
                 arc::Parcel parcel(arc.imploded());
                 parcel.clean();
                 arc.clean();

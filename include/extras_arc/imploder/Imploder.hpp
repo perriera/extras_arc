@@ -34,7 +34,7 @@
 #include <extras/interfaces.hpp>
 
 namespace extras {
-  namespace ng {
+  namespace arc {
 
     /**
      * @brief interface ImploderInterfac
