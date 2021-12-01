@@ -173,7 +173,13 @@ endif()
 #
 # NOTE: Install all shared libraries
 #
-install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION lib)
+install(TARGETS 
+  parcel
+  implode
+  explode
+  ${PROJECT_NAME}
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION include)
 
 #
