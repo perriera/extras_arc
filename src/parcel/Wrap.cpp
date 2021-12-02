@@ -18,7 +18,7 @@
 
 #include <extras_arc/parcel/Parcel.hpp>
 #include <extras_arc/parcel/Wrap.hpp>
-#include <extras_arc/imploder/Imploder.hpp>
+#include <extras_arc/imploder.hpp>
 #include <extras/filesystem/system.hpp>
 #include <extras/filesystem/files.hpp>
 

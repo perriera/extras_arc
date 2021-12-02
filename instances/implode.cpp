@@ -16,7 +16,7 @@
  *
  */
 
-#include <extras_arc/imploder/Imploder.hpp>
+#include <extras_arc/imploder.hpp>
 #include <extras/status/StatusLine.hpp>
 #include <iostream>
 

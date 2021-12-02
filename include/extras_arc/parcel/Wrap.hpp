@@ -33,7 +33,7 @@
 #include <extras/interfaces.hpp>
 #include <extras/strings.hpp>
 #include <extras_arc/parcel/Parcel.hpp>
-#include <extras_arc/imploder/Imploder.hpp>
+#include <extras_arc/imploder.hpp>
 
 namespace extras {
     namespace arc {

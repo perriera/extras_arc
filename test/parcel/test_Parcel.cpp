@@ -17,7 +17,7 @@
  */
 
 #include <extras_arc/parcel/Wrap.hpp>
-#include <extras_arc/imploder/Imploder.hpp>
+#include <extras_arc/imploder.hpp>
 #include <extras_arc/parcel/Parcel.hpp>
 #include <extras_arc/bin2hex/ConvertFile.hpp>
 #include <extras_arc/parcel/Parcel.hpp>
