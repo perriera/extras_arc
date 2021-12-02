@@ -19,6 +19,8 @@
 #include <extras_arc/bin2hex/ConvertFile.hpp>
 #include <extras_arc/parcel.hpp>
 #include <extras_arc/exceptions.hpp>
+#include <extras/devices/ansi_colors.hpp>
+#include <extras/exceptions.hpp>
 #include <iostream>
 #include <fstream>
 #include <filesystem>
@@ -81,6 +83,7 @@ namespace extras {
                 outPacked << packedLine << std::endl;
             outPacked.close();
             FileNotFoundException::assertion(packed(), __INFO__);
+            diagnostics("");
         }
 
         void Parcel::unpack() const {
@@ -126,13 +129,21 @@ namespace extras {
             arc::ConvertFile().convertToBin(inHex, outBin);
             outBin.close();
             FileNotFoundException::assertion(duplicate(), __INFO__);
+            diagnostics("");
+        }
 
+        void ParcelCmdLine::diagnostics(std::string msg) const {
+            if (msg.size() > 0)
+                std::cout << msg << std::endl;
+            auto cmd = "ls -la " + original() + "*";
+            extras::SystemException::assertion(cmd, __INFO__);
         }
 
         bool Parcel::verify_integrity() const {
             FileNotFoundException::assertion(original(), __INFO__);
             FileNotFoundException::assertion(duplicate(), __INFO__);
             arc::ParcelException::assertion(original(), duplicate(), __INFO__);
+            diagnostics("No differences detected");
             return true;
         }
 
@@ -143,6 +154,7 @@ namespace extras {
             auto cmd = "cp " + from + " " + to;
             extras::SystemException::assertion(cmd, __INFO__);
             fs::remove(from);
+            diagnostics("");
         }
 
         void Parcel::clean() const {
@@ -152,23 +164,31 @@ namespace extras {
                 fs::remove(hexed());
             if (fs::exists(duplicate()))
                 fs::remove(duplicate());
+            diagnostics("");
         }
 
         void Parcel::cat() const {
             FileNotFoundException::assertion(packed(), __INFO__);
-            std::string cmd = "cat " + packed();
-            system(cmd.c_str());
+            std::string cmd = "cat " + packed() + " | less";
+            SystemException::assertion(cmd.c_str(), __INFO__);
         }
 
         void Parcel::dir() const {
             std::string cmd = "ls -la " + original() + "*";
-            system(cmd.c_str());
+            SystemException::assertion(cmd.c_str(), __INFO__);
         }
 
         void Parcel::unzip() const {
             FileNotFoundException::assertion(duplicate(), __INFO__);
             string cmd = "unzip -o " + duplicate() + " -d /tmp ";
-            system(cmd.c_str());
+            SystemException::assertion(cmd.c_str(), __INFO__);
+            diagnostics("");
+        }
+
+        void Parcel::help() const {
+            FileNotFoundException::assertion("HOWTO-parcel.md", __INFO__);
+            string cmd = "cat HOWTO-parcel.md | less ";
+            SystemException::assertion(cmd.c_str(), __INFO__);
         }
 
 

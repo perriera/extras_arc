@@ -31,12 +31,13 @@
             "miDebuggerPath": "/usr/bin/gdb"
         },
         {
-            "name": "helloworld",
+            "name": "parcel",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/helloworld",
+            "program": "${workspaceFolder}/build/parcel",
             "args": [
-                "data/pgn/kasparov_muratkuliev_1973.PGN"
+                "data/exparx.webflow.zip",
+                "-verify",
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

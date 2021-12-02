@@ -29,15 +29,20 @@ namespace fs = std::filesystem;
 int main(int argc, const char** argv)
 {
   if (argc < 3) {
-    cout << "parcel [-pack|-unpack|-verify|-clean|-unzip] <filename>" << endl;
+    cout << "parcel [-pack|-unpack|-verify|-clean|-unzip|-merge|-help] <filename>" << endl;
+    if (argc > 1) {
+      std::string option = argv[1];
+      if (option == "-help")
+        arc::Parcel("ignore").help();
+    }
     return 0;
   }
   try {
-    std::string option = argv[1];
-    auto filename = argv[2];
+    std::string option = argv[2];
+    auto filename = argv[1];
     FileNotFoundException::assertion(filename, __INFO__);
     arc::Parameter parameter = ~extras::Paths(filename);
-    arc::Parcel parcel(parameter);
+    arc::ParcelCmdLine parcel(parameter);
     if (option == "-pack")
       parcel.pack();
     if (option == "-unpack")
@@ -48,10 +53,14 @@ int main(int argc, const char** argv)
       parcel.clean();
     if (option == "-cat")
       parcel.cat();
+    if (option == "-merge")
+      parcel.merge();
     if (option == "-dir")
       parcel.dir();
     if (option == "-unzip")
       parcel.unzip();
+    if (option == "-help")
+      parcel.help();
   }
   catch (exception& ex) {
     cout << ex.what() << endl;

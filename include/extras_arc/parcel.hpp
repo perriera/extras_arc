@@ -70,7 +70,9 @@ namespace extras {
             virtual void cat() const pure;
             virtual void dir() const pure;
             virtual void unzip() const pure;
+            virtual void help() const pure;
 
+            virtual void diagnostics(std::string msg) const pure;
         };
 
         concrete class Parcel  implements ParcelInterface {
@@ -99,6 +101,17 @@ namespace extras {
             virtual void cat() const override;
             virtual void dir() const override;
             virtual void unzip() const override;
+            virtual void help() const override;
+
+            virtual void diagnostics(std::string) const override {};
+
+        };
+
+        concrete class ParcelCmdLine  extends Parcel {
+        public:
+            ParcelCmdLine(const Parameter& parcel) : Parcel(parcel) {
+            }
+            virtual void diagnostics(std::string msg = "") const override;
 
         };
 
