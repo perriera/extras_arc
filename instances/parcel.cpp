@@ -42,7 +42,7 @@ int main(int argc, const char** argv)
     std::string option = argv[2];
     auto filename = argv[1];
     FileNotFoundException::assertion(filename, __INFO__);
-    arc::Parameter parameter = ~extras::Paths(filename);
+    Parameter parameter = ~extras::Paths(filename);
     arc::ParcelCmdLine parcel(parameter);
     if (option == "-pack")
       parcel.pack();

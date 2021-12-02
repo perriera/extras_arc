@@ -35,7 +35,7 @@ namespace fs = std::filesystem;
 
 SCENARIO("Test ParcelInterface: hexToBin", "[ParcelInterface]") {
 
-    arc::Parameter parcel = ~extras::Paths("data/cplusplusorg.freeformjs.imploded.zip");
+    Parameter parcel = ~extras::Paths("data/cplusplusorg.freeformjs.imploded.zip");
 
     arc::Parcel packed(parcel);
 

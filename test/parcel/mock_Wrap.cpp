@@ -32,19 +32,19 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock WrapInterface: virgin", "[WrapInterface]") {
 
-    arc::Parameter before = ~extras::Paths("data/exparx.webflow.zip");
-    arc::Parameter after = extras::replace_all(before, "webflow.zip", "webflow.imploded.zip");
+    Parameter before = ~extras::Paths("data/exparx.webflow.zip");
+    Parameter after = extras::replace_all(before, "webflow.zip", "webflow.imploded.zip");
     Mock<arc::WrapInterface> mock;
 
     When(Method(mock, wrap))
         .AlwaysDo(
-            [&after](const arc::Filename&) {
+            [&after](const Filename&) {
                 return after;
             });
 
     When(Method(mock, unWrap))
         .AlwaysDo(
-            [&before](const arc::Filename&) {
+            [&before](const Filename&) {
                 return before;
             });
 

@@ -46,7 +46,7 @@ int main(int argc, const char** argv)
         std::string option = argc == 2 ? "-implode" : argv[2];
         auto filename = argv[1];
         FileNotFoundException::assertion(filename, __INFO__);
-        arc::Parameter parameter = ~extras::Paths(filename);
+        Parameter parameter = ~extras::Paths(filename);
         arc::ImploderCmdLine imploder(parameter);
         if (option == "-implode")
             imploder.implode();

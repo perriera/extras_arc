@@ -36,10 +36,10 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock ParcelInterface: hexToBin", "[ParcelInterface]") {
 
-    arc::Parameter original = ~extras::Paths("data/cplusplusorg.freeformjs.imploded.zip");
-    arc::Parameter hexed = original + "_hexed";
-    arc::Parameter packed = original + "_packed";
-    arc::Parameter duplicate = original + "_unpacked";
+    Parameter original = ~extras::Paths("data/cplusplusorg.freeformjs.imploded.zip");
+    Parameter hexed = original + "_hexed";
+    Parameter packed = original + "_packed";
+    Parameter duplicate = original + "_unpacked";
     Mock<arc::ParcelInterface> mock;
     When(Method(mock, original)).AlwaysReturn(original);
     When(Method(mock, hexed)).AlwaysReturn(hexed);

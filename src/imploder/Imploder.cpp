@@ -50,7 +50,7 @@ namespace extras {
          */
         void Imploder::rezip(const Filename& filename, const Path& from) const {
             FileNotFoundException::assertion(original(), __INFO__);
-            FileNotFoundException::assertion(from, __INFO__);
+            PathNotFoundException::assertion(from, __INFO__);
             auto script = original() + ".sh";
             std::ofstream ss(script);
             ss << "cp " + original() << ' ' << filename << std::endl;

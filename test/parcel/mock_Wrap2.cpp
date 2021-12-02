@@ -34,14 +34,14 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock WrapInterface: Imploder", "[WrapInterface]") {
 
-    arc::Parameter original = ~extras::Paths("data/exparx.webflow.zip");
-    arc::Parameter imploded = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip");
-    arc::Parameter exploded = extras::replace_all(original, "webflow.zip", "webflow.zip_exploded.zip");
+    Parameter original = ~extras::Paths("data/exparx.webflow.zip");
+    Parameter imploded = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip");
+    Parameter exploded = extras::replace_all(original, "webflow.zip", "webflow.zip_exploded.zip");
     Mock<arc::WrapInterface> mock;
 
     When(Method(mock, wrap))
         .AlwaysDo(
-            [](const arc::Filename& filename) {
+            [](const Filename& filename) {
                 arc::Imploder arc(filename);
                 arc.implode();
                 return arc.imploded();
@@ -49,7 +49,7 @@ SCENARIO("Mock WrapInterface: Imploder", "[WrapInterface]") {
 
     When(Method(mock, unWrap))
         .AlwaysDo(
-            [](const arc::Filename& filename) {
+            [](const Filename& filename) {
                 arc::Imploder arc(filename);
                 arc.explode();
                 return arc.exploded();
