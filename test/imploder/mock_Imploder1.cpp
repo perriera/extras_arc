@@ -17,7 +17,7 @@
  */
 
 #include <iostream>
-#include <extras_arc/imploder/Imploder.hpp>
+#include <extras_arc/imploder.hpp>
 #include <extras/filesystem/paths.hpp>
 #include <extras/filesystem/system.hpp>
 #include <fstream>

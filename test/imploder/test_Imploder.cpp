@@ -18,7 +18,7 @@
 
 
 #include <iostream>
-#include <extras_arc/imploder/Imploder.hpp>
+#include <extras_arc/imploder.hpp>
 #include <extras/filesystem/paths.hpp>
 
 #include "../vendor/catch.hpp"
