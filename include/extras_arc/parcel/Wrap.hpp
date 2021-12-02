@@ -32,7 +32,7 @@
 
 #include <extras/interfaces.hpp>
 #include <extras/strings.hpp>
-#include <extras_arc/parcel/Parcel.hpp>
+#include <extras_arc/parcel.hpp>
 #include <extras_arc/imploder.hpp>
 
 namespace extras {

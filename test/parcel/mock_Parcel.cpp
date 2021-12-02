@@ -17,7 +17,7 @@
  */
 
 #include <extras_arc/bin2hex/ConvertFile.hpp>
-#include <extras_arc/parcel/Parcel.hpp>
+#include <extras_arc/parcel.hpp>
 #include <extras_arc/exceptions.hpp>
 #include <extras_arc/parcel/Line.hpp>
 #include <extras/filesystem/paths.hpp>

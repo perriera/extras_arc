@@ -19,7 +19,7 @@
 #include <iostream>
 #include <filesystem>
 #include <extras_arc/parcel/Types.hpp>
-#include <extras_arc/parcel/Parcel.hpp>
+#include <extras_arc/parcel.hpp>
 #include <extras/filesystem/paths.hpp>
 
 using namespace extras;
