@@ -32,6 +32,7 @@
 
 #include <iostream>
 #include <extras/interfaces.hpp>
+#include <extras_arc/types.hpp>
 
 namespace extras {
   namespace arc {
@@ -41,8 +42,6 @@ namespace extras {
      *
      */
 
-    using Filename = std::string;
-    using Path = std::string;
 
     interface ImploderInterface {
 
@@ -81,6 +80,10 @@ namespace extras {
        */
       virtual void rm(const Filename& to) const pure;
       virtual void rmdir(const Path& to) const pure;
+
+      virtual void help() const pure;
+      virtual void diagnostics(std::string) const pure;
+
     };
 
     /**
@@ -116,6 +119,16 @@ namespace extras {
       virtual void merge() const override;
       virtual void clean() const override;
 
+      virtual void help() const override;
+      virtual void diagnostics(std::string) const override {};
+
+    };
+
+    concrete class ImploderCmdLine  extends Imploder {
+    public:
+      ImploderCmdLine(const Parameter& parcel) : Imploder(parcel) {
+      }
+      virtual void diagnostics(std::string msg = "") const override;
 
     };
 

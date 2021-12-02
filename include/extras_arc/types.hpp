@@ -51,6 +51,7 @@ namespace extras {
         using Parameter = std::string;
         using Parameters = std::deque<Parameter>;
         using Filename = std::string;
+        using Path = std::string;
 
     }  // namespace arc
 

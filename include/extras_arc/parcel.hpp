@@ -37,7 +37,7 @@
 #include <sstream>
 #include <extras_arc/exceptions.hpp>
 #include <extras_arc/parcel/Line.hpp>
-#include <extras_arc/parcel/Types.hpp>
+#include <extras_arc/types.hpp>
 #include <netinet/in.h>
 #include <sys/socket.h>
 
@@ -101,8 +101,8 @@ namespace extras {
             virtual void cat() const override;
             virtual void dir() const override;
             virtual void unzip() const override;
-            virtual void help() const override;
 
+            virtual void help() const override;
             virtual void diagnostics(std::string) const override {};
 
         };

@@ -156,6 +156,19 @@ namespace extras {
             rmdir(original() + ".dir");
         }
 
+        void Imploder::help() const {
+            FileNotFoundException::assertion("HOWTO-implode.md", __INFO__);
+            string cmd = "cat HOWTO-implode.md | less ";
+            SystemException::assertion(cmd.c_str(), __INFO__);
+        }
+
+        void ImploderCmdLine::diagnostics(std::string msg) const {
+            if (msg.size() > 0)
+                std::cout << msg << std::endl;
+            auto cmd = "ls -la " + original() + "*";
+            extras::SystemException::assertion(cmd, __INFO__);
+        }
+
     }
 }
 

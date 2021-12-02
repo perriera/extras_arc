@@ -18,9 +18,10 @@
 
 #include <iostream>
 #include <filesystem>
-#include <extras_arc/parcel/Types.hpp>
+#include <extras_arc/types.hpp>
 #include <extras_arc/parcel.hpp>
 #include <extras/filesystem/paths.hpp>
+#include <extras/exceptions.hpp>
 
 using namespace extras;
 using namespace std;
@@ -29,7 +30,7 @@ namespace fs = std::filesystem;
 int main(int argc, const char** argv)
 {
   if (argc < 3) {
-    cout << "parcel [-pack|-unpack|-verify|-clean|-unzip|-merge|-help] <filename>" << endl;
+    cout << "parcel <filename> [-pack|-unpack|-verify|-clean|-unzip|-merge|-help] " << endl;
     if (argc > 1) {
       std::string option = argv[1];
       if (option == "-help")
@@ -61,9 +62,10 @@ int main(int argc, const char** argv)
       parcel.unzip();
     if (option == "-help")
       parcel.help();
+    return 0;
   }
   catch (exception& ex) {
     cout << ex.what() << endl;
+    return -1;
   }
-  return 0;
 }

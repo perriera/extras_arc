@@ -53,6 +53,29 @@
             ],
             "preLaunchTask": "Build C++ project",
             "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "implode",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/implode",
+            "args": [
+                "-help"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build C++ project",
+            "miDebuggerPath": "/usr/bin/gdb"
         }
     ]
 }

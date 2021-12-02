@@ -132,13 +132,6 @@ namespace extras {
             diagnostics("");
         }
 
-        void ParcelCmdLine::diagnostics(std::string msg) const {
-            if (msg.size() > 0)
-                std::cout << msg << std::endl;
-            auto cmd = "ls -la " + original() + "*";
-            extras::SystemException::assertion(cmd, __INFO__);
-        }
-
         bool Parcel::verify_integrity() const {
             FileNotFoundException::assertion(original(), __INFO__);
             FileNotFoundException::assertion(duplicate(), __INFO__);
@@ -191,6 +184,12 @@ namespace extras {
             SystemException::assertion(cmd.c_str(), __INFO__);
         }
 
+        void ParcelCmdLine::diagnostics(std::string msg) const {
+            if (msg.size() > 0)
+                std::cout << msg << std::endl;
+            auto cmd = "ls -la " + original() + "*";
+            extras::SystemException::assertion(cmd, __INFO__);
+        }
 
     }  // namespace arc
 }  // namespace extras
