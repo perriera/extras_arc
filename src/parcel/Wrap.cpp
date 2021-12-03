@@ -112,6 +112,18 @@ namespace extras {
             return filename;
         }
 
+        void ParcelImploder::help() const {
+            FileNotFoundException::assertion("HOWTO-wrap.md", __INFO__);
+            string cmd = "cat HOWTO-wrap.md | less ";
+            SystemException::assertion(cmd.c_str(), __INFO__);
+        }
+
+        void ParcelImploderCmdLine::diagnostics(std::string msg) const {
+            if (msg.size() > 0)
+                std::cout << msg << std::endl;
+            auto cmd = "ls -la " + original() + "*";
+            extras::SystemException::assertion(cmd, __INFO__);
+        }
 
     }
 }

@@ -48,6 +48,7 @@ namespace extras {
             virtual Filename unWrap(const Filename& filename) const pure;
             virtual Filename merge(const Filename& filename) const pure;
             virtual Filename clean(const Filename& filename) const pure;
+            virtual Filename original() const pure;
             virtual Filename wrapped(const Filename& filename) const pure;
             virtual Filename unWrapped(const Filename& filename) const pure;
 
@@ -55,6 +56,11 @@ namespace extras {
             bool operator!=(const WrapInterface& rhs) const {
                 return !(*this == rhs);
             }
+
+            virtual void help() const pure;
+            virtual void diagnostics(std::string) const pure;
+
+
         };
 
         /**
@@ -62,16 +68,26 @@ namespace extras {
          *
          */
         concrete class ParcelImploder implements WrapInterface {
+            Filename _filename;
 
         public:
             virtual Filename wrap(const Filename& filename) const override;
             virtual Filename unWrap(const Filename& filename) const override;
             virtual Filename merge(const Filename& filename) const override;
             virtual Filename clean(const Filename& filename) const override;
+            virtual Filename original() const override { return _filename; }
             virtual Filename wrapped(const Filename& filename) const override;
             virtual Filename unWrapped(const Filename& filename) const override;
 
+            virtual void help() const override;
+            virtual void diagnostics(std::string) const override {};
+
         };
+
+        concrete class ParcelImploderCmdLine extends  ParcelImploder {
+            virtual void diagnostics(std::string) const override;
+        };
+
 
     }  // namespace arc
 
