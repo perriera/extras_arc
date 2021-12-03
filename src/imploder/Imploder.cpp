@@ -80,6 +80,7 @@ namespace extras {
                 }
             rezip(imploded(), original() + ".dir");
             rmdir(original() + ".dir");
+            diagnostics("");
         }
 
         /**
@@ -124,6 +125,7 @@ namespace extras {
             rezip(exploded(), exploded() + ".dir");
             rmdir(exploded() + ".dir");
             rmdir(original() + ".dir");
+            diagnostics("");
         }
 
         /**
@@ -147,6 +149,7 @@ namespace extras {
                 fs::remove(original());
             fs::copy_file(exploded(), original());
             fs::remove(exploded());
+            clean();
         }
 
         void Imploder::clean() const {
@@ -154,6 +157,7 @@ namespace extras {
             fs::remove(exploded());
             rmdir(exploded() + ".dir");
             rmdir(original() + ".dir");
+            diagnostics("");
         }
 
         void Imploder::help() const {

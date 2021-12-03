@@ -1,4 +1,3 @@
-
 ## HOWTO-parcel.md
 This package provides a convenient method of converting a binary into it's hexadecimal equivalent. This is ideal for managing files over a socket connection as more often than not issues arise with sending/receiving pure binary files over a socket connection. By converting to text/hexadecimal format first, a lot of errors can be isolated but being able to see just what is transpiring over a socket connection. There maybe other applications for this utility as well. 
 
@@ -91,6 +90,8 @@ Results in:
 	 extracting: /tmp/js/webflow.js   
 	  etc etc ...  
 
+### -help
+> Displays this help text, (provided this file is in the same directory).
 
 ## Summary
 This utility was put together as a convenience. It can be installed as part of the operating system, (see INSTALL.md).

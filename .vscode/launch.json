@@ -14,9 +14,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/run-unittests-${workspaceRootFolderName}",
-            "args": [
-                "[ImploderInterface]"
-            ],
+            "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -38,8 +36,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/parcel",
             "args": [
-                "data/exparx.webflow.zip",
-                "-verify",
+                "-helpx",
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -62,7 +59,8 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/implode",
             "args": [
-                "-help"
+                "data/exparx.webflow.zip",
+                "-cleanx"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

@@ -44,15 +44,22 @@
 namespace extras {
     namespace arc {
 
-        /**
+        concrete class ArcException extends AbstractCustomException {
+        public:
+
+            ArcException(std::string msg, const extras::WhereAmI& whereAmI)
+                : AbstractCustomException(msg.c_str(), whereAmI) {}
+        };
+
+        /**s
          * @brief ParcelException
          *
          */
-        concrete class ParcelException extends AbstractCustomException {
+        concrete class ParcelException extends ArcException {
         public:
 
             ParcelException(std::string msg, const extras::WhereAmI& whereAmI)
-                : AbstractCustomException(msg.c_str(), whereAmI) {}
+                : ArcException(msg.c_str(), whereAmI) {}
 
             static void assertion(char delimiter, const extras::WhereAmI& ref) {
                 if (delimiter != ':' && delimiter != '/')
@@ -93,6 +100,12 @@ namespace extras {
             }
 
             static void assertion(const Filename& parcel, const Filename& unpacked, const extras::WhereAmI& ref);
+        };
+
+        concrete class UnknownOptionException extends ArcException {
+        public:
+            UnknownOptionException(Parameter msg, const extras::WhereAmI& whereAmI)
+                : ArcException(msg.c_str(), whereAmI) {}
         };
 
     }  // namespace arc

@@ -20,6 +20,7 @@
 #include <filesystem>
 #include <extras_arc/types.hpp>
 #include <extras_arc/imploder.hpp>
+#include <extras_arc/exceptions.hpp>
 #include <extras/filesystem/paths.hpp>
 #include <extras/exceptions.hpp>
 #include <extras_arc/imploder.hpp>
@@ -31,7 +32,6 @@ namespace fs = std::filesystem;
 int main(int argc, const char** argv)
 {
     if (argc < 3) {
-        cout << "implode <filename> [-explode|-merge|-clean|-help] " << endl;
         if (argc > 1) {
             std::string option = argv[1];
             if (option == "-help") {
@@ -39,8 +39,10 @@ int main(int argc, const char** argv)
                 return 0;
             }
         }
-        else
+        else {
+            cout << "implode <filename> [-explode|-merge|-clean|-help] " << endl;
             return -1;
+        }
     }
     try {
         std::string option = argc == 2 ? "-implode" : argv[2];
@@ -48,19 +50,33 @@ int main(int argc, const char** argv)
         FileNotFoundException::assertion(filename, __INFO__);
         Parameter parameter = ~extras::Paths(filename);
         arc::ImploderCmdLine imploder(parameter);
-        if (option == "-implode")
+        if (option == "-implode") {
             imploder.implode();
-        if (option == "-explode")
+            return 0;
+        }
+        if (option == "-explode") {
             imploder.explode();
-        if (option == "-clean")
-            imploder.clean();
-        if (option == "-merge")
+            return 0;
+        }
+        if (option == "-merge") {
             imploder.merge();
-        if (option == "-help")
+            return 0;
+        }
+        if (option == "-clean") {
+            imploder.clean();
+            return 0;
+        }
+        if (option == "-help") {
             imploder.help();
-        return 0;
+            return 0;
+        }
+        throw arc::UnknownOptionException(option, __INFO__);
     }
-    catch (exception& ex) {
+    catch (extras::exception& ex) {
+        cout << ex << endl;
+        return -1;
+    }
+    catch (std::exception& ex) {
         cout << ex.what() << endl;
         return -1;
     }
