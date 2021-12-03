@@ -1,7 +1,7 @@
 /**
  * @file Parcel.hpp
  * @author Perry Anderson (perry@exparx.com)
- * @brief ParcelInterface
+ * @brief C++ defined type definitions specific to this package
  * @version 0.1
  * @date 2021-11-30
  *
@@ -40,17 +40,11 @@
 
 namespace extras {
     namespace arc {
+
         /**
-         * @brief ParcelInterface
-         *
-         *   build/rsi_client 127.0.0.1 8080 transfer send.txt
-         *   ss >> prg >> filename >> ip >> port;
+         * @brief extras_src/types.hpp
          *
          */
-
-        using Parameter = std::string;
-        using Parameters = std::deque<Parameter>;
-        using Filename = std::string;
 
     }  // namespace arc
 

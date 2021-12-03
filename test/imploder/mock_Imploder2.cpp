@@ -33,7 +33,7 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock ImploderInterface: part2", "[ImploderInterface]") {
 
-    arc::Filename original = ~extras::Paths("data/exparx.webflow.zip");
+    Filename original = ~extras::Paths("data/exparx.webflow.zip");
     arc::Imploder arc(original);
     Mock<arc::ImploderInterface> mock;
 

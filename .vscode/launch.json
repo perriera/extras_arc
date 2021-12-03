@@ -31,12 +31,36 @@
             "miDebuggerPath": "/usr/bin/gdb"
         },
         {
-            "name": "helloworld",
+            "name": "parcel",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/helloworld",
+            "program": "${workspaceFolder}/build/parcel",
             "args": [
-                "data/pgn/kasparov_muratkuliev_1973.PGN"
+                "-helpx",
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build C++ project",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "implode",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/implode",
+            "args": [
+                "data/exparx.webflow.zip",
+                "-cleanx"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

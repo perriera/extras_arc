@@ -37,7 +37,7 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
 
-    arc::Parameter testdata = ~extras::Paths("data/exparx.webflow.zip");
+    Parameter testdata = ~extras::Paths("data/exparx.webflow.zip");
 
     SystemException::assertion("rm -rf data/client", __INFO__);
     SystemException::assertion("rm -rf data/server", __INFO__);
@@ -46,17 +46,17 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
     auto copydata = "cp " + testdata + " " + "data/client";
     SystemException::assertion(copydata, __INFO__);
 
-    arc::Parameter original = extras::replace_all(testdata, "data/", "data/client/");
-    arc::Parameter wrapped = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip_packed.txt");
-    arc::Parameter unwrapped = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip");
-    arc::Parameter duplicate = extras::replace_all(original, "webflow.zip", "webflow.zip_exploded.zip");
-    arc::Parameter wrapped_onServer;
-    arc::Parameter filename_onServer;
+    Parameter original = extras::replace_all(testdata, "data/", "data/client/");
+    Parameter wrapped = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip_packed.txt");
+    Parameter unwrapped = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip");
+    Parameter duplicate = extras::replace_all(original, "webflow.zip", "webflow.zip_exploded.zip");
+    Parameter wrapped_onServer;
+    Parameter filename_onServer;
     Mock<arc::WrapInterface> mock;
 
     When(Method(mock, wrap))
         .AlwaysDo(
-            [](const arc::Filename& filename) {
+            [](const Filename& filename) {
                 arc::Imploder arc(filename);
                 arc.implode();
                 arc::Parcel parcel(arc.imploded());
@@ -66,7 +66,7 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
 
     When(Method(mock, unWrap))
         .AlwaysDo(
-            [&wrapped_onServer](const arc::Filename& filename) {
+            [&wrapped_onServer](const Filename& filename) {
                 arc::Imploder arc(filename);
                 arc::Parcel parcel(arc.imploded());
                 parcel.unpack();
@@ -81,7 +81,7 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
 
     When(Method(mock, merge))
         .AlwaysDo(
-            [](const arc::Filename& filename) {
+            [](const Filename& filename) {
                 arc::Imploder arc(filename);
                 if (fs::exists(arc.original())) {
                     arc.merge();
@@ -98,7 +98,7 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
 
     When(Method(mock, clean))
         .AlwaysDo(
-            [](const arc::Filename& filename) {
+            [](const Filename& filename) {
                 arc::Imploder arc(filename);
                 arc::Parcel parcel(arc.imploded());
                 parcel.clean();

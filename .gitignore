@@ -17,10 +17,11 @@ data/csv
 data/masked
 data/ctx
 logfile.txt
+data/exparx.webflow
 data/exparx.webflow.zip_*
 data/exparx.webflow.zip.*
 data/src.zip_*
 
-data/client/*
-data/server/*
+data/client/
+data/server/
 

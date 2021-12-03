@@ -32,8 +32,8 @@ using namespace extras;
 
 SCENARIO("Test ImploderInterface: rezip webflow", "[ImploderInterface]") {
 
-    arc::Filename before = ~extras::Paths("data/exparx.webflow.zip");
-    arc::Filename after = before + "_imploded";
+    Filename before = ~extras::Paths("data/exparx.webflow.zip");
+    Filename after = before + "_imploded";
     arc::Imploder arc(before);
 
     arc::ImploderInterface& i = arc;

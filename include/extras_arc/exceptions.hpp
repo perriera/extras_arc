@@ -1,7 +1,7 @@
 /**
  * @file Exceptions.hpp
  * @author Perry Anderson (perry@exparx.com)
- * @brief ParcelException class
+ * @brief C++ defined custom exceptions specific to this package
  * @version 0.1
  * @date 2021-11-30
  *
@@ -34,7 +34,7 @@
 #include <extras/filesystem/files.hpp>
 #include <extras/strings.hpp>
 #include <extras/crcs.hpp>
-#include <extras_arc/parcel/Types.hpp>
+#include <extras_arc/types.hpp>
 #include <extras_arc/parcel/Line.hpp>
 #include <iostream>
 #include <sstream>
@@ -44,15 +44,22 @@
 namespace extras {
     namespace arc {
 
-        /**
+        concrete class ArcException extends AbstractCustomException {
+        public:
+
+            ArcException(std::string msg, const extras::WhereAmI& whereAmI)
+                : AbstractCustomException(msg.c_str(), whereAmI) {}
+        };
+
+        /**s
          * @brief ParcelException
          *
          */
-        concrete class ParcelException extends AbstractCustomException {
+        concrete class ParcelException extends ArcException {
         public:
 
             ParcelException(std::string msg, const extras::WhereAmI& whereAmI)
-                : AbstractCustomException(msg.c_str(), whereAmI) {}
+                : ArcException(msg.c_str(), whereAmI) {}
 
             static void assertion(char delimiter, const extras::WhereAmI& ref) {
                 if (delimiter != ':' && delimiter != '/')
@@ -92,7 +99,13 @@ namespace extras {
                     throw ParcelException("Bad CRC:" + hexLine, ref);
             }
 
-            static void assertion(const arc::Filename& parcel, const arc::Filename& unpacked, const extras::WhereAmI& ref);
+            static void assertion(const Filename& parcel, const Filename& unpacked, const extras::WhereAmI& ref);
+        };
+
+        concrete class UnknownOptionException extends ArcException {
+        public:
+            UnknownOptionException(Parameter msg, const extras::WhereAmI& whereAmI)
+                : ArcException(msg.c_str(), whereAmI) {}
         };
 
     }  // namespace arc

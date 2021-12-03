@@ -32,19 +32,19 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock ImploderInterface: part1", "[ImploderInterface]") {
 
-    arc::Filename original = ~extras::Paths("data/exparx.webflow.zip");
-    arc::Path originalDir = original + ".dir";
-    arc::Filename imploded = original + "_imploded.zip";
-    arc::Filename exploded = original + "_exploded.zip";
+    Filename original = ~extras::Paths("data/exparx.webflow.zip");
+    Path originalDir = original + ".dir";
+    Filename imploded = original + "_imploded.zip";
+    Filename exploded = original + "_exploded.zip";
     Mock<arc::ImploderInterface> mock;
     When(Method(mock, original)).Return(original);
     When(Method(mock, imploded)).Return(imploded);
     When(Method(mock, exploded)).Return(exploded);
-    When(Method(mock, unzip)).AlwaysDo([](const arc::Filename& filename, const arc::Path& dir) {
+    When(Method(mock, unzip)).AlwaysDo([](const Filename& filename, const Path& dir) {
         auto cmd = "unzip -o " + filename + " -d " + dir + " >/dev/null";
         SystemException::assertion(cmd.c_str(), __INFO__);
         });
-    When(Method(mock, rezip)).AlwaysDo([&original](const arc::Filename& imploded, const arc::Path& dir) {
+    When(Method(mock, rezip)).AlwaysDo([&original](const Filename& imploded, const Path& dir) {
         // std::cout << "hello" << std::endl;
         auto script = imploded + ".sh";
         std::ofstream ss(script);
@@ -54,10 +54,10 @@ SCENARIO("Mock ImploderInterface: part1", "[ImploderInterface]") {
         ss.close();
         ScriptException::assertion(script.c_str(), __INFO__);
         });
-    When(Method(mock, rmdir)).AlwaysDo([](const arc::Path& dir) {
+    When(Method(mock, rmdir)).AlwaysDo([](const Path& dir) {
         fs::remove_all(dir);
         });
-    When(Method(mock, rm)).AlwaysDo([](const arc::Filename& filename) {
+    When(Method(mock, rm)).AlwaysDo([](const Filename& filename) {
         fs::remove(filename);
         });
     When(Method(mock, implode)).Return();

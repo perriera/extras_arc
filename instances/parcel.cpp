@@ -18,9 +18,10 @@
 
 #include <iostream>
 #include <filesystem>
-#include <extras_arc/parcel/Types.hpp>
+#include <extras_arc/types.hpp>
 #include <extras_arc/parcel.hpp>
 #include <extras/filesystem/paths.hpp>
+#include <extras/exceptions.hpp>
 
 using namespace extras;
 using namespace std;
@@ -29,32 +30,59 @@ namespace fs = std::filesystem;
 int main(int argc, const char** argv)
 {
   if (argc < 3) {
-    cout << "parcel [-pack|-unpack|-verify|-clean|-unzip] <filename>" << endl;
-    return 0;
+    if (argc > 1) {
+      std::string option = argv[1];
+      if (option == "-help") {
+        arc::Parcel("ignore").help();
+        return 0;
+      }
+    }
+    else {
+      cout << "parcel <filename> [-pack|-unpack|-verify|-clean|-unzip|-merge|-help] " << endl;
+      return -1;
+    }
   }
   try {
-    std::string option = argv[1];
-    auto filename = argv[2];
+    std::string option = argc == 2 ? "-pack" : argv[2];
+    auto filename = argv[1];
     FileNotFoundException::assertion(filename, __INFO__);
-    arc::Parameter parameter = ~extras::Paths(filename);
-    arc::Parcel parcel(parameter);
-    if (option == "-pack")
+    Parameter parameter = ~extras::Paths(filename);
+    arc::ParcelCmdLine parcel(parameter);
+    if (option == "-pack") {
       parcel.pack();
-    if (option == "-unpack")
+    }
+    if (option == "-unpack") {
       parcel.unpack();
-    if (option == "-verify")
+    }
+    if (option == "-verify") {
       parcel.verify_integrity();
-    if (option == "-clean")
+    }
+    if (option == "-clean") {
       parcel.clean();
-    if (option == "-cat")
+    }
+    if (option == "-cat") {
       parcel.cat();
-    if (option == "-dir")
+    }
+    if (option == "-merge") {
+      parcel.merge();
+    }
+    if (option == "-dir") {
       parcel.dir();
-    if (option == "-unzip")
+    }
+    if (option == "-unzip") {
       parcel.unzip();
+    }
+    if (option == "-help") {
+      parcel.help();
+    }
+    throw arc::UnknownOptionException(option, __INFO__);
   }
-  catch (exception& ex) {
+  catch (extras::exception& ex) {
+    cout << ex << endl;
+    return -1;
+  }
+  catch (std::exception& ex) {
     cout << ex.what() << endl;
+    return -1;
   }
-  return 0;
 }

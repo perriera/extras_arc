@@ -33,14 +33,14 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock WrapInterface: Parcel", "[WrapInterface]") {
 
-    arc::Parameter original = ~extras::Paths("data/exparx.webflow.zip");
-    arc::Parameter packed = extras::replace_all(original, "webflow.zip", "webflow.zip_packed.txt");
-    arc::Parameter unpacked = extras::replace_all(original, "webflow.zip", "webflow.zip_duplicate.bin");
+    Parameter original = ~extras::Paths("data/exparx.webflow.zip");
+    Parameter packed = extras::replace_all(original, "webflow.zip", "webflow.zip_packed.txt");
+    Parameter unpacked = extras::replace_all(original, "webflow.zip", "webflow.zip_duplicate.bin");
     Mock<arc::WrapInterface> mock;
 
     When(Method(mock, wrap))
         .AlwaysDo(
-            [](const arc::Filename& filename) {
+            [](const Filename& filename) {
                 arc::Parcel parcel(filename);
                 parcel.pack();
                 auto x = parcel.packed();
@@ -49,7 +49,7 @@ SCENARIO("Mock WrapInterface: Parcel", "[WrapInterface]") {
 
     When(Method(mock, unWrap))
         .AlwaysDo(
-            [](const arc::Filename& filename) {
+            [](const Filename& filename) {
                 arc::Parcel parcel(filename);
                 parcel.unpack();
                 auto y = parcel.duplicate();
