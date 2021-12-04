@@ -14,7 +14,9 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/run-unittests-${workspaceRootFolderName}",
-            "args": [],
+            "args": [
+                "[WrapInterface]"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

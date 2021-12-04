@@ -44,13 +44,13 @@ namespace extras {
 
         interface WrapInterface {
 
-            virtual Filename wrap(const Filename& filename) const pure;
-            virtual Filename unWrap(const Filename& filename) const pure;
-            virtual Filename merge(const Filename& filename) const pure;
-            virtual Filename clean(const Filename& filename) const pure;
+            virtual Filename wrap() const pure;
+            virtual Filename unWrap() const pure;
+            virtual Filename merge() const pure;
+            virtual Filename clean() const pure;
             virtual Filename original() const pure;
-            virtual Filename wrapped(const Filename& filename) const pure;
-            virtual Filename unWrapped(const Filename& filename) const pure;
+            virtual Filename wrapped() const pure;
+            virtual Filename unWrapped() const pure;
 
             bool operator==(const WrapInterface& rhs) const;
             bool operator!=(const WrapInterface& rhs) const {
@@ -71,13 +71,14 @@ namespace extras {
             Filename _filename;
 
         public:
-            virtual Filename wrap(const Filename& filename) const override;
-            virtual Filename unWrap(const Filename& filename) const override;
-            virtual Filename merge(const Filename& filename) const override;
-            virtual Filename clean(const Filename& filename) const override;
+            ParcelImploder(const Filename& filename) : _filename(filename) {}
             virtual Filename original() const override { return _filename; }
-            virtual Filename wrapped(const Filename& filename) const override;
-            virtual Filename unWrapped(const Filename& filename) const override;
+            virtual Filename wrap() const override;
+            virtual Filename unWrap() const override;
+            virtual Filename merge() const override;
+            virtual Filename clean() const override;
+            virtual Filename wrapped() const override;
+            virtual Filename unWrapped() const override;
 
             virtual void help() const override;
             virtual void diagnostics(std::string) const override {};
@@ -86,6 +87,8 @@ namespace extras {
 
         concrete class ParcelImploderCmdLine extends  ParcelImploder {
             virtual void diagnostics(std::string) const override;
+        public:
+            ParcelImploderCmdLine(const Filename& filename) : ParcelImploder(filename) {}
         };
 
 

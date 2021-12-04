@@ -16,7 +16,7 @@
  *
  */
 
-#include <extras_arc/parcel/Wrap.hpp>
+#include <extras_arc/wrap.hpp>
 #include <extras_arc/imploder.hpp>
 #include <extras_arc/parcel.hpp>
 #include <extras_arc/parcel.hpp>
@@ -39,42 +39,31 @@ SCENARIO("Test WrapInterface: ParcelImploder", "[WrapInterface]") {
 
     Parameter testdata = ~extras::Paths("data/exparx.webflow.zip");
 
-    SystemException::assertion("rm -rf data/client", __INFO__);
-    SystemException::assertion("rm -rf data/server", __INFO__);
-    SystemException::assertion("mkdir data/client", __INFO__);
-    SystemException::assertion("mkdir data/server", __INFO__);
-    auto copydata = "cp " + testdata + " " + "data/client";
-    SystemException::assertion(copydata, __INFO__);
-
-    Parameter original = extras::replace_all(testdata, "data/", "data/client/");
-    Parameter wrapped = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip_packed.txt");
-    Parameter unwrapped = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip");
-    Parameter duplicate = extras::replace_all(original, "webflow.zip", "webflow.zip_exploded.zip");
-    Parameter wrapped_onServer;
-    Parameter filename_onServer;
-
-    arc::ParcelImploder parcelImploder;
+    arc::ParcelImploder parcelImploder(testdata);
     arc::WrapInterface& i = parcelImploder;
 
-    i.clean(original);
+    REQUIRE(i.clean() == testdata);
+    REQUIRE(fs::exists(testdata));
+    REQUIRE(!fs::exists(i.unWrapped()));
+    REQUIRE(!fs::exists(i.wrapped()));
 
-    REQUIRE(fs::exists(original));
-    REQUIRE(i.wrap(original) == wrapped);
-    {
-        auto copydata = "cp " + wrapped + " " + "data/server";
-        SystemException::assertion(copydata, __INFO__);
-        wrapped_onServer = extras::replace_all(wrapped, "data/client", "data/server");
-        filename_onServer = extras::replace_all(original, "data/client", "data/server");
-        unwrapped = extras::replace_all(unwrapped, "data/client", "data/server");
-    }
+    REQUIRE(i.wrap() == i.wrapped());
+    REQUIRE(fs::exists(testdata));
+    REQUIRE(!fs::exists(i.unWrapped()));
+    REQUIRE(fs::exists(i.wrapped()));
 
-    REQUIRE(i.unWrap(filename_onServer) == unwrapped);
-    REQUIRE(fs::exists(unwrapped));
-    REQUIRE(i.merge(filename_onServer) == filename_onServer);
-    REQUIRE(!fs::exists(unwrapped));
-    REQUIRE(fs::exists(filename_onServer));
-    REQUIRE(i.clean(filename_onServer) == filename_onServer);
-    REQUIRE(fs::exists(filename_onServer));
-    REQUIRE(fs::exists(original));
+    REQUIRE(i.unWrap() == i.unWrapped());
+    REQUIRE(fs::exists(testdata));
+    REQUIRE(fs::exists(i.unWrapped()));
+    REQUIRE(!fs::exists(i.wrapped()));
+
+    REQUIRE(i.merge() == testdata);
+    REQUIRE(!fs::exists(i.unWrapped()));
+    REQUIRE(fs::exists(testdata));
+
+    REQUIRE(i.clean() == testdata);
+    REQUIRE(fs::exists(testdata));
+    REQUIRE(!fs::exists(i.unWrapped()));
+    REQUIRE(!fs::exists(i.wrapped()));
 
 }

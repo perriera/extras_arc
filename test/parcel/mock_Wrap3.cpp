@@ -16,7 +16,7 @@
  *
  */
 
-#include <extras_arc/parcel/Wrap.hpp>
+#include <extras_arc/wrap.hpp>
 #include <extras/filesystem/paths.hpp>
 #include <extras/strings.hpp>
 #include <extras_arc/imploder.hpp>
@@ -40,8 +40,8 @@ SCENARIO("Mock WrapInterface: Parcel", "[WrapInterface]") {
 
     When(Method(mock, wrap))
         .AlwaysDo(
-            [](const Filename& filename) {
-                arc::Parcel parcel(filename);
+            [&original]() {
+                arc::Parcel parcel(original);
                 parcel.pack();
                 auto x = parcel.packed();
                 return x;
@@ -49,8 +49,8 @@ SCENARIO("Mock WrapInterface: Parcel", "[WrapInterface]") {
 
     When(Method(mock, unWrap))
         .AlwaysDo(
-            [](const Filename& filename) {
-                arc::Parcel parcel(filename);
+            [&original]() {
+                arc::Parcel parcel(original);
                 parcel.unpack();
                 auto y = parcel.duplicate();
                 return y;
@@ -64,11 +64,11 @@ SCENARIO("Mock WrapInterface: Parcel", "[WrapInterface]") {
     REQUIRE(fs::exists(parcel.original()));
     REQUIRE(!fs::exists(parcel.packed()));
     REQUIRE(!fs::exists(parcel.duplicate()));
-    REQUIRE(i.wrap(original) == packed);
+    REQUIRE(i.wrap() == packed);
     REQUIRE(fs::exists(parcel.original()));
     REQUIRE(fs::exists(parcel.packed()));
     REQUIRE(!fs::exists(parcel.duplicate()));
-    REQUIRE(i.unWrap(original) == unpacked);
+    REQUIRE(i.unWrap() == unpacked);
     REQUIRE(fs::exists(parcel.original()));
     REQUIRE(fs::exists(parcel.packed()));
     REQUIRE(fs::exists(parcel.duplicate()));

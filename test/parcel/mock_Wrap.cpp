@@ -16,7 +16,7 @@
  *
  */
 
-#include <extras_arc/parcel/Wrap.hpp>
+#include <extras_arc/wrap.hpp>
 #include <extras/filesystem/paths.hpp>
 #include <extras/strings.hpp>
 #include <iostream>
@@ -38,19 +38,19 @@ SCENARIO("Mock WrapInterface: virgin", "[WrapInterface]") {
 
     When(Method(mock, wrap))
         .AlwaysDo(
-            [&after](const Filename&) {
+            [&after]() {
                 return after;
             });
 
     When(Method(mock, unWrap))
         .AlwaysDo(
-            [&before](const Filename&) {
+            [&before]() {
                 return before;
             });
 
     arc::WrapInterface& i = mock.get();
-    REQUIRE(i.wrap(before) == after);
-    REQUIRE(i.unWrap(after) == before);
+    REQUIRE(i.wrap() == after);
+    REQUIRE(i.unWrap() == before);
     Verify(Method(mock, wrap));
     Verify(Method(mock, unWrap));
 

@@ -16,7 +16,7 @@
  *
  */
 
-#include <extras_arc/parcel/Wrap.hpp>
+#include <extras_arc/wrap.hpp>
 #include <extras/filesystem/paths.hpp>
 #include <extras/strings.hpp>
 #include <extras_arc/imploder.hpp>
@@ -41,16 +41,16 @@ SCENARIO("Mock WrapInterface: Imploder", "[WrapInterface]") {
 
     When(Method(mock, wrap))
         .AlwaysDo(
-            [](const Filename& filename) {
-                arc::Imploder arc(filename);
+            [&original]() {
+                arc::Imploder arc(original);
                 arc.implode();
                 return arc.imploded();
             });
 
     When(Method(mock, unWrap))
         .AlwaysDo(
-            [](const Filename& filename) {
-                arc::Imploder arc(filename);
+            [&original]() {
+                arc::Imploder arc(original);
                 arc.explode();
                 return arc.exploded();
             });
@@ -63,11 +63,11 @@ SCENARIO("Mock WrapInterface: Imploder", "[WrapInterface]") {
     REQUIRE(fs::exists(arc.original()));
     REQUIRE(!fs::exists(arc.imploded()));
     REQUIRE(!fs::exists(arc.exploded()));
-    REQUIRE(i.wrap(original) == imploded);
+    REQUIRE(i.wrap() == imploded);
     REQUIRE(fs::exists(arc.original()));
     REQUIRE(fs::exists(arc.imploded()));
     REQUIRE(!fs::exists(arc.exploded()));
-    REQUIRE(i.unWrap(original) == exploded);
+    REQUIRE(i.unWrap() == exploded);
     REQUIRE(fs::exists(arc.original()));
     REQUIRE(fs::exists(arc.imploded()));
     REQUIRE(fs::exists(arc.exploded()));

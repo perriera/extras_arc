@@ -17,7 +17,7 @@
  */
 
 #include <extras_arc/parcel.hpp>
-#include <extras_arc/parcel/Wrap.hpp>
+#include <extras_arc/wrap.hpp>
 #include <extras_arc/imploder.hpp>
 #include <extras/filesystem/system.hpp>
 #include <extras/filesystem/files.hpp>
@@ -38,16 +38,16 @@ namespace extras {
          * @param filename
          * @return Filename
          */
-        Filename ParcelImploder::wrap(const Filename& filename) const {
-            arc::Imploder arc(filename);
+        Filename ParcelImploder::wrap() const {
+            arc::Imploder arc(original());
             arc.implode();
             arc::Parcel parcel(arc.imploded());
             parcel.pack();
             return parcel.packed();
         }
 
-        Filename ParcelImploder::wrapped(const Filename& filename) const {
-            arc::Imploder arc(filename);
+        Filename ParcelImploder::wrapped() const {
+            arc::Imploder arc(original());
             arc::Parcel parcel(arc.imploded());
             return parcel.packed();
         }
@@ -58,21 +58,23 @@ namespace extras {
          * @param filename
          * @return Filename
          */
-        Filename ParcelImploder::unWrap(const Filename& filename) const {
-            arc::Imploder arc(filename);
+        Filename ParcelImploder::unWrap() const {
+            arc::Imploder arc(original());
             arc::Parcel parcel(arc.imploded());
             parcel.unpack();
             parcel.merge();
             parcel.clean();
-            if (fs::exists(arc.original())) {
+            if (fs::exists(arc.imploded())) {
                 arc.explode();
-                return arc.exploded();
+                auto result = arc.exploded();
+                return result;
             }
-            return parcel.original();
+            auto result = arc.imploded();
+            return result;
         }
 
-        Filename ParcelImploder::unWrapped(const Filename& filename) const {
-            arc::Imploder arc(filename);
+        Filename ParcelImploder::unWrapped() const {
+            arc::Imploder arc(original());
             arc::Parcel parcel(arc.imploded());
             return arc.exploded();
         }
@@ -83,11 +85,11 @@ namespace extras {
          * @param filename
          * @return Filename
          */
-        Filename ParcelImploder::merge(const Filename& filename) const {
-            arc::Imploder arc(filename);
+        Filename ParcelImploder::merge() const {
+            arc::Imploder arc(original());
             if (fs::exists(arc.original())) {
                 arc.merge();
-                return filename;
+                return original();
             }
             FileNotFoundException::assertion(arc.imploded(), __INFO__);
             auto a = arc.imploded();
@@ -95,7 +97,7 @@ namespace extras {
             auto cmd = "mv " + a + " " + b;
             SystemException::assertion(cmd, __INFO__);
             arc.clean();
-            return filename;
+            return original();
         }
 
         /**
@@ -104,12 +106,12 @@ namespace extras {
          * @param filename
          * @return Filename
          */
-        Filename ParcelImploder::clean(const Filename& filename) const {
-            arc::Imploder arc(filename);
+        Filename ParcelImploder::clean() const {
+            arc::Imploder arc(original());
             arc::Parcel parcel(arc.imploded());
             parcel.clean();
             arc.clean();
-            return filename;
+            return original();
         }
 
         void ParcelImploder::help() const {
