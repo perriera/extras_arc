@@ -43,37 +43,30 @@ int main(int argc, const char** argv)
         }
     }
     try {
-        std::string option = argc == 2 ? "-pack" : argv[2];
+        std::string option = argc == 2 ? "-wrap" : argv[2];
         auto filename = argv[1];
         FileNotFoundException::assertion(filename, __INFO__);
         Parameter parameter = ~extras::Paths(filename);
-        arc::ParcelCmdLine parcel(parameter);
-        if (option == "-pack") {
-            parcel.pack();
+        arc::ParcelImploderCmdLine parcel(parameter);
+        if (option == "-wrap") {
+            parcel.wrap();
+            return 0;
         }
-        if (option == "-unpack") {
-            parcel.unpack();
-        }
-        if (option == "-verify") {
-            parcel.verify_integrity();
-        }
-        if (option == "-clean") {
-            parcel.clean();
-        }
-        if (option == "-cat") {
-            parcel.cat();
+        if (option == "-unwrap") {
+            parcel.unWrap();
+            return 0;
         }
         if (option == "-merge") {
             parcel.merge();
+            return 0;
         }
-        if (option == "-dir") {
-            parcel.dir();
-        }
-        if (option == "-unzip") {
-            parcel.unzip();
+        if (option == "-clean") {
+            parcel.clean();
+            return 0;
         }
         if (option == "-help") {
             parcel.help();
+            return 0;
         }
         throw arc::UnknownOptionException(option, __INFO__);
     }

@@ -1,5 +1,3 @@
-
-
 # perriera/extras_arc
 Welcome to the perriera/extras_arc project. 
 
@@ -11,7 +9,11 @@ Welcome to the perriera/extras_arc project.
 </div>
 
 ## Who would want to use this?
-> This project aims to get you up and running with C++17 based project with a 'git clone' operation. As well, this particular C++ project template comes with builtin [CPM](https://github.com/cpm-cmake/CPM.cmake) support. This means that you can incorporate other [github](https://github.com) projects, (or anything that uses the git tool) into your project with the simple inclusion of a CPM directive in in your CMakeLists.txt file. 
+> This project specializes in compressing zip archives into hexadecimal format as well as performing an operation were files that do not need to be sent across a socket connection are removed, (but restored later). See the following for more information:
+
+ - HOWTO-implode.md
+ - HOWTO-parcel.md
+ - HOTTO-wrap.md
 
 ## Prerequisites
 To use this template you will need a Linux environment, (Ubuntu is idea).
@@ -22,8 +24,8 @@ To use this template you will need a Linux environment, (Ubuntu is idea).
  
 Once you have established these THREE STEPS you may do the following
 
-	git clone https://github.com/<your project>
-	cd <your project>
+	git clone https://github.com/perriera/extras_rsi.git
+	cd extras_arc
 	mkdir build
 	cd build
 	cmake ..
@@ -37,52 +39,6 @@ If you have done everything correctly, you will see a Catch2 diagnostic with all
 	===============================================================================
 	All tests passed (1 assertion in 2 test cases)
 
-However, you not done yet:
-
-Inside your favorite editor, (or search & replace command utility):
-
- 1. Global search and replace **extras_arc** to <project_name> (case sensitive)
- 2. Global search and replace **EXTRAS_ARC** to <PROJECT_NAME> (case sensitive)
- 3. change directory name '**include/extras_arc**' to '**include/<project_name>**'
-
-Then do the following:
-
-	rm -rf build
-	cd build
-	make
-	cd ..
-This will re-create the project now with all references to extras_arc changed to <your_project_name>. To test this do  the following:
-
-	build/run-unittests-<your_project_name>
-
-## Changelog.md
-When you go to make changes to your changelog.md you should maintain the version number of your project using 'include/version.hpp'. For example, in your version.hpp will look something similiar to the following but all referenced to EXTRAS_ARC will be changed to <YOUR_PROJECT_NAME>
-
-	#ifndef _EXTRAS_ARC_VERSION_HPP
-	#define _EXTRAS_ARC_VERSION_HPP
-
-	/**
-	 * @file version.hpp
-	 * @author Matt Williams (matt@perriera.com)
-	 * @author Perry Anderson (perry@perriera.com)
-	 * @brief Adds version support for Cmake script
-	 * @date 2021-08-08
-	 */
-
-	#define EXTRAS_ARC_VER_MAJOR 0
-	#define EXTRAS_ARC_VER_MINOR 5
-	#define EXTRAS_ARC_VER_PATCH 4
-
-	#define EXTRAS_ARC_VERSION \
-	  (EXTRAS_ARC_VER_MAJOR * 10000 + EXTRAS_ARC_VER_MINOR * 100 + EXTRAS_ARC_VER_PATCH)
-
-	#endif// _EXTRAS_ARC_VERSION_HPP
-
-From here add this to your github project and you are good to go:
-
-	git add .
-	git commit -m "Initial content"
-	git push
 
 ## CPM Optimization
 > Note: Be sure to have the desired **VERSION** of perrier/extras specified in the **VERSION** keyword of the CPMAddPackage specification, (in your CMakeLists.txt). Also, to optimize CPM support on your projects be sure to set the CPM_SOURCE_CACHE environment variable for shared CPM libraries. Typically you would add this to your `.bashrc` script. With this environment variable set, the CPM package manager will not need to reload after successive build/ directory resets, (aka. `rm -rf build`). 

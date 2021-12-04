@@ -50,30 +50,39 @@ int main(int argc, const char** argv)
     arc::ParcelCmdLine parcel(parameter);
     if (option == "-pack") {
       parcel.pack();
+      return 0;
     }
     if (option == "-unpack") {
       parcel.unpack();
+      return 0;
     }
     if (option == "-verify") {
       parcel.verify_integrity();
+      return 0;
     }
     if (option == "-clean") {
       parcel.clean();
+      return 0;
     }
     if (option == "-cat") {
       parcel.cat();
+      return 0;
     }
     if (option == "-merge") {
       parcel.merge();
+      return 0;
     }
     if (option == "-dir") {
       parcel.dir();
+      return 0;
     }
     if (option == "-unzip") {
       parcel.unzip();
+      return 0;
     }
     if (option == "-help") {
       parcel.help();
+      return 0;
     }
     throw arc::UnknownOptionException(option, __INFO__);
   }

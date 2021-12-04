@@ -43,6 +43,7 @@ namespace extras {
             arc.implode();
             arc::Parcel parcel(arc.imploded());
             parcel.pack();
+            diagnostics("");
             return parcel.packed();
         }
 
@@ -66,8 +67,10 @@ namespace extras {
             parcel.clean();
             if (fs::exists(arc.original())) {
                 arc.explode();
+                diagnostics("");
                 return arc.exploded();
             }
+            diagnostics("");
             return  arc.imploded();;
         }
 
@@ -90,6 +93,7 @@ namespace extras {
             arc::Imploder arc(original());
             if (fs::exists(arc.original())) {
                 arc.merge();
+                diagnostics("");
                 return original();
             }
             FileNotFoundException::assertion(arc.imploded(), __INFO__);
@@ -98,6 +102,7 @@ namespace extras {
             auto cmd = "mv " + a + " " + b;
             SystemException::assertion(cmd, __INFO__);
             arc.clean();
+            diagnostics("");
             return original();
         }
 
@@ -112,6 +117,7 @@ namespace extras {
             arc::Parcel parcel(arc.imploded());
             parcel.clean();
             arc.clean();
+            diagnostics("");
             return original();
         }
 
