@@ -21,10 +21,7 @@ To use this template you will need a Linux environment, (Ubuntu is idea).
 
  1. [Install pip](https://linuxize.com/post/how-to-install-pip-on-ubuntu-18.04/), (either pip 2 or pip 3)
  2. [Install cmake](https://cmake-python-distributions.readthedocs.io/en/latest/installation.html) using pip, (cmake 3.2.1 or better required)
- 3. Create project on [Github.com](https://github.com) using **perriera/extras_arc** out of the box, (or as a Github template).
  
-Once you have established these THREE STEPS you may do the following
-
 	git clone https://github.com/perriera/extras_arc.git
 	cd extras_arc
 	mkdir build
