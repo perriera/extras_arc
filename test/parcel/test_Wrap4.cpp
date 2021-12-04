@@ -37,10 +37,17 @@ namespace fs = std::filesystem;
 
 SCENARIO("Test WrapInterface: ParcelImploder", "[WrapInterface]") {
 
+    auto cpCmd = "cp data/exparx.webflow_original.zip data/exparx.webflow.zip";
+    SystemException::assertion(cpCmd, __INFO__);
+
     Parameter testdata = ~extras::Paths("data/exparx.webflow.zip");
 
     arc::ParcelImploder parcelImploder(testdata);
     arc::WrapInterface& i = parcelImploder;
+
+    //
+    // Scenario 1: Original exists
+    //
 
     REQUIRE(i.clean() == testdata);
     REQUIRE(fs::exists(testdata));
@@ -54,6 +61,40 @@ SCENARIO("Test WrapInterface: ParcelImploder", "[WrapInterface]") {
 
     REQUIRE(i.unWrap() == i.unWrapped());
     REQUIRE(fs::exists(testdata));
+    REQUIRE(fs::exists(i.unWrapped()));
+    REQUIRE(!fs::exists(i.wrapped()));
+
+    REQUIRE(i.merge() == testdata);
+    REQUIRE(!fs::exists(i.unWrapped()));
+    REQUIRE(fs::exists(testdata));
+
+    REQUIRE(i.clean() == testdata);
+    REQUIRE(fs::exists(testdata));
+    REQUIRE(!fs::exists(i.unWrapped()));
+    REQUIRE(!fs::exists(i.wrapped()));
+
+    //
+    // Scenario 2: Original does not exist
+    //
+
+    REQUIRE(fs::exists(testdata));
+    REQUIRE(!fs::exists(i.unWrapped()));
+    REQUIRE(!fs::exists(i.wrapped()));
+
+    REQUIRE(i.wrap() == i.wrapped());
+    REQUIRE(fs::exists(testdata));
+    REQUIRE(!fs::exists(i.unWrapped()));
+    REQUIRE(fs::exists(i.wrapped()));
+
+    REQUIRE(fs::exists(testdata));
+    REQUIRE(fs::exists(i.wrapped()));
+    auto rmCmd = "rm data/exparx.webflow.zip";
+    SystemException::assertion(rmCmd, __INFO__);
+    REQUIRE(!fs::exists(testdata));
+    REQUIRE(fs::exists(i.wrapped()));
+
+    REQUIRE(i.unWrap() == i.unWrapped());
+    REQUIRE(!fs::exists(testdata));
     REQUIRE(fs::exists(i.unWrapped()));
     REQUIRE(!fs::exists(i.wrapped()));
 

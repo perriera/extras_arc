@@ -32,6 +32,9 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock WrapInterface: virgin", "[WrapInterface]") {
 
+    auto cpCmd = "cp data/exparx.webflow_original.zip data/exparx.webflow.zip";
+    SystemException::assertion(cpCmd, __INFO__);
+
     Parameter before = ~extras::Paths("data/exparx.webflow.zip");
     Parameter after = extras::replace_all(before, "webflow.zip", "webflow.imploded.zip");
     Mock<arc::WrapInterface> mock;

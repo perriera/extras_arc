@@ -37,6 +37,8 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
 
+    auto cpCmd = "cp data/exparx.webflow_original.zip data/exparx.webflow.zip";
+    SystemException::assertion(cpCmd, __INFO__);
     Parameter testdata = ~extras::Paths("data/exparx.webflow.zip");
     Mock<arc::WrapInterface> mock;
 
@@ -74,11 +76,9 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
                 parcel.clean();
                 if (fs::exists(arc.original())) {
                     arc.explode();
-                    auto result = arc.exploded();
-                    return result;
+                    return arc.exploded();;
                 }
-                auto result = arc.imploded();
-                return result;
+                return arc.imploded();;
             });
 
     When(Method(mock, unWrapped))
@@ -86,7 +86,10 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
             [&testdata]() {
                 arc::Imploder arc(testdata);
                 arc::Parcel parcel(arc.imploded());
-                return arc.exploded();
+                if (fs::exists(arc.original()))
+                    return arc.exploded();
+                else
+                    return arc.imploded();
             });
 
     When(Method(mock, merge))
@@ -118,6 +121,10 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
 
     arc::WrapInterface& i = mock.get();
 
+    //
+    // Scenario 1: Original exists
+    //
+
     REQUIRE(i.clean() == testdata);
     REQUIRE(fs::exists(testdata));
     REQUIRE(!fs::exists(i.unWrapped()));
@@ -142,8 +149,47 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
     REQUIRE(!fs::exists(i.unWrapped()));
     REQUIRE(!fs::exists(i.wrapped()));
 
+    //
+    // Scenario 2: Original does not exist
+    //
+
+    REQUIRE(fs::exists(testdata));
+    REQUIRE(!fs::exists(i.unWrapped()));
+    REQUIRE(!fs::exists(i.wrapped()));
+
+    REQUIRE(i.wrap() == i.wrapped());
+    REQUIRE(fs::exists(testdata));
+    REQUIRE(!fs::exists(i.unWrapped()));
+    REQUIRE(fs::exists(i.wrapped()));
+
+    REQUIRE(fs::exists(testdata));
+    REQUIRE(fs::exists(i.wrapped()));
+    auto rmCmd = "rm data/exparx.webflow.zip";
+    SystemException::assertion(rmCmd, __INFO__);
+    REQUIRE(!fs::exists(testdata));
+    REQUIRE(fs::exists(i.wrapped()));
+
+    REQUIRE(i.unWrap() == i.unWrapped());
+    REQUIRE(!fs::exists(testdata));
+    REQUIRE(fs::exists(i.unWrapped()));
+    REQUIRE(!fs::exists(i.wrapped()));
+
+    REQUIRE(i.merge() == testdata);
+    REQUIRE(!fs::exists(i.unWrapped()));
+    REQUIRE(fs::exists(testdata));
+
+    REQUIRE(i.clean() == testdata);
+    REQUIRE(fs::exists(testdata));
+    REQUIRE(!fs::exists(i.unWrapped()));
+    REQUIRE(!fs::exists(i.wrapped()));
+
+    // 
+
     Verify(Method(mock, wrap));
     Verify(Method(mock, unWrap));
+    Verify(Method(mock, wrapped));
+    Verify(Method(mock, unWrapped));
+    Verify(Method(mock, merge));
     Verify(Method(mock, clean));
 
 }

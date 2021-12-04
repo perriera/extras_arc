@@ -64,19 +64,20 @@ namespace extras {
             parcel.unpack();
             parcel.merge();
             parcel.clean();
-            if (fs::exists(arc.imploded())) {
+            if (fs::exists(arc.original())) {
                 arc.explode();
-                auto result = arc.exploded();
-                return result;
+                return arc.exploded();
             }
-            auto result = arc.imploded();
-            return result;
+            return  arc.imploded();;
         }
 
         Filename ParcelImploder::unWrapped() const {
             arc::Imploder arc(original());
             arc::Parcel parcel(arc.imploded());
-            return arc.exploded();
+            if (fs::exists(arc.original()))
+                return arc.exploded();
+            else
+                return arc.imploded();
         }
 
         /**

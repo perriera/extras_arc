@@ -33,6 +33,9 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock WrapInterface: Parcel", "[WrapInterface]") {
 
+    auto cpCmd = "cp data/exparx.webflow_original.zip data/exparx.webflow.zip";
+    SystemException::assertion(cpCmd, __INFO__);
+
     Parameter original = ~extras::Paths("data/exparx.webflow.zip");
     Parameter packed = extras::replace_all(original, "webflow.zip", "webflow.zip_packed.txt");
     Parameter unpacked = extras::replace_all(original, "webflow.zip", "webflow.zip_duplicate.bin");

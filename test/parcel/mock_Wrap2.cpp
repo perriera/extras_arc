@@ -34,6 +34,9 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock WrapInterface: Imploder", "[WrapInterface]") {
 
+    auto cpCmd = "cp data/exparx.webflow_original.zip data/exparx.webflow.zip";
+    SystemException::assertion(cpCmd, __INFO__);
+
     Parameter original = ~extras::Paths("data/exparx.webflow.zip");
     Parameter imploded = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip");
     Parameter exploded = extras::replace_all(original, "webflow.zip", "webflow.zip_exploded.zip");
