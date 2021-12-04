@@ -44,11 +44,43 @@ namespace extras {
 
         interface WrapInterface {
 
+            /**
+             * @brief the name of the zip archive being wrapped
+             *
+             * @return Filename
+             */
+            virtual Filename original() const pure;
+
+            /**
+             * @brief performs a parcel.pack and implode.impode()
+             * on the given zip archive
+             *
+             * @return Filename
+             */
             virtual Filename wrap() const pure;
             virtual Filename unWrap() const pure;
+
+            /**
+             * @brief performs a parcel.merge and implode.merge
+             * on the given zip archive
+             *
+             * @return Filename
+             */
             virtual Filename merge() const pure;
+
+            /**
+             * @brief performs a parcel.clean and implode.clean
+             * on the given zip archive
+             *
+             * @return Filename
+             */
             virtual Filename clean() const pure;
-            virtual Filename original() const pure;
+
+            /**
+             * @brief the name of the wrapped verison of the archive
+             *
+             * @return Filename
+             */
             virtual Filename wrapped() const pure;
             virtual Filename unWrapped() const pure;
 
@@ -57,7 +89,16 @@ namespace extras {
                 return !(*this == rhs);
             }
 
+            /**
+             * @brief shows the contents of HOWTO-wrap.md
+             *
+             */
             virtual void help() const pure;
+
+            /**
+             * @brief displays the contents of the original() directory
+             *
+             */
             virtual void diagnostics(std::string) const pure;
 
 

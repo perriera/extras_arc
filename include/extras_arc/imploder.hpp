@@ -65,13 +65,49 @@ namespace extras {
       /**
        * @brief implode/explode
        *
+       * These methods will remove any files that quailfy with the isImplodable()
+       * method as well as be restored later with the explode method.
+       *
        * @return const Filename&
        */
       virtual void implode() const pure;
-      virtual bool isImplodable(const Filename&) const pure;
       virtual void explode() const pure;
+
+      /**
+       * @brief merge()
+       *
+       * This method will replace the original file name with the imploded or
+       * exploded verson of the file, (then do a clean() operation)
+       *
+       */
       virtual void merge() const pure;
+
+      /**
+       * @brief clean()
+       *
+       * This method removes any files that were created other using the original file.
+       * (but leaving the original file)
+       *
+       */
       virtual void clean() const pure;
+
+      /**
+       * @brief isImplodable()
+       *
+       * Any files that are not to be sent across a socket connection are
+       * identified with this method. In the default version of the Imploder
+       * class we have a series of files identified as image files based upon
+       * the file extension. However, it is just a matter of overriding this
+       * method for any criteria of files that are not intended to be sent
+       * across a socket connection. For example, in the case of source code
+       * this method could recognize any time of source file, (based on extension
+       * or otherwise) and the specialized class will implode these files
+       * accordingly.
+       *
+       * @return true
+       * @return false
+       */
+      virtual bool isImplodable(const Filename&) const pure;
 
       /**
        * @brief rm/rmdir

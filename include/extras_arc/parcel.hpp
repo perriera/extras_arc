@@ -46,32 +46,73 @@ namespace extras {
         /**
          * @brief ParcelInterface
          *
-         *   build/rsi_client 127.0.0.1 8080 transfer send.txt
-         *   ss >> prg >> filename >> ip >> port;
-         *
          */
 
         interface ParcelInterface {
 
-            // virtual BinFile loadBin(const Filename& filename) const pure;
-            // virtual HexFile convertToHex() const pure;
-            // virtual HexFile hexFile() const pure;
-
+            /**
+             * @brief original(), hexed(), packed(), duplicate()
+             *
+             * @return the original filename
+             * @return the original filename + "_hexed";
+             * @return the original filename + "_packed";
+             * @return the original filename + "_duplicate";
+             */
             virtual const Parameter& original() const pure;
             virtual const Parameter& hexed() const pure;
             virtual const Parameter& packed() const pure;
             virtual const Parameter& duplicate() const pure;
 
+            /**
+             * @brief converts the original file into it's hexademical equivalent
+             *
+             */
             virtual void pack() const pure;
             virtual void unpack() const pure;
+
+            /**
+             * @brief makes the duplicate the original file
+             *
+             */
             virtual void merge() const pure;
             virtual bool verify_integrity() const pure;
+
+            /**
+             * @brief removes any files created with the original,
+             * (other than the original file)
+             *
+             */
             virtual void clean() const pure;
+
+            /**
+             * @brief shows the content of the hexademical file
+             *
+             */
             virtual void cat() const pure;
+
+            /**
+             * @brief shows the directory of the original file
+             *
+             */
             virtual void dir() const pure;
+
+            /**
+             * @brief shows the cotents of the duplicate file
+             *
+             */
             virtual void unzip() const pure;
+
+            /**
+             * @brief displays the HOWTO-parcel.md file
+             *
+             */
             virtual void help() const pure;
 
+            /**
+             * @brief shows the directory of the original file
+             *
+             * @param msg
+             */
             virtual void diagnostics(std::string msg) const pure;
         };
 
