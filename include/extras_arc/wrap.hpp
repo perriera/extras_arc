@@ -34,6 +34,8 @@
 #include <extras/strings.hpp>
 #include <extras_arc/parcel.hpp>
 #include <extras_arc/imploder.hpp>
+#include <extras/status/help.hpp>
+#include <extras/status/diagnostics.hpp>
 
 namespace extras {
     namespace arc {
@@ -89,26 +91,14 @@ namespace extras {
                 return !(*this == rhs);
             }
 
-            /**
-             * @brief shows the contents of HOWTO-wrap.md
-             *
-             */
-            virtual void help() const pure;
-
-            /**
-             * @brief displays the contents of the original() directory
-             *
-             */
-            virtual void diagnostics(std::string) const pure;
-
-
         };
 
         /**
          * @brief ParcelImploder
          *
          */
-        concrete class ParcelImploder implements WrapInterface {
+        concrete class ParcelImploder implements WrapInterface
+            with HelpInterface with DiagnosticsInterface {
             Filename _filename;
 
         public:

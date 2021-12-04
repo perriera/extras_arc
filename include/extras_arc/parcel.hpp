@@ -31,6 +31,8 @@
   */
 
 #include <extras/interfaces.hpp>
+#include <extras/status/help.hpp>
+#include <extras/status/diagnostics.hpp>
 #include <extras/strings.hpp>
 #include <extras/crcs.hpp>
 #include <iostream>
@@ -102,21 +104,10 @@ namespace extras {
              */
             virtual void unzip() const pure;
 
-            /**
-             * @brief displays the HOWTO-parcel.md file
-             *
-             */
-            virtual void help() const pure;
-
-            /**
-             * @brief shows the directory of the original file
-             *
-             * @param msg
-             */
-            virtual void diagnostics(std::string msg) const pure;
         };
 
-        concrete class Parcel  implements ParcelInterface {
+        concrete class Parcel  implements ParcelInterface
+            with HelpInterface with DiagnosticsInterface {
 
             Parameter _parcel;
             Parameter _hexed;
@@ -144,7 +135,7 @@ namespace extras {
             virtual void unzip() const override;
 
             virtual void help() const override;
-            virtual void diagnostics(std::string) const override {};
+            virtual void diagnostics(DiagnosticsLine) const override {};
 
         };
 
