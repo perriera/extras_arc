@@ -1,3 +1,4 @@
+
 # perriera/extras_arc
 Welcome to the perriera/extras_arc project. 
 
@@ -38,6 +39,20 @@ If you have done everything correctly, you will see a Catch2 diagnostic with all
 	perry@ubuntu:~/Projects/extras_arc$ build/run-unittests-extras_arc 
 	===============================================================================
 	All tests passed (1 assertion in 2 test cases)
+
+## Installation
+If you would like the utilities **implode**, **parcel** and **wrap** as part of the operating system:
+
+	cd build
+	sudo checkinstall
+
+**Note**: When you do that be sure to set the name of the project to **extras_arc**, (and not the default '**build**'). If you do not have checkinstall installed [go here](https://help.ubuntu.com/community/CheckInstall)
+
+## Un-Install
+If you installed **extras_arc** earlier with checkinstall then the following will uninstall the package:
+
+	sudo dpkg -r extras_arc
+
 
 
 ## CPM Optimization
