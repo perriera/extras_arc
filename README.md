@@ -24,7 +24,7 @@ To use this template you will need a Linux environment, (Ubuntu is idea).
  
 Once you have established these THREE STEPS you may do the following
 
-	git clone https://github.com/perriera/extras_rsi.git
+	git clone https://github.com/perriera/extras_arc.git
 	cd extras_arc
 	mkdir build
 	cd build
