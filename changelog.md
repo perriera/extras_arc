@@ -4,8 +4,8 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).</br>
 > To add a tag to the git repository do:
-> > git tag -a v2.0.0 -m "Added wrap utility"</br>
-> > git push origin v2.0.0
+> > git tag -a v2.1.0 -m "Using v5.14.0"</br>
+> > git push origin v2.1.0
 > 
 
 IMPORTANT: 
@@ -28,6 +28,13 @@ Correct URL for github, (for source compare)</br>
 Adding mock test cases </br>
 Adding unit test cases </br>
 Updated README.md accordinging</br>
+
+#### 2.1.0 (2021-12-04)
+### Changed 
+- ImploderInterface
+- ParcelInterface
+- WrapInterface
+- Using v5.14.0 
 
 #### 2.0.0 (2021-12-03)
 ### Added 
@@ -193,7 +200,8 @@ Updated README.md accordinging</br>
 ### Removed
 - Conan package manager deprecated
 
-[Unreleased]: https://github.com/perriera/extras_arc/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/perriera/extras_arc/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/perriera/extras_arc/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/perriera/extras_arc/compare/v1.3.0...v2.0.0
 [1.3.0]: https://github.com/perriera/extras_arc/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/perriera/extras_arc/compare/v1.1.2...v1.2.0

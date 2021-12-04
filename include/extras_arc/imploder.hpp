@@ -33,6 +33,8 @@
 #include <iostream>
 #include <extras/interfaces.hpp>
 #include <extras_arc/types.hpp>
+#include <extras/status/help.hpp>
+#include <extras/status/diagnostics.hpp>
 
 namespace extras {
   namespace arc {
@@ -117,9 +119,6 @@ namespace extras {
       virtual void rm(const Filename& to) const pure;
       virtual void rmdir(const Path& to) const pure;
 
-      virtual void help() const pure;
-      virtual void diagnostics(std::string) const pure;
-
     };
 
     /**
@@ -127,7 +126,8 @@ namespace extras {
      *
      */
 
-    concrete class Imploder implements ImploderInterface {
+    concrete class Imploder implements ImploderInterface
+      with HelpInterface with DiagnosticsInterface {
       Filename _original;
 
     public:
