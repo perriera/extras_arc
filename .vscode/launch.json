@@ -15,7 +15,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/run-unittests-${workspaceRootFolderName}",
             "args": [
-                "[WrapInterface]"
+                "[ZipperInterface]"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

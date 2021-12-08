@@ -1,3 +1,6 @@
+
+The "MIT/X Consortium License", (adapted for EXPARX.COM)
+
 Copyright (C) November 22, 2021 EXPARX INCORPORATED
 
 Permission is hereby  granted,  free of  charge,  to  any person 
@@ -27,4 +30,4 @@ promote the sale, use or other dealings in this Software without
 prior written authorization from EXPARX INCORPORATED.
 
 exparx.com and www.exparx.com  are domain names  registered with 
-EXPARX INCORPORATED. Other MIT/GPL-themed licenses are included.
+EXPARX INCORPORATED, (other MIT/GPL-themed licenses may apply).

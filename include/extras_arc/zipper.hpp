@@ -1,7 +1,7 @@
 /**
- * @file Parcel.hpp
+ * @file Wrap.hpp
  * @author Perry Anderson (perry@exparx.com)
- * @brief C++ defined type definitions specific to this package
+ * @brief WrapInterface, ParcelImploder class
  * @version 0.1
  * @date 2021-11-30
  *
@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef _EXPARX_PARCEL_TYPES_HPP
-#define _EXPARX_PARCEL_TYPES_HPP
+#ifndef _EXPARX_ZIPPER_HPP
+#define _EXPARX_ZIPPER_HPP
 
  /**
   * @brief the "MIT/X Consortium License", (adapted for EXPARX.COM)
@@ -32,22 +32,28 @@
 
 #include <extras/interfaces.hpp>
 #include <extras/strings.hpp>
-#include <extras/crcs.hpp>
-#include <iostream>
-#include <sstream>
-#include <netinet/in.h>
-#include <sys/socket.h>
+#include <extras_arc/parcel.hpp>
+#include <extras_arc/imploder.hpp>
+#include <extras/status/help.hpp>
+#include <extras/status/diagnostics.hpp>
 
 namespace extras {
-  namespace arc {
+    namespace arc {
 
-    /**
-     * @brief extras_src/types.hpp
-     *
-     */
+        /**
+         * @brief ZipperInterface
+         *
+         */
 
-  }  // namespace arc
+        interface ZipperInterface {
+
+            virtual void unzip(const Filename&, const Path& to) const pure;
+            virtual void rezip(const Filename&, const Path& from) const pure;
+
+        };
+
+    }  // namespace arc
 
 }  // namespace extras
 
-#endif  // _EXPARX_PARCEL_TYPES_HPP
+#endif  // _EXPARX_ZIPPER_HPP
