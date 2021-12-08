@@ -33,36 +33,47 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
 
-    string script_name = "build/unzipit.sh";
-    string angular_src_dir = "build/src";
-    ofstream ss(script_name);
-    ss << "cp data/src.zip build/src.zip" << endl;
-    ss << "cd build" << endl;
-    ss << "rm -rf src" << endl;
-    ss << "unzip src.zip" << endl;
-    ss.close();
-    auto cpCmd = "cp data/src.zip build/src.zip";
-    ScriptException::assertion(script_name, __INFO__);
-
-    Parameter before = ~extras::Paths("build/src");
+    SystemException::assertion("cp data/src.zip build/src.zip", __INFO__);
+    SystemException::assertion("rm -rf build/src", __INFO__);
 
     Mock<arc::ZipperInterface> mock;
-
     When(Method(mock, unzip))
         .AlwaysDo(
-            [](const Filename&, const Path& to) {
-
+            [](const Filename& zipFile, const Path& to) {
+                FileNotFoundException::assertion(zipFile, __INFO__);
+                auto unzip = "unzip -o " + zipFile + " -d " + to + " >/dev/null";
+                SystemException::assertion(unzip.c_str(), __INFO__);
             });
 
     When(Method(mock, rezip))
         .AlwaysDo(
-            [](const Filename&, const Path& t) {
-
+            [](const Filename& zipFile, const Path& from) {
+                FileNotFoundException::assertion(zipFile, __INFO__);
+                PathNotFoundException::assertion(from, __INFO__);
+                auto script = zipFile + ".sh";
+                std::ofstream ss(script);
+                ss << "cd " + from << std::endl;
+                fs::path p = zipFile;
+                std::string fn = p.filename();
+                ss << "zip -r ../" + fn + " . " << ">/dev/null" << std::endl;
+                ss.close();
+                ScriptException::assertion(script.c_str(), __INFO__);
             });
 
+    {
+        Paths path("~/Downloads");
+        REQUIRE(fs::exists(path.c_str()));
+    }
+
     arc::ZipperInterface& i = mock.get();
-    i.unzip(angular_src_dir, "");
-    i.rezip(angular_src_dir, "");
+    REQUIRE(fs::exists("build/src.zip"));
+    REQUIRE(!fs::exists("build/src"));
+    i.unzip("build/src.zip", "build/");
+    REQUIRE(fs::exists("build/src.zip"));
+    REQUIRE(fs::exists("build/src"));
+    i.rezip("build/src.zip", "build/");
+    REQUIRE(fs::exists("build/src.zip"));
+    REQUIRE(fs::exists("build/src"));
     Verify(Method(mock, unzip));
     Verify(Method(mock, rezip));
 
