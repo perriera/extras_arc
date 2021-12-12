@@ -47,11 +47,14 @@ namespace extras {
 
         interface ZipperInterface {
 
-            virtual void unzip(const Filename&, const Path& to) const pure;
-            virtual void rezip(const Filename&, const Path& from) const pure;
-            virtual void zipit(const Filename&, const Path& from) const pure;
-            virtual void update(const Filename&, const Path& to) const pure;
-            virtual void append(const Filename&, const Path& to) const pure;
+            virtual const Filename& zipFile() const pure;
+            virtual const Pathname& zipDir() const pure;
+
+            virtual void unzip() const pure;
+            virtual void rezip() const pure;
+            virtual void zipit() const pure;
+            virtual void update() const pure;
+            virtual void append() const pure;
 
         };
 
@@ -63,11 +66,22 @@ namespace extras {
         concrete class Zipper implements ZipperInterface
             with HelpInterface with DiagnosticsInterface {
 
-            virtual void unzip(const Filename&, const Path& to) const override;
-            virtual void rezip(const Filename&, const Path& from) const override;
-            virtual void zipit(const Filename&, const Path& from) const override;
-            virtual void update(const Filename&, const Path& to) const override;
-            virtual void append(const Filename&, const Path& to) const override;
+            Filename _zipFile;
+            Pathname _zipDir;
+
+        public:
+
+            Zipper(const Filename& zipFile, const Pathname& zipDir)
+                : _zipFile(zipFile), _zipDir(zipDir) {}
+
+            virtual const Filename& zipFile() const override { return _zipFile; };
+            virtual const Pathname& zipDir() const override { return _zipDir; };
+
+            virtual void unzip() const override;
+            virtual void rezip() const override;
+            virtual void zipit() const override;
+            virtual void update() const override;
+            virtual void append() const override;
 
             virtual void help() const override;
             virtual void diagnostics(std::string) const override {};

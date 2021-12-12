@@ -36,22 +36,26 @@ SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
     SystemException::assertion("cp data/src.zip build/src.zip", __INFO__);
     SystemException::assertion("rm -rf build/src", __INFO__);
 
+    Filename zipFile = "build/src.zip";
+    Pathname zipDir = "build/";
+    Pathname zipDir2 = "build/src";
+
     Mock<arc::ZipperInterface> mock;
     When(Method(mock, unzip))
         .AlwaysDo(
-            [](const Filename& zipFile, const Path& to) {
+            [&zipFile, &zipDir]() {
                 FileNotFoundException::assertion(zipFile, __INFO__);
-                auto unzip = "unzip -o " + zipFile + " -d " + to + " >/dev/null";
+                auto unzip = "unzip -o " + zipFile + " -d " + zipDir + " >/dev/null";
                 SystemException::assertion(unzip.c_str(), __INFO__);
             });
     When(Method(mock, rezip))
         .AlwaysDo(
-            [](const Filename& zipFile, const Path& from) {
+            [&zipFile, &zipDir]() {
                 FileNotFoundException::assertion(zipFile, __INFO__);
-                PathNotFoundException::assertion(from, __INFO__);
+                PathNotFoundException::assertion(zipDir, __INFO__);
                 auto script = "/tmp/script.sh";
                 std::ofstream ss(script);
-                ss << "cd " + from << std::endl;
+                ss << "cd " + zipDir << std::endl;
                 fs::path p = zipFile;
                 std::string fn = p.filename();
                 ss << "zip -r ../" + fn + " . " << ">/dev/null" << std::endl;
@@ -60,11 +64,11 @@ SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
             });
     When(Method(mock, zipit))
         .AlwaysDo(
-            [](const Filename& zipFile, const Path& from) {
-                PathNotFoundException::assertion(from, __INFO__);
+            [&zipFile, &zipDir]() {
+                PathNotFoundException::assertion(zipDir, __INFO__);
                 auto script = "/tmp/script.sh";
                 std::ofstream ss(script);
-                ss << "cd " + from << std::endl;
+                ss << "cd " + zipDir << std::endl;
                 string tempFile = "/tmp/temp.zip";
                 if (fs::exists(tempFile))
                     fs::remove(tempFile);
@@ -77,21 +81,21 @@ SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
             });
     When(Method(mock, update))
         .AlwaysDo(
-            [](const Filename& zipFile, const Path& to) {
-                PathNotFoundException::assertion(to, __INFO__);
+            [&zipFile, &zipDir2]() {
+                PathNotFoundException::assertion(zipDir2, __INFO__);
                 FileNotFoundException::assertion(zipFile, __INFO__);
                 std::string tempDir = std::tmpnam(nullptr);
                 tempDir += ".dir";
                 std::string zipSrcTempDir = tempDir + "/src/";
                 auto unzip = "unzip -o " + zipFile + " -d " + tempDir + " >/dev/null";
                 SystemException::assertion(unzip.c_str(), __INFO__);
-                for (auto& p : fs::recursive_directory_iterator(to))
+                for (auto& p : fs::recursive_directory_iterator(zipDir2))
                     if (!p.is_directory()) {
                         // auto script = original() + ".sh";
                         std::string pathA = p.path();
                         std::string fn = p.path().filename();
                         std::string pathB = extras::replace_all(pathA, fn, "");
-                        std::string subDir = extras::replace_all(pathB, to + "/", "");
+                        std::string subDir = extras::replace_all(pathB, zipDir2 + "/", "");
                         std::string pathC = zipSrcTempDir + subDir + fn;
                         auto cpCmd = "cp  " + pathC + " " + pathA + " >/dev/null";
                         SystemException::assertion(cpCmd.c_str(), __INFO__);
@@ -101,8 +105,8 @@ SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
             });
     When(Method(mock, append))
         .AlwaysDo(
-            [](const Filename& zipFile, const Path& to) {
-                PathNotFoundException::assertion(to, __INFO__);
+            [&zipFile, &zipDir2]() {
+                PathNotFoundException::assertion(zipDir2, __INFO__);
                 FileNotFoundException::assertion(zipFile, __INFO__);
                 std::string tempDir = std::tmpnam(nullptr);
                 tempDir += ".dir";
@@ -116,7 +120,7 @@ SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
                         std::string fn = p.path().filename();
                         std::string pathB = extras::replace_all(pathA, fn, "");
                         std::string subDir = extras::replace_all(pathB, zipSrcTempDir, "/");
-                        std::string pathC = to + subDir + fn;
+                        std::string pathC = zipDir2 + subDir + fn;
                         auto cpCmd = "rsync -a " + pathA + " " + pathC + " >/dev/null";
                         SystemException::assertion(cpCmd.c_str(), __INFO__);
                     }
@@ -128,14 +132,14 @@ SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
     // test unzip
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(!fs::exists("build/src"));
-    i.unzip("build/src.zip", "build/");
+    i.unzip();
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
 
     // // test rezip
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
-    i.rezip("build/src.zip", "build/");
+    i.rezip();
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
 
@@ -143,7 +147,7 @@ SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
     fs::remove("build/src.zip");
     REQUIRE(!fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
-    i.zipit("build/src.zip", "build/");
+    i.zipit();
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
 
@@ -152,14 +156,14 @@ SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
     // test update
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
-    i.update("build/src.zip", "build/src");
+    i.update();
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
 
     // test append
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
-    i.append("build/src.zip", "build/src");
+    i.append();
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
 

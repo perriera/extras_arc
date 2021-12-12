@@ -33,29 +33,29 @@ namespace extras {
         /**
          * @brief unzip
          *
-         * @param zipFile
-         * @param to
+         * @param zipFile()
+         * @param zipDir()
          */
-        void Zipper::unzip(const Filename& zipFile, const Path& to) const {
-            FileNotFoundException::assertion(zipFile, __INFO__);
-            auto unzip = "unzip -o " + zipFile + " -d " + to + " >/dev/null";
+        void Zipper::unzip() const {
+            FileNotFoundException::assertion(zipFile(), __INFO__);
+            auto unzip = "unzip -o " + zipFile() + " -d " + zipDir() + " >/dev/null";
             SystemException::assertion(unzip.c_str(), __INFO__);
         }
 
         /**
          * @brief rezip()
          *
-         * @param filename
-         * @param from
+         * @param zipFile()
+         * @param zipDir()
          */
-        void Zipper::rezip(const Filename& filename, const Path& from) const {
-            FileNotFoundException::assertion(filename, __INFO__);
-            PathNotFoundException::assertion(from, __INFO__);
-            auto script = filename + ".sh";
+        void Zipper::rezip() const {
+            FileNotFoundException::assertion(zipFile(), __INFO__);
+            PathNotFoundException::assertion(zipDir(), __INFO__);
+            auto script = zipFile() + ".sh";
             std::ofstream ss(script);
-            ss << "cp " + filename << ' ' << filename << std::endl;
-            ss << "cd " + from << std::endl;
-            fs::path p = filename;
+            ss << "cp " + zipFile() << ' ' << zipFile() << std::endl;
+            ss << "cd " + zipDir() << std::endl;
+            fs::path p = zipFile();
             std::string fn = p.filename();
             ss << "zip -r ../" + fn + " . " << ">/dev/null" << std::endl;
             ss.close();
@@ -66,16 +66,16 @@ namespace extras {
          * @brief zipit
          *
          */
-        void Zipper::zipit(const Filename& filename, const Path& from) const {
-            PathNotFoundException::assertion(from, __INFO__);
+        void Zipper::zipit() const {
+            PathNotFoundException::assertion(zipDir(), __INFO__);
             auto script = "/tmp/script.sh";
             std::ofstream ss(script);
-            ss << "cd " + from << std::endl;
+            ss << "cd " + zipDir() << std::endl;
             string tempFile = "/tmp/temp.zip";
             if (fs::exists(tempFile))
                 fs::remove(tempFile);
             ss << "zip -r " << tempFile << " . " << ">/dev/null" << std::endl;
-            fs::path p = filename;
+            fs::path p = zipFile();
             ss << "cp " << tempFile << " " << fs::absolute(p) << ">/dev/null" << std::endl;
             ss << "rm " << tempFile << ">/dev/null" << std::endl;
             ss.close();
@@ -86,21 +86,21 @@ namespace extras {
          * @brief update
          *
          */
-        void Zipper::update(const Filename& filename, const Path& from) const {
-            PathNotFoundException::assertion(from, __INFO__);
-            FileNotFoundException::assertion(filename, __INFO__);
+        void Zipper::update() const {
+            PathNotFoundException::assertion(zipDir(), __INFO__);
+            FileNotFoundException::assertion(zipFile(), __INFO__);
             std::string tempDir = std::tmpnam(nullptr);
             tempDir += ".dir";
             std::string zipSrcTempDir = tempDir + "/src/";
-            auto unzip = "unzip -o " + filename + " -d " + tempDir + " >/dev/null";
+            auto unzip = "unzip -o " + zipFile() + " -d " + tempDir + " >/dev/null";
             SystemException::assertion(unzip.c_str(), __INFO__);
-            for (auto& p : fs::recursive_directory_iterator(from))
+            for (auto& p : fs::recursive_directory_iterator(zipDir()))
                 if (!p.is_directory()) {
                     // auto script = original() + ".sh";
                     std::string pathA = p.path();
                     std::string fn = p.path().filename();
                     std::string pathB = extras::replace_all(pathA, fn, "");
-                    std::string subDir = extras::replace_all(pathB, from + "/", "");
+                    std::string subDir = extras::replace_all(pathB, zipDir() + "/", "");
                     std::string pathC = zipSrcTempDir + subDir + fn;
                     auto cpCmd = "cp  " + pathC + " " + pathA + " >/dev/null";
                     SystemException::assertion(cpCmd.c_str(), __INFO__);
@@ -113,13 +113,13 @@ namespace extras {
          * @brief update
          *
          */
-        void Zipper::append(const Filename& filename, const Path& from) const {
-            PathNotFoundException::assertion(from, __INFO__);
-            FileNotFoundException::assertion(filename, __INFO__);
+        void Zipper::append() const {
+            PathNotFoundException::assertion(zipDir(), __INFO__);
+            FileNotFoundException::assertion(zipFile(), __INFO__);
             std::string tempDir = std::tmpnam(nullptr);
             tempDir += ".dir";
             std::string zipSrcTempDir = tempDir + "/src/";
-            auto unzip = "unzip -o " + filename + " -d " + tempDir + " >/dev/null";
+            auto unzip = "unzip -o " + zipFile() + " -d " + tempDir + " >/dev/null";
             SystemException::assertion(unzip.c_str(), __INFO__);
             for (auto& p : fs::recursive_directory_iterator(tempDir))
                 if (!p.is_directory()) {
@@ -128,7 +128,7 @@ namespace extras {
                     std::string fn = p.path().filename();
                     std::string pathB = extras::replace_all(pathA, fn, "");
                     std::string subDir = extras::replace_all(pathB, zipSrcTempDir, "/");
-                    std::string pathC = from + subDir + fn;
+                    std::string pathC = zipDir() + subDir + fn;
                     auto cpCmd = "rsync -a " + pathA + " " + pathC + " >/dev/null";
                     SystemException::assertion(cpCmd.c_str(), __INFO__);
                 }
@@ -144,10 +144,10 @@ namespace extras {
         }
 
         void ZipperCmdLine::diagnostics(std::string msg) const {
-            // if (msg.size() > 0)
-            //     std::cout << msg << std::endl;
-            // auto cmd = "ls -la " + original() + "*";
-            // extras::SystemException::assertion(cmd, __INFO__);
+            if (msg.size() > 0)
+                std::cout << msg << std::endl;
+            auto cmd = "ls -la " + zipFile() + "*";
+            extras::SystemException::assertion(cmd, __INFO__);
         }
 
     }
