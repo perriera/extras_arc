@@ -44,37 +44,129 @@ SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
                 auto unzip = "unzip -o " + zipFile + " -d " + to + " >/dev/null";
                 SystemException::assertion(unzip.c_str(), __INFO__);
             });
-
     When(Method(mock, rezip))
         .AlwaysDo(
             [](const Filename& zipFile, const Path& from) {
                 FileNotFoundException::assertion(zipFile, __INFO__);
                 PathNotFoundException::assertion(from, __INFO__);
-                auto script = zipFile + ".sh";
+                auto script = "/tmp/script.sh";
                 std::ofstream ss(script);
                 ss << "cd " + from << std::endl;
                 fs::path p = zipFile;
                 std::string fn = p.filename();
                 ss << "zip -r ../" + fn + " . " << ">/dev/null" << std::endl;
                 ss.close();
-                ScriptException::assertion(script.c_str(), __INFO__);
+                ScriptException::assertion(script, __INFO__);
+            });
+    When(Method(mock, zipit))
+        .AlwaysDo(
+            [](const Filename& zipFile, const Path& from) {
+                PathNotFoundException::assertion(from, __INFO__);
+                auto script = "/tmp/script.sh";
+                std::ofstream ss(script);
+                ss << "cd " + from << std::endl;
+                string tempFile = "/tmp/temp.zip";
+                if (fs::exists(tempFile))
+                    fs::remove(tempFile);
+                ss << "zip -r " << tempFile << " . " << ">/dev/null" << std::endl;
+                fs::path p = zipFile;
+                ss << "cp " << tempFile << " " << fs::absolute(p) << ">/dev/null" << std::endl;
+                ss << "rm " << tempFile << ">/dev/null" << std::endl;
+                ss.close();
+                ScriptException::assertion(script, __INFO__);
+            });
+    When(Method(mock, update))
+        .AlwaysDo(
+            [](const Filename& zipFile, const Path& to) {
+                PathNotFoundException::assertion(to, __INFO__);
+                FileNotFoundException::assertion(zipFile, __INFO__);
+                std::string tempDir = std::tmpnam(nullptr);
+                tempDir += ".dir";
+                std::string zipSrcTempDir = tempDir + "/src/";
+                auto unzip = "unzip -o " + zipFile + " -d " + tempDir + " >/dev/null";
+                SystemException::assertion(unzip.c_str(), __INFO__);
+                for (auto& p : fs::recursive_directory_iterator(to))
+                    if (!p.is_directory()) {
+                        // auto script = original() + ".sh";
+                        std::string pathA = p.path();
+                        std::string fn = p.path().filename();
+                        std::string pathB = extras::replace_all(pathA, fn, "");
+                        std::string subDir = extras::replace_all(pathB, to + "/", "");
+                        std::string pathC = zipSrcTempDir + subDir + fn;
+                        auto cpCmd = "cp  " + pathC + " " + pathA + " >/dev/null";
+                        SystemException::assertion(cpCmd.c_str(), __INFO__);
+                    }
+                auto rmDir = "rm -rf " + tempDir + " >/dev/null";
+                SystemException::assertion(rmDir.c_str(), __INFO__);
+            });
+    When(Method(mock, append))
+        .AlwaysDo(
+            [](const Filename& zipFile, const Path& to) {
+                PathNotFoundException::assertion(to, __INFO__);
+                FileNotFoundException::assertion(zipFile, __INFO__);
+                std::string tempDir = std::tmpnam(nullptr);
+                tempDir += ".dir";
+                std::string zipSrcTempDir = tempDir + "/src/";
+                auto unzip = "unzip -o " + zipFile + " -d " + tempDir + " >/dev/null";
+                SystemException::assertion(unzip.c_str(), __INFO__);
+                for (auto& p : fs::recursive_directory_iterator(tempDir))
+                    if (!p.is_directory()) {
+                        // auto script = original() + ".sh";
+                        std::string pathA = p.path();
+                        std::string fn = p.path().filename();
+                        std::string pathB = extras::replace_all(pathA, fn, "");
+                        std::string subDir = extras::replace_all(pathB, zipSrcTempDir, "/");
+                        std::string pathC = to + subDir + fn;
+                        auto cpCmd = "rsync -a " + pathA + " " + pathC + " >/dev/null";
+                        SystemException::assertion(cpCmd.c_str(), __INFO__);
+                    }
+                auto rmDir = "rm -rf " + tempDir + " >/dev/null";
+                SystemException::assertion(rmDir.c_str(), __INFO__);
             });
 
-    {
-        Paths path("~/Downloads");
-        REQUIRE(fs::exists(path.c_str()));
-    }
-
     arc::ZipperInterface& i = mock.get();
+    // test unzip
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(!fs::exists("build/src"));
     i.unzip("build/src.zip", "build/");
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
+
+    // // test rezip
+    REQUIRE(fs::exists("build/src.zip"));
+    REQUIRE(fs::exists("build/src"));
     i.rezip("build/src.zip", "build/");
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
+
+    // test zipit
+    fs::remove("build/src.zip");
+    REQUIRE(!fs::exists("build/src.zip"));
+    REQUIRE(fs::exists("build/src"));
+    i.zipit("build/src.zip", "build/");
+    REQUIRE(fs::exists("build/src.zip"));
+    REQUIRE(fs::exists("build/src"));
+
+    SystemException::assertion("cp data/src.zip build/src.zip", __INFO__);
+
+    // test update
+    REQUIRE(fs::exists("build/src.zip"));
+    REQUIRE(fs::exists("build/src"));
+    i.update("build/src.zip", "build/src");
+    REQUIRE(fs::exists("build/src.zip"));
+    REQUIRE(fs::exists("build/src"));
+
+    // test append
+    REQUIRE(fs::exists("build/src.zip"));
+    REQUIRE(fs::exists("build/src"));
+    i.append("build/src.zip", "build/src");
+    REQUIRE(fs::exists("build/src.zip"));
+    REQUIRE(fs::exists("build/src"));
+
     Verify(Method(mock, unzip));
     Verify(Method(mock, rezip));
+    Verify(Method(mock, zipit));
+    Verify(Method(mock, update));
+    Verify(Method(mock, append));
 
 }

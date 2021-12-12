@@ -49,8 +49,37 @@ namespace extras {
 
             virtual void unzip(const Filename&, const Path& to) const pure;
             virtual void rezip(const Filename&, const Path& from) const pure;
+            virtual void zipit(const Filename&, const Path& from) const pure;
+            virtual void update(const Filename&, const Path& to) const pure;
+            virtual void append(const Filename&, const Path& to) const pure;
 
         };
+
+        /**
+         * @brief Zipper class
+         *
+         */
+
+        concrete class Zipper implements ZipperInterface
+            with HelpInterface with DiagnosticsInterface {
+
+            virtual void unzip(const Filename&, const Path& to) const override;
+            virtual void rezip(const Filename&, const Path& from) const override;
+            virtual void zipit(const Filename&, const Path& from) const override;
+            virtual void update(const Filename&, const Path& to) const override;
+            virtual void append(const Filename&, const Path& to) const override;
+
+            virtual void help() const override;
+            virtual void diagnostics(std::string) const override {};
+
+        };
+
+        concrete class ZipperCmdLine  extends Zipper {
+        public:
+            virtual void diagnostics(std::string msg = "") const override;
+
+        };
+
 
     }  // namespace arc
 
