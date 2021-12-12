@@ -64,7 +64,7 @@ SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
                 ss.close();
                 ScriptException::assertion(script, __INFO__);
             });
-    When(Method(mock, zipit))
+    When(Method(mock, create))
         .AlwaysDo(
             [&zipFile, &zipDir]() {
                 PathNotFoundException::assertion(zipDir, __INFO__);
@@ -149,11 +149,11 @@ SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
 
-    // test zipit
+    // test create
     fs::remove("build/src.zip");
     REQUIRE(!fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
-    i.zipit();
+    i.create();
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
 
@@ -175,7 +175,7 @@ SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
 
     Verify(Method(mock, unzip));
     Verify(Method(mock, rezip));
-    Verify(Method(mock, zipit));
+    Verify(Method(mock, create));
     Verify(Method(mock, update));
     Verify(Method(mock, append));
 

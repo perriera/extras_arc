@@ -68,7 +68,7 @@ namespace extras {
          * @brief zipit
          *
          */
-        void Zipper::zipit() const {
+        void Zipper::create() const {
             PathNotFoundException::assertion(zipDir(), __INFO__);
             auto script = "/tmp/script.sh";
             std::ofstream ss(script);
