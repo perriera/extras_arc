@@ -90,6 +90,8 @@ namespace extras {
 
         concrete class ZipperCmdLine  extends Zipper {
         public:
+            ZipperCmdLine(const Filename& zipFile, const Pathname& zipDir)
+                :Zipper(zipFile, zipDir) {}
             virtual void diagnostics(std::string msg = "") const override;
 
         };

@@ -172,6 +172,12 @@ target_include_directories(wrap PUBLIC ${INCLUDES})
 target_link_libraries(wrap PRIVATE ${PROJECT_NAME} stdc++fs extras )
 endif()
 
+if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_EXECUTABLES)
+add_executable(zipper instances/zipper.cpp) 
+target_include_directories(zipper PUBLIC ${INCLUDES})
+target_link_libraries(zipper PRIVATE ${PROJECT_NAME} stdc++fs extras )
+endif()
+
 #
 # NOTE: Install all shared libraries
 #

@@ -22,6 +22,8 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <stdlib.h>
+#include <string.h>
 
 #include "../vendor/catch.hpp"
 #include "../vendor/fakeit.hpp"
@@ -84,7 +86,9 @@ SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
             [&zipFile, &zipDir2]() {
                 PathNotFoundException::assertion(zipDir2, __INFO__);
                 FileNotFoundException::assertion(zipFile, __INFO__);
-                std::string tempDir = std::tmpnam(nullptr);
+                char templatebuf[80];
+                char* mkdirectory = mkdtemp(strcpy(templatebuf, "/tmp/mkprogXXXXXX"));
+                std::string tempDir = mkdirectory;//std::tmpnam(nullptr);
                 tempDir += ".dir";
                 std::string zipSrcTempDir = tempDir + "/src/";
                 auto unzip = "unzip -o " + zipFile + " -d " + tempDir + " >/dev/null";
@@ -108,7 +112,9 @@ SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
             [&zipFile, &zipDir2]() {
                 PathNotFoundException::assertion(zipDir2, __INFO__);
                 FileNotFoundException::assertion(zipFile, __INFO__);
-                std::string tempDir = std::tmpnam(nullptr);
+                char templatebuf[80];
+                char* mkdirectory = mkdtemp(strcpy(templatebuf, "/tmp/mkprogXXXXXX"));
+                std::string tempDir = mkdirectory;//std::tmpnam(nullptr);
                 tempDir += ".dir";
                 std::string zipSrcTempDir = tempDir + "/src/";
                 auto unzip = "unzip -o " + zipFile + " -d " + tempDir + " >/dev/null";

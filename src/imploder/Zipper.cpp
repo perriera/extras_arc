@@ -23,6 +23,8 @@
 #include <extras/filesystem/system.hpp>
 #include <filesystem>
 #include <fstream>
+#include <stdlib.h>
+#include <string.h>
 
 namespace fs = std::filesystem;
 using namespace std;
@@ -89,7 +91,9 @@ namespace extras {
         void Zipper::update() const {
             PathNotFoundException::assertion(zipDir(), __INFO__);
             FileNotFoundException::assertion(zipFile(), __INFO__);
-            std::string tempDir = std::tmpnam(nullptr);
+            char templatebuf[80];
+            char* mkdirectory = mkdtemp(strcpy(templatebuf, "/tmp/mkprogXXXXXX"));
+            std::string tempDir = mkdirectory;//std::tmpnam(nullptr);
             tempDir += ".dir";
             std::string zipSrcTempDir = tempDir + "/src/";
             auto unzip = "unzip -o " + zipFile() + " -d " + tempDir + " >/dev/null";
@@ -116,7 +120,9 @@ namespace extras {
         void Zipper::append() const {
             PathNotFoundException::assertion(zipDir(), __INFO__);
             FileNotFoundException::assertion(zipFile(), __INFO__);
-            std::string tempDir = std::tmpnam(nullptr);
+            char templatebuf[80];
+            char* mkdirectory = mkdtemp(strcpy(templatebuf, "/tmp/mkprogXXXXXX"));
+            std::string tempDir = mkdirectory;//std::tmpnam(nullptr);
             tempDir += ".dir";
             std::string zipSrcTempDir = tempDir + "/src/";
             auto unzip = "unzip -o " + zipFile() + " -d " + tempDir + " >/dev/null";
@@ -138,8 +144,8 @@ namespace extras {
 
 
         void Zipper::help() const {
-            FileNotFoundException::assertion("HOWTO-implode.md", __INFO__);
-            string cmd = "cat HOWTO-implode.md | less ";
+            FileNotFoundException::assertion("HOWTO-zipper.md", __INFO__);
+            string cmd = "cat HOWTO-zipper.md | less ";
             SystemException::assertion(cmd.c_str(), __INFO__);
         }
 
