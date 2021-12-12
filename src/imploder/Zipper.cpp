@@ -55,7 +55,6 @@ namespace extras {
             PathNotFoundException::assertion(zipDir(), __INFO__);
             auto script = zipFile() + ".sh";
             std::ofstream ss(script);
-            ss << "cp " + zipFile() << ' ' << zipFile() << std::endl;
             ss << "cd " + zipDir() << std::endl;
             fs::path p = zipFile();
             std::string fn = p.filename();

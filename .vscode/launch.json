@@ -78,6 +78,31 @@
             ],
             "preLaunchTask": "Build C++ project",
             "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "zipper",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/zipper",
+            "args": [
+                "src.zip",
+                "src",
+                "-create"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build C++ project",
+            "miDebuggerPath": "/usr/bin/gdb"
         }
     ]
 }
