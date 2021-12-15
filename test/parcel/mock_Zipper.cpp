@@ -33,14 +33,10 @@ using namespace std;
 using namespace fakeit;
 namespace fs = std::filesystem;
 
-SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
-
-    SystemException::assertion("cp data/src.zip build/src.zip", __INFO__);
-    SystemException::assertion("rm -rf build/src", __INFO__);
+SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[ZipperInterface]") {
 
     Filename zipFile = "build/src.zip";
     Pathname zipDir = "build/";
-    Pathname zipDir2 = "build/src";
 
     Mock<arc::ZipperInterface> mock;
     When(Method(mock, unzip))
@@ -81,58 +77,12 @@ SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
                 ss.close();
                 ScriptException::assertion(script, __INFO__);
             });
-    When(Method(mock, update))
-        .AlwaysDo(
-            [&zipFile, &zipDir2]() {
-                PathNotFoundException::assertion(zipDir2, __INFO__);
-                FileNotFoundException::assertion(zipFile, __INFO__);
-                char templatebuf[80];
-                char* mkdirectory = mkdtemp(strcpy(templatebuf, "/tmp/mkprogXXXXXX"));
-                std::string tempDir = mkdirectory;//std::tmpnam(nullptr);
-                tempDir += ".dir";
-                std::string zipSrcTempDir = tempDir + "/src/";
-                auto unzip = "unzip -o " + zipFile + " -d " + tempDir + " >/dev/null";
-                SystemException::assertion(unzip.c_str(), __INFO__);
-                for (auto& p : fs::recursive_directory_iterator(zipDir2))
-                    if (!p.is_directory()) {
-                        // auto script = original() + ".sh";
-                        std::string pathA = p.path();
-                        std::string fn = p.path().filename();
-                        std::string pathB = extras::replace_all(pathA, fn, "");
-                        std::string subDir = extras::replace_all(pathB, zipDir2 + "/", "");
-                        std::string pathC = zipSrcTempDir + subDir + fn;
-                        auto cpCmd = "cp  " + pathC + " " + pathA + " >/dev/null";
-                        SystemException::assertion(cpCmd.c_str(), __INFO__);
-                    }
-                auto rmDir = "rm -rf " + tempDir + " >/dev/null";
-                SystemException::assertion(rmDir.c_str(), __INFO__);
-            });
-    When(Method(mock, append))
-        .AlwaysDo(
-            [&zipFile, &zipDir2]() {
-                PathNotFoundException::assertion(zipDir2, __INFO__);
-                FileNotFoundException::assertion(zipFile, __INFO__);
-                char templatebuf[80];
-                char* mkdirectory = mkdtemp(strcpy(templatebuf, "/tmp/mkprogXXXXXX"));
-                std::string tempDir = mkdirectory;//std::tmpnam(nullptr);
-                tempDir += ".dir";
-                std::string zipSrcTempDir = tempDir + "/src/";
-                auto unzip = "unzip -o " + zipFile + " -d " + tempDir + " >/dev/null";
-                SystemException::assertion(unzip.c_str(), __INFO__);
-                for (auto& p : fs::recursive_directory_iterator(tempDir))
-                    if (!p.is_directory()) {
-                        // auto script = original() + ".sh";
-                        std::string pathA = p.path();
-                        std::string fn = p.path().filename();
-                        std::string pathB = extras::replace_all(pathA, fn, "");
-                        std::string subDir = extras::replace_all(pathB, zipSrcTempDir, "/");
-                        std::string pathC = zipDir2 + subDir + fn;
-                        auto cpCmd = "rsync -a " + pathA + " " + pathC + " >/dev/null";
-                        SystemException::assertion(cpCmd.c_str(), __INFO__);
-                    }
-                auto rmDir = "rm -rf " + tempDir + " >/dev/null";
-                SystemException::assertion(rmDir.c_str(), __INFO__);
-            });
+
+    //
+    // prepare test files
+    //
+    SystemException::assertion("cp data/src.zip build/src.zip", __INFO__);
+    SystemException::assertion("rm -rf build/src", __INFO__);
 
     arc::ZipperInterface& i = mock.get();
     // test unzip
@@ -157,26 +107,82 @@ SCENARIO("Mock ZipperInterface", "[ZipperInterface]") {
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
 
-    SystemException::assertion("cp data/src.zip build/src.zip", __INFO__);
+    Verify(Method(mock, unzip));
+    Verify(Method(mock, rezip));
+    Verify(Method(mock, create));
 
-    // test update
+}
+
+
+SCENARIO("Mock ZipperInterface: update/append", "[ZipperInterface]") {
+
+    Filename zipFile = "build/src.zip";
+    Pathname zipDir1 = "build/";
+    Pathname zipDir = "build/src";
+
+    Mock<arc::ZipperInterface> mock;
+    When(Method(mock, unzip))
+        .AlwaysDo(
+            [&zipFile, &zipDir1]() {
+                FileNotFoundException::assertion(zipFile, __INFO__);
+                auto unzip = "unzip -o " + zipFile + " -d " + zipDir1 + " >/dev/null";
+                SystemException::assertion(unzip.c_str(), __INFO__);
+            });
+    When(Method(mock, append))
+        .AlwaysDo(
+            [&zipFile, &zipDir]() {
+                PathNotFoundException::assertion(zipDir, __INFO__);
+                FileNotFoundException::assertion(zipFile, __INFO__);
+                char templatebuf[80];
+                char* mkdirectory = mkdtemp(strcpy(templatebuf, "/tmp/mkprogXXXXXX"));
+                std::string tempDir = mkdirectory;//std::tmpnam(nullptr);
+                tempDir += ".dir";
+                std::string zipSrcTempDir = tempDir + "/src/";
+                auto unzip = "unzip -o " + zipFile + " -d " + tempDir + " >/dev/null";
+                SystemException::assertion(unzip.c_str(), __INFO__);
+                for (auto& p : fs::recursive_directory_iterator(tempDir))
+                    if (!p.is_directory()) {
+                        // auto script = original() + ".sh";
+                        std::string pathA = p.path();
+                        std::string fn = p.path().filename();
+                        std::string pathB = extras::replace_all(pathA, fn, "");
+                        std::string subDir = extras::replace_all(pathB, zipSrcTempDir, "/");
+                        std::string pathC = zipDir + subDir + fn;
+                        auto cpCmd = "install -D " + pathA + " " + pathC + " >/dev/null";
+                        SystemException::assertion(cpCmd.c_str(), __INFO__);
+                    }
+                auto rmDir = "rm -rf " + tempDir + " >/dev/null";
+                SystemException::assertion(rmDir.c_str(), __INFO__);
+            });
+
+    //
+    // prepare test files
+    //
+    SystemException::assertion("cp data/src.zip build/src.zip", __INFO__);
+    SystemException::assertion("rm -rf build/src", __INFO__);
+
+    arc::ZipperInterface& i = mock.get();
+
+    // test unzip
+    REQUIRE(fs::exists("build/src.zip"));
+    REQUIRE(!fs::exists("build/src"));
+    i.unzip();
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
-    i.update();
-    REQUIRE(fs::exists("build/src.zip"));
-    REQUIRE(fs::exists("build/src"));
+    REQUIRE(fs::exists("build/src/app"));
 
     // test append
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
+
+    SystemException::assertion("rm -rf build/src/app", __INFO__);
+
     i.append();
     REQUIRE(fs::exists("build/src.zip"));
     REQUIRE(fs::exists("build/src"));
+    REQUIRE(fs::exists("build/src/app"));
 
     Verify(Method(mock, unzip));
-    Verify(Method(mock, rezip));
-    Verify(Method(mock, create));
-    Verify(Method(mock, update));
     Verify(Method(mock, append));
 
 }
