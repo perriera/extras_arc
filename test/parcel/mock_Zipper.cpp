@@ -35,8 +35,8 @@ namespace fs = std::filesystem;
 
 SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[ZipperInterface]") {
 
-    Filename zipFile = "build/src.zip";
-    Pathname zipDir = "build/";
+    Filename zipFile = "testit/src.zip";
+    Pathname zipDir = "testit/";
 
     Mock<arc::ZipperInterface> mock;
     When(Method(mock, unzip))
@@ -64,8 +64,8 @@ SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[ZipperInterface]") {
         .AlwaysDo(
             [&zipFile, &zipDir]() {
                 PathNotFoundException::assertion(zipDir, __INFO__);
-                auto script = "/tmp/script.sh";
-                std::ofstream ss(script);
+                auto script2 = "/tmp/script.sh";
+                std::ofstream ss(script2);
                 ss << "cd " + zipDir << std::endl;
                 string tempFile = "/tmp/temp.zip";
                 if (fs::exists(tempFile))
@@ -75,37 +75,37 @@ SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[ZipperInterface]") {
                 ss << "cp " << tempFile << " " << fs::absolute(p) << ">/dev/null" << std::endl;
                 ss << "rm " << tempFile << ">/dev/null" << std::endl;
                 ss.close();
-                ScriptException::assertion(script, __INFO__);
+                ScriptException::assertion(script2, __INFO__);
             });
 
     //
     // prepare test files
     //
-    SystemException::assertion("cp data/src.zip build/src.zip", __INFO__);
-    SystemException::assertion("rm -rf build/src", __INFO__);
+    SystemException::assertion("rm -rf testit && mkdir testit", __INFO__);
+    SystemException::assertion("cp data/src.zip testit/src.zip", __INFO__);
 
     arc::ZipperInterface& i = mock.get();
     // test unzip
-    REQUIRE(fs::exists("build/src.zip"));
-    REQUIRE(!fs::exists("build/src"));
+    REQUIRE(fs::exists("testit/src.zip"));
+    REQUIRE(!fs::exists("testit/src"));
     i.unzip();
-    REQUIRE(fs::exists("build/src.zip"));
-    REQUIRE(fs::exists("build/src"));
+    REQUIRE(fs::exists("testit/src.zip"));
+    REQUIRE(fs::exists("testit/src"));
 
     // // test rezip
-    REQUIRE(fs::exists("build/src.zip"));
-    REQUIRE(fs::exists("build/src"));
+    REQUIRE(fs::exists("testit/src.zip"));
+    REQUIRE(fs::exists("testit/src"));
     i.rezip();
-    REQUIRE(fs::exists("build/src.zip"));
-    REQUIRE(fs::exists("build/src"));
+    REQUIRE(fs::exists("testit/src.zip"));
+    REQUIRE(fs::exists("testit/src"));
 
     // test create
-    fs::remove("build/src.zip");
-    REQUIRE(!fs::exists("build/src.zip"));
-    REQUIRE(fs::exists("build/src"));
+    fs::remove("testit/src.zip");
+    REQUIRE(!fs::exists("testit/src.zip"));
+    REQUIRE(fs::exists("testit/src"));
     i.create();
-    REQUIRE(fs::exists("build/src.zip"));
-    REQUIRE(fs::exists("build/src"));
+    REQUIRE(fs::exists("testit/src.zip"));
+    REQUIRE(fs::exists("testit/src"));
 
     Verify(Method(mock, unzip));
     Verify(Method(mock, rezip));
@@ -116,9 +116,9 @@ SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[ZipperInterface]") {
 
 SCENARIO("Mock ZipperInterface: update/append", "[ZipperInterface]") {
 
-    Filename zipFile = "build/src.zip";
-    Pathname zipDir1 = "build/";
-    Pathname zipDir = "build/src";
+    Filename zipFile = "testit/src.zip";
+    Pathname zipDir1 = "testit/";
+    Pathname zipDir = "testit/src";
 
     Mock<arc::ZipperInterface> mock;
     When(Method(mock, unzip))
@@ -158,31 +158,33 @@ SCENARIO("Mock ZipperInterface: update/append", "[ZipperInterface]") {
     //
     // prepare test files
     //
-    SystemException::assertion("cp data/src.zip build/src.zip", __INFO__);
-    SystemException::assertion("rm -rf build/src", __INFO__);
+    SystemException::assertion("rm -rf testit && mkdir testit", __INFO__);
+    SystemException::assertion("cp data/src.zip testit/src.zip", __INFO__);
 
     arc::ZipperInterface& i = mock.get();
 
     // test unzip
-    REQUIRE(fs::exists("build/src.zip"));
-    REQUIRE(!fs::exists("build/src"));
+    REQUIRE(fs::exists("testit/src.zip"));
+    REQUIRE(!fs::exists("testit/src"));
     i.unzip();
-    REQUIRE(fs::exists("build/src.zip"));
-    REQUIRE(fs::exists("build/src"));
-    REQUIRE(fs::exists("build/src/app"));
+    REQUIRE(fs::exists("testit/src.zip"));
+    REQUIRE(fs::exists("testit/src"));
+    REQUIRE(fs::exists("testit/src/app"));
 
     // test append
-    REQUIRE(fs::exists("build/src.zip"));
-    REQUIRE(fs::exists("build/src"));
-
-    SystemException::assertion("rm -rf build/src/app", __INFO__);
-
+    REQUIRE(fs::exists("testit/src.zip"));
+    REQUIRE(fs::exists("testit/src"));
+    REQUIRE(fs::exists("testit/src/app"));
+    SystemException::assertion("rm -rf testit/src/app", __INFO__);
+    REQUIRE(!fs::exists("testit/src/app"));
     i.append();
-    REQUIRE(fs::exists("build/src.zip"));
-    REQUIRE(fs::exists("build/src"));
-    REQUIRE(fs::exists("build/src/app"));
+    REQUIRE(fs::exists("testit/src.zip"));
+    REQUIRE(fs::exists("testit/src"));
+    REQUIRE(fs::exists("testit/src/app"));
 
     Verify(Method(mock, unzip));
     Verify(Method(mock, append));
+
+    SystemException::assertion("rm -rf testit", __INFO__);
 
 }

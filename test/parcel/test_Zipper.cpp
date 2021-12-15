@@ -35,52 +35,52 @@
 
 // SCENARIO("Test ZipperInterface", "[ZipperInterface]") {
 
-//     SystemException::assertion("cp data/src.zip build/src.zip", __INFO__);
+//     SystemException::assertion("cp data/src.zip testit/src.zip", __INFO__);
 //     SystemException::assertion("rm -rf build/src", __INFO__);
 
-//     Filename zipFile = "build/src.zip";
-//     Pathname zipDir = "build/";
-//     Pathname zipDir2 = "build/src";
+//     Filename zipFile = "testit/src.zip";
+//     Pathname zipDir = "testit/";
+//     Pathname zipDir2 = "testit/src";
 
 //     arc::ZipperCmdLine zipper(zipFile, zipDir);
 //     arc::ZipperInterface& i = zipper;
 
 //     // test unzip
-//     REQUIRE(fs::exists("build/src.zip"));
-//     REQUIRE(!fs::exists("build/src"));
+//     REQUIRE(fs::exists("testit/src.zip"));
+//     REQUIRE(!fs::exists("testit/src"));
 //     i.unzip();
-//     REQUIRE(fs::exists("build/src.zip"));
-//     REQUIRE(fs::exists("build/src"));
+//     REQUIRE(fs::exists("testit/src.zip"));
+//     REQUIRE(fs::exists("testit/src"));
 
 //     // // test rezip
-//     REQUIRE(fs::exists("build/src.zip"));
-//     REQUIRE(fs::exists("build/src"));
+//     REQUIRE(fs::exists("testit/src.zip"));
+//     REQUIRE(fs::exists("testit/src"));
 //     i.rezip();
-//     REQUIRE(fs::exists("build/src.zip"));
-//     REQUIRE(fs::exists("build/src"));
+//     REQUIRE(fs::exists("testit/src.zip"));
+//     REQUIRE(fs::exists("testit/src"));
 
 //     // test create
-//     fs::remove("build/src.zip");
-//     REQUIRE(!fs::exists("build/src.zip"));
-//     REQUIRE(fs::exists("build/src"));
+//     fs::remove("testit/src.zip");
+//     REQUIRE(!fs::exists("testit/src.zip"));
+//     REQUIRE(fs::exists("testit/src"));
 //     i.create();
-//     REQUIRE(fs::exists("build/src.zip"));
-//     REQUIRE(fs::exists("build/src"));
+//     REQUIRE(fs::exists("testit/src.zip"));
+//     REQUIRE(fs::exists("testit/src"));
 
-//     SystemException::assertion("cp data/src.zip build/src.zip", __INFO__);
+//     SystemException::assertion("cp data/src.zip testit/src.zip", __INFO__);
 
 //     // test update
-//     REQUIRE(fs::exists("build/src.zip"));
-//     REQUIRE(fs::exists("build/src"));
+//     REQUIRE(fs::exists("testit/src.zip"));
+//     REQUIRE(fs::exists("testit/src"));
 //     i.update();
-//     REQUIRE(fs::exists("build/src.zip"));
-//     REQUIRE(fs::exists("build/src"));
+//     REQUIRE(fs::exists("testit/src.zip"));
+//     REQUIRE(fs::exists("testit/src"));
 
 //     // test append
-//     REQUIRE(fs::exists("build/src.zip"));
-//     REQUIRE(fs::exists("build/src"));
+//     REQUIRE(fs::exists("testit/src.zip"));
+//     REQUIRE(fs::exists("testit/src"));
 //     i.append();
-//     REQUIRE(fs::exists("build/src.zip"));
-//     REQUIRE(fs::exists("build/src"));
+//     REQUIRE(fs::exists("testit/src.zip"));
+//     REQUIRE(fs::exists("testit/src"));
 
 // }
