@@ -53,14 +53,14 @@ namespace extras {
         void Zipper::rezip() const {
             FileNotFoundException::assertion(zipFile(), __INFO__);
             PathNotFoundException::assertion(zipDir(), __INFO__);
-            auto script = zipFile() + ".sh";
+            auto script = "/tmp/script.sh";
             std::ofstream ss(script);
             ss << "cd " + zipDir() << std::endl;
             fs::path p = zipFile();
             std::string fn = p.filename();
             ss << "zip -r ../" + fn + " . " << ">/dev/null" << std::endl;
             ss.close();
-            ScriptException::assertion(script.c_str(), __INFO__);
+            ScriptException::assertion(script, __INFO__);
         }
 
         /**
@@ -69,8 +69,8 @@ namespace extras {
          */
         void Zipper::create() const {
             PathNotFoundException::assertion(zipDir(), __INFO__);
-            auto script = "/tmp/script.sh";
-            std::ofstream ss(script);
+            auto script2 = "/tmp/script.sh";
+            std::ofstream ss(script2);
             ss << "cd " + zipDir() << std::endl;
             string tempFile = "/tmp/temp.zip";
             if (fs::exists(tempFile))
@@ -80,7 +80,7 @@ namespace extras {
             ss << "cp " << tempFile << " " << fs::absolute(p) << ">/dev/null" << std::endl;
             ss << "rm " << tempFile << ">/dev/null" << std::endl;
             ss.close();
-            ScriptException::assertion(script, __INFO__);
+            ScriptException::assertion(script2, __INFO__);
         }
 
         /**
@@ -105,7 +105,7 @@ namespace extras {
                     std::string pathB = extras::replace_all(pathA, fn, "");
                     std::string subDir = extras::replace_all(pathB, zipSrcTempDir, "/");
                     std::string pathC = zipDir() + subDir + fn;
-                    auto cpCmd = "rsync -a " + pathA + " " + pathC + " >/dev/null";
+                    auto cpCmd = "install -D " + pathA + " " + pathC + " >/dev/null";
                     SystemException::assertion(cpCmd.c_str(), __INFO__);
                 }
             auto rmDir = "rm -rf " + tempDir + " >/dev/null";

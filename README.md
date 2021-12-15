@@ -57,6 +57,19 @@ If you installed **extras_arc** earlier with checkinstall then the following wil
 
 	export CPM_SOURCE_CACHE=$HOME/.cache/CPM
 
+## CPM: Debian package, (Shared libraries) & gdb, (debugging) issue
+
+**NOTE:** If you ever run into a situation where your debugging environment is not displaying the same variable names or code changes that you are currently working on be sure to check whether or not the source code you are working is not currently installed as a Debian package, (as a shared library).
+
+    cd build
+    sudo dpkg -r <package-name>
+
+**Further**: Whenever your development environment appears to be acting strange, (as in the compiled code does not appear to be consistent with the source code) remember these three factors:
+
+1.  That you can always backtrack your changes using your source repository.
+2.  As well as reset your development environment simply by deleting your **build/** directory.
+3.  Also, be sure to keep in mind whether the code you are working on is currently installed as a shared library.
+
 ## Visual Studio Code (build/ directory) Compilation Fail Safe
 The industry practice of compiling to a build/ directory is supported here. When you detect some funny business going on with your development environment, (for example if the cmake utility keeps rebuilding everything), merely delete the build/ directory, (aka. `rm -rf build`) and recreate it. If you are using the Visual Studio Code environment you can press **SHIFT-CTRL-B**, (see `.vscode/tasks.conf`) which will force a rebuild of the directory, (including re-creating `build/` for you).
 
