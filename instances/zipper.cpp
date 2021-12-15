@@ -38,7 +38,7 @@ int main(int argc, const char** argv)
             }
         }
         else {
-            cout << "zipper <filename> <dir> [-unzip|-rezip|-create|-update|-append|-help] " << endl;
+            cout << "zipper <filename> <dir> [-unzip|-rezip|-create|-append|-help] " << endl;
             return -1;
         }
     }
@@ -61,10 +61,6 @@ int main(int argc, const char** argv)
         }
         if (option == "-create") {
             zipper.create();
-            return 0;
-        }
-        if (option == "-update") {
-            zipper.update();
             return 0;
         }
         if (option == "-append") {

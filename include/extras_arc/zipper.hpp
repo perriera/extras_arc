@@ -53,7 +53,6 @@ namespace extras {
             virtual void unzip() const pure;
             virtual void rezip() const pure;
             virtual void create() const pure;
-            virtual void update() const pure;
             virtual void append() const pure;
 
         };
@@ -80,7 +79,6 @@ namespace extras {
             virtual void unzip() const override;
             virtual void rezip() const override;
             virtual void create() const override;
-            virtual void update() const override;
             virtual void append() const override;
 
             virtual void help() const override;

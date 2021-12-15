@@ -26,25 +26,24 @@
 // #include <string.h>
 
 // #include "../vendor/catch.hpp"
-// #include "../vendor/fakeit.hpp"
 
 // using namespace extras;
 // using namespace std;
-// using namespace fakeit;
 // namespace fs = std::filesystem;
 
-// SCENARIO("Test ZipperInterface", "[ZipperInterface]") {
-
-//     SystemException::assertion("cp data/src.zip testit/src.zip", __INFO__);
-//     SystemException::assertion("rm -rf build/src", __INFO__);
+// SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[ZipperInterface]") {
 
 //     Filename zipFile = "testit/src.zip";
 //     Pathname zipDir = "testit/";
-//     Pathname zipDir2 = "testit/src";
 
-//     arc::ZipperCmdLine zipper(zipFile, zipDir);
+//     //
+//     // prepare test files
+//     //
+//     SystemException::assertion("rm -rf testit && mkdir testit", __INFO__);
+//     SystemException::assertion("cp data/src.zip testit/src.zip", __INFO__);
+
+//     arc::Zipper zipper(zipFile, zipDir);
 //     arc::ZipperInterface& i = zipper;
-
 //     // test unzip
 //     REQUIRE(fs::exists("testit/src.zip"));
 //     REQUIRE(!fs::exists("testit/src"));
@@ -67,20 +66,45 @@
 //     REQUIRE(fs::exists("testit/src.zip"));
 //     REQUIRE(fs::exists("testit/src"));
 
+//     SystemException::assertion("rm -rf testit", __INFO__);
+
+// }
+
+
+// SCENARIO("Mock ZipperInterface: update/append", "[ZipperInterface]") {
+
+//     Filename zipFile = "testit/src.zip";
+//     Pathname zipDir1 = "testit/";
+//     Pathname zipDir = "testit/src";
+
+//     //
+//     // prepare test files
+//     //
+//     SystemException::assertion("rm -rf testit && mkdir testit", __INFO__);
 //     SystemException::assertion("cp data/src.zip testit/src.zip", __INFO__);
 
-//     // test update
+//     arc::Zipper zipper(zipFile, zipDir);
+//     arc::ZipperInterface& i = zipper;
+
+//     // test unzip
+//     REQUIRE(fs::exists("testit/src.zip"));
+//     REQUIRE(!fs::exists("testit/src"));
+//     i.unzip();
 //     REQUIRE(fs::exists("testit/src.zip"));
 //     REQUIRE(fs::exists("testit/src"));
-//     i.update();
-//     REQUIRE(fs::exists("testit/src.zip"));
-//     REQUIRE(fs::exists("testit/src"));
+//     REQUIRE(fs::exists("testit/src/app"));
 
 //     // test append
 //     REQUIRE(fs::exists("testit/src.zip"));
 //     REQUIRE(fs::exists("testit/src"));
+//     REQUIRE(fs::exists("testit/src/app"));
+//     SystemException::assertion("rm -rf testit/src/app", __INFO__);
+//     REQUIRE(!fs::exists("testit/src/app"));
 //     i.append();
 //     REQUIRE(fs::exists("testit/src.zip"));
 //     REQUIRE(fs::exists("testit/src"));
+//     REQUIRE(fs::exists("testit/src/app"));
+
+//     SystemException::assertion("rm -rf testit", __INFO__);
 
 // }

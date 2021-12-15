@@ -87,35 +87,6 @@ namespace extras {
          * @brief update
          *
          */
-        void Zipper::update() const {
-            PathNotFoundException::assertion(zipDir(), __INFO__);
-            FileNotFoundException::assertion(zipFile(), __INFO__);
-            char templatebuf[80];
-            char* mkdirectory = mkdtemp(strcpy(templatebuf, "/tmp/mkprogXXXXXX"));
-            std::string tempDir = mkdirectory;//std::tmpnam(nullptr);
-            tempDir += ".dir";
-            std::string zipSrcTempDir = tempDir + "/src/";
-            auto unzip = "unzip -o " + zipFile() + " -d " + tempDir + " >/dev/null";
-            SystemException::assertion(unzip.c_str(), __INFO__);
-            for (auto& p : fs::recursive_directory_iterator(zipDir()))
-                if (!p.is_directory()) {
-                    // auto script = original() + ".sh";
-                    std::string pathA = p.path();
-                    std::string fn = p.path().filename();
-                    std::string pathB = extras::replace_all(pathA, fn, "");
-                    std::string subDir = extras::replace_all(pathB, zipDir() + "/", "");
-                    std::string pathC = zipSrcTempDir + subDir + fn;
-                    auto cpCmd = "cp  " + pathC + " " + pathA + " >/dev/null";
-                    SystemException::assertion(cpCmd.c_str(), __INFO__);
-                }
-            auto rmDir = "rm -rf " + tempDir + " >/dev/null";
-            SystemException::assertion(rmDir.c_str(), __INFO__);
-        }
-
-        /**
-         * @brief update
-         *
-         */
         void Zipper::append() const {
             PathNotFoundException::assertion(zipDir(), __INFO__);
             FileNotFoundException::assertion(zipFile(), __INFO__);
