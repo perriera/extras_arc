@@ -1,60 +1,43 @@
 ## HOWTO-zipper.md
-This utility combines the features of both the **parcel** and **implode** utilities. It essentially implodes a zip of certain types of files, (in this case image files) and then converts what is left into hexadecimal format, (for use with sockets).
 
-## Wrap
-The implode utility manages a hexadecimal version of a given binary file. 
+This utility simplifies the process of preparing a source directory, (usually named the **src/** directory) for transport over a socket connection. It does this by zipping up the current contents then unzipping them again later. Simply deleting the current **src/** directory is not a good idea as it may cause confusion for a http server running locally for testing purposes. So, this utility is designed to work with **ng_monitor** such that then latest contents of the **src/** directory are required they can be zipped and unzipped quickly and easily using this particular command line utility.
 
-	zipper <filename> <dir> [-unzip|-rezip|-zipit|-update|-append|-help]
+## Zipper
+
+This utility simplifies the process of preparing a source directory for transport over a socket connection
+
+    zipper <filename> <dir> [-unzip|-rezip|-create|-append|-help]
 
 The operations are placed at the end of the command as a convenience.
 
-### -zipper <default>
-> If no operation is specified then the **-zipper** operation is assumed.
+### -unzip <default>
 
-	build/zipper data/exparx.webflow.zip -zipper
+> Unzips the contents of the zip file into a zip directory, (that does not currently exist). Use -append, (below) to unzip to a currently existing directory.
 
-> In the same directory of the specified zip archive a stripped down archive is created and given a **_imploded.zip** extension.  
+    build/zipper testit/src.zip  testit/ -unzjp
 
-	/home/perry/Projects/extras_arc/data/exparx.webflow.zip
-	/home/perry/Projects/extras_arc/data/exparx.webflow.zip_imploded.zip
-	/home/perry/Projects/extras_arc/data/exparx.webflow.zip_imploded.zip_hexed.txt
-	/home/perry/Projects/extras_arc/data/exparx.webflow.zip_imploded.zip_packed.txt
+### -rezip <default>
 
-### -unwrap
-> Provided a  **_imploded.zip_packed.zip** version of the original was created first, (and the original also exists in the same directory) then a **_exploded.zip** is created. 
-> 
-> 
-		build/zipper data/exparx.webflow.zip -unwrap
-		
-> **Note:** It may not be the same size as the original zip as the zip compression algorithm on the original may be different than the one used by the implode utility.
+> Updates an existing new zip file from the contents of the source directory, (**note**: the current version is not working as expected).
 
-	/home/perry/Projects/extras_arc/data/exparx.webflow.zip
-	/home/perry/Projects/extras_arc/data/exparx.webflow.zip_exploded.zip
-	/home/perry/Projects/extras_arc/data/exparx.webflow.zip_imploded.zip
+    build/zipper testit/src.zip  testit/ -rezjp
 
-### -merge
-> This operation causes the **_exploded.zip** file to replace the original. It will also doubles as a **-clean** operation, removing any other files previous created by the implode utility, (for the specified filename).
-> 
-	build/zipper data/exparx.webflow.zip -merge 
+### -create <default>
 
-> It will then list all the files of the same name, (which should be just one).
+> Creates a brand new zip file from the contents of the source directory.
 
-	/home/perry/Projects/extras_arc/data/exparx.webflow.zip
+    build/zipper testit/src.zip  testit/ -create
 
-### -clean
-> This operation will remove any other files previous created by the implode utility, (for the specified filename).
-> 
-	build/zipper data/exparx.webflow.zip -clean 
+### -append <default>
 
-> It will then list all the files of the same name, (which should be just one).
+> Unzips the zip archive into the source directory in a none-destructive manner, (such that the original source directory is not deleted first).
 
-	/home/perry/Projects/extras_arc/data/exparx.webflow.zipbui
+    build/zipper testit/src.zip  testit/ -append
 
 ### -help
+
 > Displays this help text, (provided the file is in the same directory).
 
 ## Summary
+
 This utility was put together as a convenience. It can be installed as part of the operating system, (see INSTALL.md).
-
-
- 

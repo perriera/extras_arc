@@ -21,6 +21,7 @@
 #include <extras/filesystem/paths.hpp>
 #include <extras/filesystem/files.hpp>
 #include <extras/filesystem/system.hpp>
+#include <extras/filesystem/filesystem.hpp>
 #include <filesystem>
 #include <fstream>
 #include <stdlib.h>
@@ -54,21 +55,18 @@ namespace extras {
         void Zipper::rezip() const {
             FileNotFoundException::assertion(zipFile(), __INFO__);
             PathNotFoundException::assertion(zipDir(), __INFO__);
-            diagnostics("");
+            auto fn1 = extras::FileSystem(zipFile()).filename();
+            Pathname fn2 = extras::FileSystem(zipDir()).append(fn1);
+            PathNotFoundException::assertion(fn2, __INFO__);
             auto script = "script.sh";
             std::ofstream ss(script);
-            ss << "cd " + zipDir() << std::endl;
+            ss << "cd " + fn2 << std::endl;
             fs::path p = zipFile();
             std::string fn = p.filename();
+            ss << "rm  ../" << fn << " >/dev/null" << std::endl;
             ss << "zip -r ../" << fn << " . " << ">/dev/null" << std::endl;
-            ss << "install -D ../" << fn << " " << zipFile() << " >/dev/null" << std::endl;
             ss.close();
             ScriptException::assertion(script, __INFO__);
-            auto to = zipFile();
-            auto from = zipDir() + "/../" + fn;
-            fs::remove(to);
-            fs::copy_file(from, to);
-            fs::remove(from);
             diagnostics("");
         }
 
@@ -78,16 +76,19 @@ namespace extras {
          */
         void Zipper::create() const {
             PathNotFoundException::assertion(zipDir(), __INFO__);
+            auto fn1 = extras::FileSystem(zipFile()).filename();
+            Pathname fn2 = extras::FileSystem(zipDir()).append(fn1);
+            PathNotFoundException::assertion(fn2, __INFO__);
             auto script2 = "/tmp/script.sh";
             std::ofstream ss(script2);
-            ss << "cd " + zipDir() << std::endl;
+            ss << "cd " + fn2 << std::endl;
             string tempFile = "/tmp/temp.zip";
             if (fs::exists(tempFile))
                 fs::remove(tempFile);
             ss << "zip -r " << tempFile << " . " << ">/dev/null" << std::endl;
             fs::path p = zipFile();
-            ss << "cp " << tempFile << " " << fs::absolute(p) << ">/dev/null" << std::endl;
-            ss << "rm " << tempFile << ">/dev/null" << std::endl;
+            ss << "cp " << tempFile << " " << fs::absolute(p) << " >/dev/null" << std::endl;
+            ss << "rm " << tempFile << " >/dev/null" << std::endl;
             ss.close();
             ScriptException::assertion(script2, __INFO__);
             diagnostics("");
@@ -100,6 +101,9 @@ namespace extras {
         void Zipper::append() const {
             PathNotFoundException::assertion(zipDir(), __INFO__);
             FileNotFoundException::assertion(zipFile(), __INFO__);
+            auto fn1 = extras::FileSystem(zipFile()).filename();
+            Pathname fn2 = extras::FileSystem(zipDir()).append(fn1);
+            PathNotFoundException::assertion(fn2, __INFO__);
             char templatebuf[80];
             char* mkdirectory = mkdtemp(strcpy(templatebuf, "/tmp/mkprogXXXXXX"));
             std::string tempDir = mkdirectory;//std::tmpnam(nullptr);
@@ -109,13 +113,9 @@ namespace extras {
             SystemException::assertion(unzip.c_str(), __INFO__);
             for (auto& p : fs::recursive_directory_iterator(tempDir))
                 if (!p.is_directory()) {
-                    // auto script = original() + ".sh";
-                    std::string pathA = p.path();
-                    std::string fn = p.path().filename();
-                    std::string pathB = extras::replace_all(pathA, fn, "");
-                    std::string subDir = extras::replace_all(pathB, zipSrcTempDir, "/");
-                    std::string pathC = zipDir() + subDir + fn;
-                    auto cpCmd = "install -D " + pathA + " " + pathC + " >/dev/null";
+                    std::string from = p.path();
+                    std::string to = extras::str::replace_first(from, tempDir, fn2);
+                    auto cpCmd = "install -D " + from + " " + to + " >/dev/null";
                     SystemException::assertion(cpCmd.c_str(), __INFO__);
                 }
             auto rmDir = "rm -rf " + tempDir + " >/dev/null";
@@ -133,8 +133,10 @@ namespace extras {
         void ZipperCmdLine::diagnostics(std::string msg) const {
             if (msg.size() > 0)
                 std::cout << msg << std::endl;
-            auto cmd = "ls -la " + zipFile() + "*";
-            extras::SystemException::assertion(cmd, __INFO__);
+            auto cmd1 = "ls -la " + zipFile() + "*";
+            extras::SystemException::assertion(cmd1, __INFO__);
+            auto cmd2 = "ls -la " + zipDir() + "*";
+            extras::SystemException::assertion(cmd2, __INFO__);
         }
 
     }

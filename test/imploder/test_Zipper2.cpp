@@ -32,7 +32,7 @@ using namespace extras;
 using namespace std;
 namespace fs = std::filesystem;
 
-SCENARIO("Test ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
+SCENARIO("Test ZipperInterface: command line", "[MockZipperInterface]") {
 
     Filename zipFile = "testit/src.zip";
     Pathname zipTo = "testit/";
@@ -43,13 +43,12 @@ SCENARIO("Test ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
     SystemException::assertion("rm -rf testit && mkdir testit", __INFO__);
     SystemException::assertion("cp data/src.zip testit/src.zip", __INFO__);
 
-    arc::Zipper zipper(zipFile, zipTo);
-    arc::ZipperInterface& i = zipper;
     // test unzip
     REQUIRE(fs::exists("testit/src.zip"));
     REQUIRE(!fs::exists("testit/src"));
     REQUIRE(!fs::exists("testit/src/app/app.component.ts"));
-    i.unzip();
+    auto unzip = "build/zipper " + zipFile + " " + zipTo + " -unzip";
+    SystemException::assertion(unzip, __INFO__);
     REQUIRE(fs::exists("testit/src.zip"));
     REQUIRE(fs::exists("testit/src"));
     REQUIRE(fs::exists("testit/src/app/app.component.ts"));
@@ -58,7 +57,8 @@ SCENARIO("Test ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
     REQUIRE(fs::exists("testit/src.zip"));
     REQUIRE(fs::exists("testit/src"));
     REQUIRE(fs::exists("testit/src/app/app.component.ts"));
-    i.rezip();
+    auto rezip = "build/zipper " + zipFile + " " + zipTo + " -rezip";
+    SystemException::assertion(rezip, __INFO__);
     REQUIRE(fs::exists("testit/src.zip"));
     REQUIRE(fs::exists("testit/src"));
     REQUIRE(fs::exists("testit/src/app/app.component.ts"));
@@ -67,7 +67,8 @@ SCENARIO("Test ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
     fs::remove("testit/src.zip");
     REQUIRE(!fs::exists("testit/src.zip"));
     REQUIRE(fs::exists("testit/src"));
-    i.create();
+    auto create = "build/zipper " + zipFile + " " + zipTo + " -create";
+    SystemException::assertion(create, __INFO__);
     REQUIRE(fs::exists("testit/src.zip"));
     REQUIRE(fs::exists("testit/src"));
 
@@ -77,10 +78,16 @@ SCENARIO("Test ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
     REQUIRE(fs::exists("testit/src/app"));
     SystemException::assertion("rm -rf testit/src/app", __INFO__);
     REQUIRE(!fs::exists("testit/src/app"));
-    i.append();
+    auto append = "build/zipper " + zipFile + " " + zipTo + " -append";
+    SystemException::assertion(append, __INFO__);
     REQUIRE(fs::exists("testit/src.zip"));
     REQUIRE(fs::exists("testit/src"));
     REQUIRE(fs::exists("testit/src/app"));
+
+    // test help
+    // REQUIRE(fs::exists("HOWTO-zipper.md"));
+    // auto help = "build/zipper -help";
+    // SystemException::assertion(help, __INFO__);
 
     SystemException::assertion("rm -rf testit", __INFO__);
 

@@ -44,9 +44,7 @@ SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
         .AlwaysDo(
             [&zipFile, &zipTo]() {
                 FileNotFoundException::assertion(zipFile, __INFO__);
-                auto fn = extras::FileSystem(zipFile).filename();
-                auto target = zipTo;
-                auto unzip = "unzip -o " + zipFile + " -d " + target + " >/dev/null";
+                auto unzip = "unzip -o " + zipFile + " -d " + zipTo + " >/dev/null";
                 SystemException::assertion(unzip.c_str(), __INFO__);
             });
     When(Method(mock, rezip))
