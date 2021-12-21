@@ -42,6 +42,7 @@ namespace extras {
             FileNotFoundException::assertion(zipFile(), __INFO__);
             auto unzip = "unzip -o " + zipFile() + " -d " + zipDir() + " >/dev/null";
             SystemException::assertion(unzip.c_str(), __INFO__);
+            diagnostics("");
         }
 
         /**
@@ -53,14 +54,22 @@ namespace extras {
         void Zipper::rezip() const {
             FileNotFoundException::assertion(zipFile(), __INFO__);
             PathNotFoundException::assertion(zipDir(), __INFO__);
-            auto script = "/tmp/script.sh";
+            diagnostics("");
+            auto script = "script.sh";
             std::ofstream ss(script);
             ss << "cd " + zipDir() << std::endl;
             fs::path p = zipFile();
             std::string fn = p.filename();
-            ss << "zip -r ../" + fn + " . " << ">/dev/null" << std::endl;
+            ss << "zip -r ../" << fn << " . " << ">/dev/null" << std::endl;
+            ss << "install -D ../" << fn << " " << zipFile() << " >/dev/null" << std::endl;
             ss.close();
             ScriptException::assertion(script, __INFO__);
+            auto to = zipFile();
+            auto from = zipDir() + "/../" + fn;
+            fs::remove(to);
+            fs::copy_file(from, to);
+            fs::remove(from);
+            diagnostics("");
         }
 
         /**
@@ -81,6 +90,7 @@ namespace extras {
             ss << "rm " << tempFile << ">/dev/null" << std::endl;
             ss.close();
             ScriptException::assertion(script2, __INFO__);
+            diagnostics("");
         }
 
         /**
@@ -110,6 +120,7 @@ namespace extras {
                 }
             auto rmDir = "rm -rf " + tempDir + " >/dev/null";
             SystemException::assertion(rmDir.c_str(), __INFO__);
+            diagnostics("");
         }
 
 

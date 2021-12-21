@@ -43,14 +43,10 @@ int main(int argc, const char** argv)
         }
     }
     try {
-        std::string option = (argc == 3 ? "-unzip" : argv[2]);
+        std::string option = (argc == 3 ? "-unzip" : argv[3]);
         auto zipFile = argv[1];
         auto zipDir = argv[2];
-        FileNotFoundException::assertion(zipFile, __INFO__);
-        PathNotFoundException::assertion(zipDir, __INFO__);
-        Parameter p1 = ~extras::Paths(zipFile);
-        Parameter p2 = ~extras::Paths(zipDir);
-        arc::ZipperCmdLine zipper(p1, p2);
+        arc::ZipperCmdLine zipper(zipFile, zipDir);
         if (option == "-unzip") {
             zipper.unzip();
             return 0;
