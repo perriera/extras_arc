@@ -36,29 +36,35 @@ SCENARIO("Mock ImploderInterface: part1", "[ImploderInterface]") {
     Path originalDir = original + ".dir";
     Filename imploded = original + "_imploded.zip";
     Filename exploded = original + "_exploded.zip";
+
     Mock<arc::ImploderInterface> mock;
     When(Method(mock, original)).Return(original);
     When(Method(mock, imploded)).Return(imploded);
     When(Method(mock, exploded)).Return(exploded);
-    When(Method(mock, unzip)).AlwaysDo([](const Filename& filename, const Path& dir) {
-        auto cmd = "unzip -o " + filename + " -d " + dir + " >/dev/null";
-        SystemException::assertion(cmd.c_str(), __INFO__);
+
+    When(Method(mock, unzip)).AlwaysDo([](const Filename& filename, const Path& dir)
+        {
+            auto cmd = "unzip -o " + filename + " -d " + dir + " >/dev/null";
+            SystemException::assertion(cmd.c_str(), __INFO__);
         });
-    When(Method(mock, rezip)).AlwaysDo([&original](const Filename& imploded, const Path& dir) {
-        // std::cout << "hello" << std::endl;
-        auto script = imploded + ".sh";
-        std::ofstream ss(script);
-        ss << "cp " + original << ' ' << imploded << std::endl;
-        ss << "cd " + dir << std::endl;
-        ss << "zip -r " + imploded + " . " << " >/dev/null" << std::endl;
-        ss.close();
-        ScriptException::assertion(script.c_str(), __INFO__);
+    When(Method(mock, rezip)).AlwaysDo([&original](const Filename& imploded, const Path& dir)
+        {
+            // std::cout << "hello" << std::endl;
+            auto script = imploded + ".sh";
+            std::ofstream ss(script);
+            ss << "cp " + original << ' ' << imploded << std::endl;
+            ss << "cd " + dir << std::endl;
+            ss << "zip -r " + imploded + " . " << " >/dev/null" << std::endl;
+            ss.close();
+            ScriptException::assertion(script.c_str(), __INFO__);
         });
-    When(Method(mock, rmdir)).AlwaysDo([](const Path& dir) {
-        fs::remove_all(dir);
+    When(Method(mock, rmdir)).AlwaysDo([](const Path& dir)
+        {
+            fs::remove_all(dir);
         });
-    When(Method(mock, rm)).AlwaysDo([](const Filename& filename) {
-        fs::remove(filename);
+    When(Method(mock, rm)).AlwaysDo([](const Filename& filename)
+        {
+            fs::remove(filename);
         });
     When(Method(mock, implode)).Return();
     When(Method(mock, explode)).Return();

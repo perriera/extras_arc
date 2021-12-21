@@ -105,7 +105,7 @@ print(STATUS "CMAKE_C_FLAGS: ${CMAKE_C_FLAGS}")
 CPMAddPackage(
   NAME extras
   GITHUB_REPOSITORY perriera/extras
-  VERSION 5.14.0
+  VERSION 5.22.0
   OPTIONS "MAKE_SPDLOG_SHARED OFF"
   OPTIONS "MAKE_EXTRAS_LIBRARY_ONLY ON"
 )
@@ -170,6 +170,12 @@ if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_EXECUTABLES)
 add_executable(wrap instances/wrap.cpp) 
 target_include_directories(wrap PUBLIC ${INCLUDES})
 target_link_libraries(wrap PRIVATE ${PROJECT_NAME} stdc++fs extras )
+endif()
+
+if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_EXECUTABLES)
+add_executable(zipper instances/zipper.cpp) 
+target_include_directories(zipper PUBLIC ${INCLUDES})
+target_link_libraries(zipper PRIVATE ${PROJECT_NAME} stdc++fs extras )
 endif()
 
 #

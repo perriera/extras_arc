@@ -1,14 +1,15 @@
-
 # Changelog
-> All notable changes to this project will be documented in this file.</br>
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), 
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).</br>
-> To add a tag to the git repository do:
-> > git tag -a v2.1.0 -m "Using v5.14.0"</br>
-> > git push origin v2.1.0
-> 
 
-IMPORTANT: 
+> All notable changes to this project will be documented in this file.</br>
+> The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+> and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).</br>
+> To add a tag to the git repository do:
+>
+> > git tag -a v2.2.0 -m "ZipperInterface"</br>
+> > git push origin v2.2.0
+
+IMPORTANT:
+
 - Manually keep the changelog version number in sync with CMakeLists.txt project version.<br>
 - Keep the changelog.md up to date, neat and tidy, (as it is a convenient tool for code maintenance).<br>
 - Use [Semantic Versioning](https://semver.org/spec/v2.0.0.html) such that<br>
@@ -20,162 +21,234 @@ IMPORTANT:
 - MAKE SURE to tag and update the tag compare list below, (for quick code comparison purposes).<br>
 
 ## [Unreleased]
+
 Detailed test cases</br>
 Detailed class descriptions in README.md</br>
 Correct URL for github, (for source compare)</br>
 
 ## [Next Steps]
+
 Adding mock test cases </br>
 Adding unit test cases </br>
 Updated README.md accordinging</br>
 
+#### 2.2.0 (2021-12-21)
+
+### Added
+
+- ZipperInterface
+- build/zipper
+- Using v5.22.0
+
 #### 2.1.0 (2021-12-04)
-### Changed 
+
+### Changed
+
 - ImploderInterface
 - ParcelInterface
 - WrapInterface
-- Using v5.14.0 
+- Using v5.14.0
 
 #### 2.0.0 (2021-12-03)
-### Added 
+
+### Added
+
 - Added wrap utility
-- Added HOWTO-wrap.md files 
-### Changed 
+- Added HOWTO-wrap.md files
+
+### Changed
+
 - WrapInterface significantly
 - Changed test cases
-- Using v5.13.0 
+- Using v5.13.0
 
 #### 1.3.0 (2021-12-01)
-### Added 
+
+### Added
+
 - Added parcel & implode utilities
-- Added HOWTO-parcel.md files 
-- Added HOWTO-implde.md files 
+- Added HOWTO-parcel.md files
+- Added HOWTO-implde.md files
 
 #### 1.2.0 (2021-12-01)
-### Added 
+
+### Added
+
 - Refactored
 
 #### 1.1.3 (2021-11-30)
-### Added 
+
+### Added
+
 - Added directive
 
 #### 1.1.2 (2021-11-30)
-### Added 
+
+### Added
+
 - Corrected issue
 
 #### 1.1.1 (2021-11-30)
-### Added 
+
+### Added
+
 - Added CMakeLists.txt directives
 
 #### 1.1.0 (2021-11-30)
-### Added 
+
+### Added
+
 - Added instance
 
 #### 1.0.2 (2021-11-30)
-### Added 
+
+### Added
+
 - extra directive
 
 #### 1.0.1 (2021-11-30)
-### Merged 
+
+### Merged
+
 - Using extras v4.0.1
 
 #### 1.0.0 (2021-11-30)
-### Merged 
-- Renamed project 
+
+### Merged
+
+- Renamed project
 - Renamed namespace
 
 #### 0.9.0 (2021-11-30)
-### Merged 
+
+### Merged
+
 - Merged Parcel/Hex2bin
 
 #### 0.8.0 (2021-11-30)
-### Changed 
+
+### Changed
+
 - Now using v5.5.0
 - Added LICENSE.md
 
 #### 0.7.0 (2021-11-29)
-### Changed 
+
+### Changed
+
 - Now using v5.4.0
 - Added LICENSE.md
 
 #### 0.6.5 (2021-11-24)
-### Changed 
+
+### Changed
+
 - Now using v5.3.6
 
 #### 0.6.4 (2021-11-24)
-### Changed 
+
+### Changed
+
 - Now using v5.3.5
 
 #### 0.6.3 (2021-11-21)
-### Added 
+
+### Added
+
 - Fixed script
 
 #### 0.6.2 (2021-11-20)
-### Added 
+
+### Added
+
 - Using extras 5.3.4
-- Muffled the diagnostics 
+- Muffled the diagnostics
 
 #### 0.6.1 (2021-11-20)
-### Added 
+
+### Added
+
 - change behavior for merge()
 
 #### 0.6.0 (2021-11-20)
-### Added 
+
+### Added
+
 - merge()
 
 #### 0.5.2 (2021-11-20)
-### Added 
+
+### Added
+
 - Addtional add
 
 #### 0.5.1 (2021-11-20)
-### Added 
-- Added FileNotFound checks 
+
+### Added
+
+- Added FileNotFound checks
 
 #### 0.5.0 (2021-11-20)
-### Added 
+
+### Added
+
 - Added ImploderInterface
 
 #### 0.4.1 (2021-11-16)
-### Added 
+
+### Added
+
 - Fixing git
 
 #### 0.4.0 (2021-11-16)
-### Added 
+
+### Added
+
 - Using extras v5.2.0
 
 #### 0.3.0 (2021-11-14)
-### Added 
+
+### Added
+
 - ImploderInterface
 - MAKE_EXTRAS_ARC_LIBRARY_ONLY support
 
 #### 0.2.0 (2021-11-14)
-### Changed 
+
+### Changed
+
 - Renamed project
 
 #### 0.1.0 (2021-09-03)
+
 ### Added
+
 - SHARED library support
 - (perriera) extras library support, (3.11.0)
 - CPM.cmake support
-  * [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake/blob/master/LICENSE) 
-  * This allows us to include other Github packages with the ability
+  - [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake/blob/master/LICENSE)
+  - This allows us to include other Github packages with the ability
     to add package OPTIONS
 - FakeIt Mock Library support
-  * [FakeIt](https://github.com/eranpeer/FakeIt) 
-  * This gives us the ability to mock C++ interfaces, (before implementation)
+  - [FakeIt](https://github.com/eranpeer/FakeIt)
+  - This gives us the ability to mock C++ interfaces, (before implementation)
 - Catch2 support
-  * [Catch2](https://github.com/catchorg/Catch2)
-  * This gives us the ability to test C++ classes, (during implementation)
+  - [Catch2](https://github.com/catchorg/Catch2)
+  - This gives us the ability to test C++ classes, (during implementation)
+
 ### Changed
+
 - CMakeLists.txt
-  * [ModernCppStarter](https://github.com/TheLartians/ModernCppStarter/blob/master/LICENSE) 
+  - [ModernCppStarter](https://github.com/TheLartians/ModernCppStarter/blob/master/LICENSE)
 - spdlog is now used as a shared library, (libspdlog.so)
 - cpr is now used as a shared library, (libcpr.so)
 - placed all source into /src
 - placed all headers into /include/extras_arc
 
 #### 0.0.0 (2021-08-26)
+
 ### Added
+
 - Fetch_Content support
 - changelog.md
 - Project VERSION inside CMakeLists.txt & changelog.md
@@ -188,19 +261,26 @@ Updated README.md accordinging</br>
 - extra/interfaces.hpp support
 - Unit test casses support, (Catch2)
 - Mock framework support, (FakeIt)
+
 ### Changed
+
 - CMakeLists.txt revamped & streamlined
 - README.md revamped & streamlined
 - Added documentation on code
 - cxx_std_17 on all targets
 - std::filesystem on all targets
+
 ### Maintained
+
 - @brief style formatting
-- Doxygen support 
+- Doxygen support
+
 ### Removed
+
 - Conan package manager deprecated
 
-[Unreleased]: https://github.com/perriera/extras_arc/compare/v2.1.0...HEAD
+[unreleased]: https://github.com/perriera/extras_arc/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/perriera/extras_arc/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/perriera/extras_arc/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/perriera/extras_arc/compare/v1.3.0...v2.0.0
 [1.3.0]: https://github.com/perriera/extras_arc/compare/v1.2.0...v1.3.0
@@ -228,4 +308,3 @@ Updated README.md accordinging</br>
 [0.3.0]: https://github.com/perriera/extras_arc/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/perriera/extras_arc/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/perriera/extras_arc/releases/tag/v0.1.0
-

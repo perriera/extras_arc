@@ -1,83 +1,97 @@
 {
-    //
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    //
-    // Special thanks to Dave Dumke, (david.dumke@nautel.com) of Nautel for piecing 
-    // together this lovely script as it saves so much time and energy.
-    //
-    "version": "0.2.0",
-    "configurations": [
+  //
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  //
+  // Special thanks to Dave Dumke, (david.dumke@nautel.com) of Nautel for piecing
+  // together this lovely script as it saves so much time and energy.
+  //
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "run-unittests",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/run-unittests-${workspaceRootFolderName}",
+      "args": ["[MockZipperInterface]"],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
         {
-            "name": "run-unittests",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/build/run-unittests-${workspaceRootFolderName}",
-            "args": [
-                "[WrapInterface]"
-            ],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "Build C++ project",
-            "miDebuggerPath": "/usr/bin/gdb"
-        },
-        {
-            "name": "parcel",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/build/parcel",
-            "args": [
-                "-helpx",
-            ],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "Build C++ project",
-            "miDebuggerPath": "/usr/bin/gdb"
-        },
-        {
-            "name": "implode",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/build/implode",
-            "args": [
-                "data/exparx.webflow.zip",
-                "-cleanx"
-            ],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "Build C++ project",
-            "miDebuggerPath": "/usr/bin/gdb"
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
         }
-    ]
+      ],
+      "preLaunchTask": "Build C++ project",
+      "miDebuggerPath": "/usr/bin/gdb"
+    },
+    {
+      "name": "parcel",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/parcel",
+      "args": ["-helpx"],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "Build C++ project",
+      "miDebuggerPath": "/usr/bin/gdb"
+    },
+    {
+      "name": "implode",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/implode",
+      "args": ["data/exparx.webflow.zip", "-cleanx"],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "Build C++ project",
+      "miDebuggerPath": "/usr/bin/gdb"
+    },
+    {
+      "name": "zipper",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/zipper",
+      "args": ["data/src.zip", "testit/src", "-rezip"],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "Build C++ project",
+      "miDebuggerPath": "/usr/bin/gdb"
+    }
+  ]
 }

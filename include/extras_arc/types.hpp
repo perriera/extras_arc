@@ -39,14 +39,14 @@
 #include <sys/socket.h>
 
 namespace extras {
-    namespace arc {
+  namespace arc {
 
-        /**
-         * @brief extras_src/types.hpp
-         *
-         */
+    /**
+     * @brief extras_src/types.hpp
+     *
+     */
 
-    }  // namespace arc
+  }  // namespace arc
 
 }  // namespace extras
 

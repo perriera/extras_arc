@@ -35,8 +35,8 @@ SCENARIO("Mock ImploderInterface: part2", "[ImploderInterface]") {
 
     Filename original = ~extras::Paths("data/exparx.webflow.zip");
     arc::Imploder arc(original);
-    Mock<arc::ImploderInterface> mock;
 
+    Mock<arc::ImploderInterface> mock;
     When(Method(mock, implode)).AlwaysDo([&arc, &original]() {
         arc.unzip(original, original + ".dir");
         for (auto& p : fs::recursive_directory_iterator(original + ".dir"))
