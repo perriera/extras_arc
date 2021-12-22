@@ -41,7 +41,9 @@ namespace extras {
          */
         void Zipper::unzip() const {
             FileNotFoundException::assertion(zipFile(), __INFO__);
-            auto unzip = "unzip -o " + zipFile() + " -d " + zipDir() + " >/dev/null";
+            auto fn1 = extras::FileSystem(zipFile()).filename();
+            Pathname fn2 = extras::FileSystem(zipDir()).append(fn1);
+            auto unzip = "unzip -o " + zipFile() + " -d " + fn2 + " >/dev/null";
             SystemException::assertion(unzip.c_str(), __INFO__);
             diagnostics("");
         }

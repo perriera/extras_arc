@@ -154,25 +154,25 @@ endif()
 # includes ALL headers and sources under include/ and src/. So, to keep two or more main() 
 # declarations seperate, we place any sources that have a main() in the instances/ folder
 #
-if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_EXECUTABLES)
+if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_TOOLS)
 add_executable(parcel instances/parcel.cpp) 
 target_include_directories(parcel PUBLIC ${INCLUDES})
 target_link_libraries(parcel PRIVATE ${PROJECT_NAME} stdc++fs extras )
 endif()
 
-if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_EXECUTABLES)
+if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_TOOLS)
 add_executable(implode instances/implode.cpp) 
 target_include_directories(implode PUBLIC ${INCLUDES})
 target_link_libraries(implode PRIVATE ${PROJECT_NAME} stdc++fs extras )
 endif()
 
-if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_EXECUTABLES)
+if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_TOOLS)
 add_executable(wrap instances/wrap.cpp) 
 target_include_directories(wrap PUBLIC ${INCLUDES})
 target_link_libraries(wrap PRIVATE ${PROJECT_NAME} stdc++fs extras )
 endif()
 
-if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_EXECUTABLES)
+if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_TOOLS)
 add_executable(zipper instances/zipper.cpp) 
 target_include_directories(zipper PUBLIC ${INCLUDES})
 target_link_libraries(zipper PRIVATE ${PROJECT_NAME} stdc++fs extras )
@@ -181,7 +181,7 @@ endif()
 #
 # NOTE: Install all shared libraries
 #
-if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_EXECUTABLES)
+if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_TOOLS)
   install(TARGETS 
     parcel
     implode
