@@ -185,6 +185,8 @@ if(NOT MAKE_EXTRAS_ARC_LIBRARY_ONLY OR MAKE_EXTRAS_ARC_LIBRARY_TOOLS)
   install(TARGETS 
     parcel
     implode
+    wrap
+    zipper
     ${PROJECT_NAME}
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin)

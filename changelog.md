@@ -5,8 +5,8 @@
 > and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).</br>
 > To add a tag to the git repository do:
 >
-> > git tag -a v2.3.0 -m "Corrected issue with Zipper::unzip"</br>
-> > git push origin v2.3.0
+> > git tag -a v2.3.1 -m "Added instances to install script"</br>
+> > git push origin v2.3.1
 
 IMPORTANT:
 
@@ -31,6 +31,12 @@ Correct URL for github, (for source compare)</br>
 Adding mock test cases </br>
 Adding unit test cases </br>
 Updated README.md accordinging</br>
+
+#### 2.3.1 (2021-12-22)
+
+### Added
+
+- Added instances to install script
 
 #### 2.3.0 (2021-12-21)
 
