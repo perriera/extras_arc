@@ -5,8 +5,8 @@
 > and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).</br>
 > To add a tag to the git repository do:
 >
-> > git tag -a v2.4.0 -m "Using extras v5.22.2"</br>
-> > git push origin v2.4.0
+> > git tag -a v2.5.0 -m "Using extras v5.23.0"</br>
+> > git push origin v2.5.0
 
 IMPORTANT:
 
@@ -31,6 +31,12 @@ Correct URL for github, (for source compare)</br>
 Adding mock test cases </br>
 Adding unit test cases </br>
 Updated README.md accordinging</br>
+
+#### 2.5.0 (2021-12-23)
+
+### Upgrades
+
+- Using extras v5.23.0
 
 #### 2.4.0 (2021-12-22)
 
@@ -298,7 +304,8 @@ Updated README.md accordinging</br>
 
 - Conan package manager deprecated
 
-[unreleased]: https://github.com/perriera/extras_arc/compare/v2.4.0...HEAD
+[unreleased]: https://github.com/perriera/extras_arc/compare/v2.5.0...HEAD
+[2.5.0]: https://github.com/perriera/extras_arc/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/perriera/extras_arc/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/perriera/extras_arc/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/perriera/extras_arc/compare/v2.1.0...v2.2.0

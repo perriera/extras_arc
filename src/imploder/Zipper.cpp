@@ -41,7 +41,7 @@ namespace extras {
          */
         void Zipper::unzip() const {
             FileNotFoundException::assertion(zipFile(), __INFO__);
-            auto fn1 = extras::FileSystem(zipFile()).filename();
+            auto fn1 = extras::FileSystem(zipFile()).justthefilename();
             Pathname fn2 = extras::FileSystem(zipDir()).append(fn1);
             auto unzip = "unzip -o " + zipFile() + " -d " + fn2 + " >/dev/null";
             SystemException::assertion(unzip.c_str(), __INFO__);
@@ -57,7 +57,7 @@ namespace extras {
         void Zipper::rezip() const {
             FileNotFoundException::assertion(zipFile(), __INFO__);
             PathNotFoundException::assertion(zipDir(), __INFO__);
-            auto fn1 = extras::FileSystem(zipFile()).filename();
+            auto fn1 = extras::FileSystem(zipFile()).justthefilename();
             Pathname fn2 = extras::FileSystem(zipDir()).append(fn1);
             PathNotFoundException::assertion(fn2, __INFO__);
             auto script = "script.sh";
@@ -78,7 +78,7 @@ namespace extras {
          */
         void Zipper::create() const {
             PathNotFoundException::assertion(zipDir(), __INFO__);
-            auto fn1 = extras::FileSystem(zipFile()).filename();
+            auto fn1 = extras::FileSystem(zipFile()).justthefilename();
             Pathname fn2 = extras::FileSystem(zipDir()).append(fn1);
             PathNotFoundException::assertion(fn2, __INFO__);
             auto script2 = "/tmp/script.sh";
@@ -103,7 +103,7 @@ namespace extras {
         void Zipper::append() const {
             PathNotFoundException::assertion(zipDir(), __INFO__);
             FileNotFoundException::assertion(zipFile(), __INFO__);
-            auto fn1 = extras::FileSystem(zipFile()).filename();
+            auto fn1 = extras::FileSystem(zipFile()).justthefilename();
             Pathname fn2 = extras::FileSystem(zipDir()).append(fn1);
             PathNotFoundException::assertion(fn2, __INFO__);
             char templatebuf[80];

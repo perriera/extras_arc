@@ -44,7 +44,7 @@ SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
         .AlwaysDo(
             [&zipFile, &zipTo]() {
                 FileNotFoundException::assertion(zipFile, __INFO__);
-                auto fn1 = extras::FileSystem(zipFile).filename();
+                auto fn1 = extras::FileSystem(zipFile).justthefilename();
                 Pathname fn2 = extras::FileSystem(zipTo).append(fn1);
                 auto unzip = "unzip -o " + zipFile + " -d " + fn2 + " >/dev/null";
                 SystemException::assertion(unzip.c_str(), __INFO__);
@@ -54,7 +54,7 @@ SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
             [&zipFile, &zipTo]() {
                 FileNotFoundException::assertion(zipFile, __INFO__);
                 PathNotFoundException::assertion(zipTo, __INFO__);
-                auto fn1 = extras::FileSystem(zipFile).filename();
+                auto fn1 = extras::FileSystem(zipFile).justthefilename();
                 Pathname fn2 = extras::FileSystem(zipTo).append(fn1);
                 PathNotFoundException::assertion(fn2, __INFO__);
                 auto script = "script.sh";
@@ -71,7 +71,7 @@ SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
         .AlwaysDo(
             [&zipFile, &zipTo]() {
                 PathNotFoundException::assertion(zipTo, __INFO__);
-                auto fn1 = extras::FileSystem(zipFile).filename();
+                auto fn1 = extras::FileSystem(zipFile).justthefilename();
                 Pathname fn2 = extras::FileSystem(zipTo).append(fn1);
                 PathNotFoundException::assertion(fn2, __INFO__);
                 auto script2 = "/tmp/script.sh";
@@ -92,7 +92,7 @@ SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
             [&zipFile, &zipTo]() {
                 PathNotFoundException::assertion(zipTo, __INFO__);
                 FileNotFoundException::assertion(zipFile, __INFO__);
-                auto fn1 = extras::FileSystem(zipFile).filename();
+                auto fn1 = extras::FileSystem(zipFile).justthefilename();
                 Pathname fn2 = extras::FileSystem(zipTo).append(fn1);
                 PathNotFoundException::assertion(fn2, __INFO__);
                 char templatebuf[80];
