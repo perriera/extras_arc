@@ -32,6 +32,13 @@ namespace fs = std::filesystem;
 namespace extras {
     namespace arc {
 
+        /**
+         * @brief ParcelLine ostream
+         *
+         * @param out
+         * @param obj
+         * @return std::ostream&
+         */
         std::ostream& operator<<(std::ostream& out, const ParcelLine& obj) {
             out << " : " << std::hex << obj.lineNo();
             out << " / " << std::hex << obj.lineCount();
@@ -40,6 +47,13 @@ namespace extras {
             return out;
         }
 
+        /**
+         * @brief ParcelLine istream
+         *
+         * @param out
+         * @param obj
+         * @return std::ostream&
+         */
         std::istream& operator>>(std::istream& in, ParcelLine& obj) {
             std::string line;
             getline(in, line);
@@ -63,8 +77,26 @@ namespace extras {
             ss >> c;
             ParcelException::assertion(c, __INFO__);
             ss >> std::hex >> obj._crc;
-            ParcelException::assertion(obj._crc, obj._hexLine, __INFO__);
+            ParcelException::assertion(obj, __INFO__);
             return in;
+        }
+
+        /**
+         * @brief Construct a new Parcel Line:: Parcel Line object
+         *
+         * @param lineNo
+         * @param lineCount
+         * @param hexLine
+         */
+        ParcelLine::ParcelLine(int lineNo, int lineCount, const HexLine& hexLine) :
+            _lineNo(lineNo), _lineCount(lineCount), _hexLine(hexLine) {
+
+            std::stringstream ss;
+            ss << *this;
+            std::string serialized = ss.str();
+
+            _crc = crc16().update(serialized);
+
         }
 
 

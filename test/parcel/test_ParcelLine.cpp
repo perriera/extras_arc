@@ -37,5 +37,22 @@ SCENARIO("Test ParcelLine", "[ParcelLine]") {
     REQUIRE(i.hexToBin(hexLine) == binLine);
     REQUIRE(i.binToHex(binLine) == hexLine);
 
-    arc::ParcelLine parcelLine;
+    int max = 10;
+    for (int i = 0; i < max; i++) {
+        arc::ParcelLine before(i, max, hexLine);
+        std::stringstream ss;
+        ss << before;
+        std::string test1 = ss.str();
+        std::cout << test1 << std::endl;
+        std::stringstream ss2;
+        ss2 << test1;
+        arc::ParcelLine after(i, max, hexLine);
+        ss2 >> after;
+        std::string test2 = ss.str();
+        std::cout << test2 << std::endl;
+        REQUIRE(test1 == test2);
+        REQUIRE(before == after);
+    }
+
 }
+
