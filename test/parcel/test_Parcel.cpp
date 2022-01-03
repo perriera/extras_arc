@@ -35,42 +35,44 @@ namespace fs = std::filesystem;
 
 SCENARIO("Test ParcelInterface: hexToBin", "[ParcelInterface]") {
 
-    Parameter parcel = ~extras::Paths("data/cplusplusorg.freeformjs.imploded.zip");
+    Parameter imploded = ~extras::Paths("data/cplusplusorg.freeformjs.imploded.zip");
 
-    arc::Parcel packed(parcel);
+    arc::Parcel parcel(imploded);
 
-    if (fs::exists(packed.packed()))
-        fs::remove(packed.packed());
-    if (fs::exists(packed.hexed()))
-        fs::remove(packed.hexed());
-    if (fs::exists(packed.duplicate()))
-        fs::remove(packed.duplicate());
+    if (fs::exists(parcel.packed()))
+        fs::remove(parcel.packed());
+    if (fs::exists(parcel.hexed()))
+        fs::remove(parcel.hexed());
+    if (fs::exists(parcel.duplicate()))
+        fs::remove(parcel.duplicate());
 
-    arc::ParcelInterface& i = packed;
-    REQUIRE(i.original() == packed.original());
-    REQUIRE(i.hexed() == packed.hexed());
-    REQUIRE(i.packed() == packed.packed());
-    REQUIRE(i.duplicate() == packed.duplicate());
-    REQUIRE(fs::exists(packed.original()));
-    REQUIRE(!fs::exists(packed.hexed()));
-    REQUIRE(!fs::exists(packed.packed()));
-    REQUIRE(!fs::exists(packed.duplicate()));
+    arc::ParcelInterface& i = parcel;
+    REQUIRE(i.original() == parcel.original());
+    REQUIRE(i.hexed() == parcel.hexed());
+    REQUIRE(i.packed() == parcel.packed());
+    REQUIRE(i.duplicate() == parcel.duplicate());
+    REQUIRE(fs::exists(parcel.original()));
+    REQUIRE(!fs::exists(parcel.hexed()));
+    REQUIRE(!fs::exists(parcel.packed()));
+    REQUIRE(!fs::exists(parcel.duplicate()));
     i.pack();
-    REQUIRE(fs::exists(packed.original()));
-    REQUIRE(fs::exists(packed.hexed()));
-    REQUIRE(fs::exists(packed.packed()));
-    REQUIRE(!fs::exists(packed.duplicate()));
+    REQUIRE(fs::exists(parcel.original()));
+    REQUIRE(fs::exists(parcel.hexed()));
+    REQUIRE(fs::exists(parcel.packed()));
+    REQUIRE(!fs::exists(parcel.duplicate()));
     i.unpack();
-    REQUIRE(fs::exists(packed.original()));
-    REQUIRE(fs::exists(packed.hexed()));
-    REQUIRE(fs::exists(packed.packed()));
-    REQUIRE(fs::exists(packed.duplicate()));
+    REQUIRE(fs::exists(parcel.original()));
+    REQUIRE(fs::exists(parcel.hexed()));
+    REQUIRE(fs::exists(parcel.packed()));
+    REQUIRE(fs::exists(parcel.duplicate()));
     REQUIRE(i.verify_integrity());
-    REQUIRE(fs::exists(packed.original()));
-    REQUIRE(fs::exists(packed.duplicate()));
+    REQUIRE(fs::exists(parcel.original()));
+    REQUIRE(fs::exists(parcel.duplicate()));
     i.clean();
-    REQUIRE(fs::exists(packed.original()));
-    REQUIRE(!fs::exists(packed.hexed()));
-    REQUIRE(!fs::exists(packed.packed()));
-    REQUIRE(!fs::exists(packed.duplicate()));
+    REQUIRE(fs::exists(parcel.original()));
+    REQUIRE(!fs::exists(parcel.hexed()));
+    REQUIRE(!fs::exists(parcel.packed()));
+    REQUIRE(!fs::exists(parcel.duplicate()));
+
 }
+

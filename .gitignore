@@ -25,4 +25,6 @@ data/src.zip_*
 data/client/
 data/server/
 testit/
+assets/badkitty/extra_char/src.zip_imploded.zip_hexed.txt
+assets/badkitty/extra_char/src.zip_imploded.zip_packed.txt
 

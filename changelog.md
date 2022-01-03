@@ -5,8 +5,8 @@
 > and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).</br>
 > To add a tag to the git repository do:
 >
-> > git tag -a v3.1.1 -m "Added FEC to ParcelLine, (fixed warnings)"</br>
-> > git push origin v3.1.1
+> > git tag -a v3.2.0 -m "Added eof() to ParcelLine"</br>
+> > git push origin v3.2.0
 
 IMPORTANT:
 
@@ -34,6 +34,12 @@ Correct URL for github, (for source compare)</br>
 - Warn that only Zip files can be used by the imploder
 - Auto zip option for the imploder, (for none zip files)
 - VERIFY FILES BEFORE THEY ARE SENT
+
+#### 3.2.0 (2022-01-03)
+
+### Added
+
+- eof() to ParcelLine
 
 #### 3.1.1 (2022-01-03)
 
@@ -329,7 +335,8 @@ Correct URL for github, (for source compare)</br>
 
 - Conan package manager deprecated
 
-[unreleased]: https://github.com/perriera/extras_arc/compare/v3.1.1...HEAD
+[unreleased]: https://github.com/perriera/extras_arc/compare/v3.2.0...HEAD
+[3.2.0]: https://github.com/perriera/extras_arc/compare/v3.1.1...v3.2.0
 [3.1.1]: https://github.com/perriera/extras_arc/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/perriera/extras_arc/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/perriera/extras_arc/compare/v2.5.0...v3.0.0

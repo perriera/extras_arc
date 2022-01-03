@@ -32,6 +32,10 @@ namespace fs = std::filesystem;
 namespace extras {
     namespace arc {
 
+        /**
+         * @brief Parcel::pack()
+         *
+         */
         void Parcel::pack() const {
             FileNotFoundException::assertion(original(), __INFO__);
             std::ifstream inBin(original());
@@ -51,6 +55,10 @@ namespace extras {
             diagnostics("");
         }
 
+        /**
+         * @brief  Parcel::unpack()
+         *
+         */
         void Parcel::unpack() const {
             auto name = packed();
             FileNotFoundException::assertion(name, __INFO__);
@@ -76,6 +84,8 @@ namespace extras {
                 try {
                     ss >> line;
                     hexFile.push_back(line.hexLine());
+                    if (line.eof())
+                        break;
                 }
                 catch (exception& ex) {
                     cout << ex.what() << endl;
@@ -97,6 +107,12 @@ namespace extras {
             diagnostics("");
         }
 
+        /**
+         * @brief Parcel::verify_integrity()
+         *
+         * @return true
+         * @return false
+         */
         bool Parcel::verify_integrity() const {
             FileNotFoundException::assertion(original(), __INFO__);
             FileNotFoundException::assertion(duplicate(), __INFO__);
@@ -105,6 +121,10 @@ namespace extras {
             return true;
         }
 
+        /**
+         * @brief Parcel::merge()
+         *
+         */
         void Parcel::merge() const {
             FileNotFoundException::assertion(duplicate(), __INFO__);
             auto from = duplicate();
@@ -115,6 +135,10 @@ namespace extras {
             diagnostics("");
         }
 
+        /**
+         * @brief Parcel::clean()
+         *
+         */
         void Parcel::clean() const {
             if (fs::exists(packed()))
                 fs::remove(packed());
@@ -125,17 +149,29 @@ namespace extras {
             diagnostics("");
         }
 
+        /**
+         * @brief Parcel::cat()
+         *
+         */
         void Parcel::cat() const {
             FileNotFoundException::assertion(packed(), __INFO__);
             std::string cmd = "cat " + packed() + " | less";
             SystemException::assertion(cmd.c_str(), __INFO__);
         }
 
+        /**
+         * @brief Parcel::dir()
+         *
+         */
         void Parcel::dir() const {
             std::string cmd = "ls -la " + original() + "*";
             SystemException::assertion(cmd.c_str(), __INFO__);
         }
 
+        /**
+         * @brief Parcel::unzip()
+         *
+         */
         void Parcel::unzip() const {
             FileNotFoundException::assertion(duplicate(), __INFO__);
             string cmd = "unzip -o " + duplicate() + " -d /tmp ";
@@ -143,12 +179,20 @@ namespace extras {
             diagnostics("");
         }
 
+        /**
+         * @brief Parcel::help()
+         *
+         */
         void Parcel::help() const {
             FileNotFoundException::assertion("HOWTO-parcel.md", __INFO__);
             string cmd = "cat HOWTO-parcel.md | less ";
             SystemException::assertion(cmd.c_str(), __INFO__);
         }
 
+        /**
+         * @brief Parcel::diagnostics()
+         *
+         */
         void ParcelCmdLine::diagnostics(std::string msg) const {
             if (msg.size() > 0)
                 std::cout << msg << std::endl;
