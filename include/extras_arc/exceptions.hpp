@@ -94,7 +94,7 @@ namespace extras {
             }
 
             static void assertion(const ParcelLineInterface& obj, const extras::WhereAmI& ref) {
-                arc::ParcelLine check(obj.lineNo(), obj.lineCount(), obj.hexLine());
+                arc::ParcelLine check(obj.lineNo(), obj.lineCount(), obj.hexLine(), obj.redundancy());
                 if (check.checksum() != obj.checksum())
                     throw ParcelException("Bad CRC:" + obj.raw(), ref);
             }

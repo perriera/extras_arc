@@ -25,7 +25,7 @@
 
 using namespace extras;
 
-SCENARIO("Test ParcelLine", "[ParcelLine]") {
+SCENARIO("Test ParcelLine (FEC)", "[ParcelLineFEC]") {
 
     arc::ConvertLine converter;
     arc::ConvertLineInterface& i = converter;
@@ -39,7 +39,7 @@ SCENARIO("Test ParcelLine", "[ParcelLine]") {
 
     int max = 10;
     for (int i = 0; i < max; i++) {
-        arc::ParcelLine before(i, max, hexLine);
+        arc::ParcelLine before(i, max, hexLine, 3);
         std::stringstream ss;
         ss << before;
         std::string test1 = ss.str();

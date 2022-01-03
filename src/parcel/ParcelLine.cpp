@@ -43,6 +43,7 @@ namespace extras {
             out << " : " << std::hex << obj.lineNo();
             out << " / " << std::hex << obj.lineCount();
             out << " : " << obj.hexLine();
+            out << " : " << std::hex << obj.redundancy();
             out << " : " << std::hex << obj.lenght();
             out << " / " << std::hex << obj.checksum();
             return out;
@@ -77,8 +78,10 @@ namespace extras {
             ParcelException::assertion(obj._hexLine, __INFO__);
             ss >> c;
             ParcelException::assertion(c, __INFO__);
+            ss >> obj._redundancy;
+            ss >> c;
+            ParcelException::assertion(c, __INFO__);
             ss >> std::hex >> obj._lenght;
-            ParcelException::assertion(obj._hexLine, __INFO__);
             ss >> c;
             ParcelException::assertion(c, __INFO__);
             ss >> std::hex >> obj._crc;
