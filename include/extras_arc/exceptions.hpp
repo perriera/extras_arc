@@ -62,7 +62,7 @@ namespace extras {
                 : ArcException(msg.c_str(), whereAmI) {}
 
             static void assertion(char delimiter, const extras::WhereAmI& ref) {
-                if (delimiter != ':' && delimiter != '/')
+                if (delimiter != ':' && delimiter != '/' && delimiter != ',')
                     throw ParcelException("Bad delimiter:" + delimiter, ref);
             }
 

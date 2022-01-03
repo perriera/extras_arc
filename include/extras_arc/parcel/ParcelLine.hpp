@@ -61,7 +61,7 @@ namespace extras {
             virtual  std::string raw() const pure;
 
             bool operator==(const ParcelLineInterface& rhs) const {
-                return lenght() == rhs.lenght() && checksum() == rhs.checksum();
+                return checksum() == rhs.checksum(); // lenght() == rhs.lenght() && 
             }
 
             bool operator!=(const ParcelLineInterface& rhs) const {
@@ -89,7 +89,7 @@ namespace extras {
              *
              */
             ParcelLine() {};
-            ParcelLine(int lineNo, int lineCount, const HexLine& hexLine, int redundancy = 0);
+            ParcelLine(int lineNo, int lineCount, const HexLine& hexLine, int redundancy = 1);
 
             /**
              * @brief ParcelLineInterface

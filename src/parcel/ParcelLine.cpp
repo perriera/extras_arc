@@ -41,13 +41,14 @@ namespace extras {
          */
         std::ostream& operator<<(std::ostream& out, const ParcelLine& obj) {
             auto redundancy = obj.redundancy() < 10 ? obj.redundancy() : 1;
-            for (int i = 0; i < redundancy + 1; i++) {
+            for (int i = 0; i < redundancy; i++) {
                 out << " : " << std::hex << obj.lineNo();
                 out << " / " << std::hex << obj.lineCount();
                 out << " : " << obj.hexLine();
                 out << " : " << std::hex << obj.redundancy();
                 out << " : " << std::hex << obj.lenght();
                 out << " / " << std::hex << obj.checksum();
+                out << " , ";
             }
             return out;
         }
@@ -61,7 +62,7 @@ namespace extras {
          */
         std::istream& operator>>(std::istream& in, ParcelLine& obj) {
             int retries = 0;
-            int knownRedundancy = 0;
+            int maxRedundancy = 10;
             std::string line;
             getline(in, line);
             if (line.length() == 0)
@@ -70,7 +71,7 @@ namespace extras {
             ss << line;
             while (true) {
                 try {
-                    char c;
+                    char c = '?';
                     ss >> std::skipws >> c;
                     ParcelException::assertion(c, __INFO__);
                     ss >> std::hex >> obj._lineNo;
@@ -88,17 +89,26 @@ namespace extras {
                     ss >> obj._redundancy;
                     ss >> c;
                     ParcelException::assertion(c, __INFO__);
-                    knownRedundancy = obj._redundancy < 10 ? obj._redundancy : 1;
                     ss >> std::hex >> obj._lenght;
                     ss >> c;
                     ParcelException::assertion(c, __INFO__);
                     ss >> std::hex >> obj._crc;
                     ParcelException::assertion(obj, __INFO__);
+                    ss >> c;
+                    ParcelException::assertion(c, __INFO__);
                     break;
                 }
                 catch (ParcelException& ex) {
-                    if (!(++retries < knownRedundancy))
+                    if (!(++retries < maxRedundancy))
                         ParcelException::assertion(obj, __INFO__);
+                    else {
+                        char c = '?';
+                        if (!ss.good())
+                            ss.clear();
+                        while (ss.good() && c != ',')
+                            ss >> c;
+                        auto x = c;
+                    }
                 }
             }
             return in;
@@ -117,16 +127,37 @@ namespace extras {
             _lineNo(lineNo), _lineCount(lineCount),
             _hexLine(hexLine), _redundancy(redundancy) {
 
-            std::stringstream ss1;
-            ss1 << *this;
-            this->_lenght = ss1.str().size();
+            /**
+             * @brief for some reason the current logic WILL NOT take into consideration the
+             *        lenght field in it's crc calculations, (during unit tests).
+             *
+             */
 
-            std::stringstream ss2;
-            ss2 << *this;
-            std::string serialized = ss2.str();
+            int x, y;
+            {
+                std::stringstream ss1;
+                ss1 << *this;
+                this->_lenght = ss1.str().size();
 
-            this->_crc = crc16().update(serialized);
+                std::stringstream ss2;
+                ss2 << *this;
+                std::string serialized = ss2.str();
 
+                x = crc32().update(serialized);
+            }
+            {
+                std::stringstream ss1;
+                ss1 << *this;
+                this->_lenght = ss1.str().size() + 1;
+
+                std::stringstream ss2;
+                ss2 << *this;
+                std::string serialized = ss2.str();
+
+                y = crc32().update(serialized);
+            }
+
+            this->_crc = x;
         }
 
 
