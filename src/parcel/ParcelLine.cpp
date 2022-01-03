@@ -40,12 +40,14 @@ namespace extras {
          * @return std::ostream&
          */
         std::ostream& operator<<(std::ostream& out, const ParcelLine& obj) {
-            out << " : " << std::hex << obj.lineNo();
-            out << " / " << std::hex << obj.lineCount();
-            out << " : " << obj.hexLine();
-            out << " : " << std::hex << obj.redundancy();
-            out << " : " << std::hex << obj.lenght();
-            out << " / " << std::hex << obj.checksum();
+            for (int i = 0; i < obj.redundancy() + 1; i++) {
+                out << " : " << std::hex << obj.lineNo();
+                out << " / " << std::hex << obj.lineCount();
+                out << " : " << obj.hexLine();
+                out << " : " << std::hex << obj.redundancy();
+                out << " : " << std::hex << obj.lenght();
+                out << " / " << std::hex << obj.checksum();
+            }
             return out;
         }
 
@@ -57,35 +59,49 @@ namespace extras {
          * @return std::ostream&
          */
         std::istream& operator>>(std::istream& in, ParcelLine& obj) {
-            std::string line;
-            getline(in, line);
-            if (line.length() == 0)
-                return in;
-            stringstream ss;
-            ss << line;
-            char c;
-            ss >> std::skipws >> c;
-            ParcelException::assertion(c, __INFO__);
-            ss >> std::hex >> obj._lineNo;
-            ParcelException::assertion(obj._lineNo, __INFO__);
-            ss >> std::skipws >> c;
-            ParcelException::assertion(c, __INFO__);
-            ss >> std::hex >> obj._lineCount;
-            ParcelException::assertion(obj._lineCount, __INFO__);
-            ss >> std::skipws >> c;
-            ParcelException::assertion(c, __INFO__);
-            ss >> obj._hexLine;
-            ParcelException::assertion(obj._hexLine, __INFO__);
-            ss >> c;
-            ParcelException::assertion(c, __INFO__);
-            ss >> obj._redundancy;
-            ss >> c;
-            ParcelException::assertion(c, __INFO__);
-            ss >> std::hex >> obj._lenght;
-            ss >> c;
-            ParcelException::assertion(c, __INFO__);
-            ss >> std::hex >> obj._crc;
-            ParcelException::assertion(obj, __INFO__);
+            int retries = 0;
+            int knownRedundancy = 0;
+            while (true) {
+                try {
+                    std::string line;
+                    getline(in, line);
+                    if (line.length() == 0)
+                        return in;
+                    stringstream ss;
+                    ss << line;
+                    char c;
+                    ss >> std::skipws >> c;
+                    ParcelException::assertion(c, __INFO__);
+                    ss >> std::hex >> obj._lineNo;
+                    ParcelException::assertion(obj._lineNo, __INFO__);
+                    ss >> std::skipws >> c;
+                    ParcelException::assertion(c, __INFO__);
+                    ss >> std::hex >> obj._lineCount;
+                    ParcelException::assertion(obj._lineCount, __INFO__);
+                    ss >> std::skipws >> c;
+                    ParcelException::assertion(c, __INFO__);
+                    ss >> obj._hexLine;
+                    ParcelException::assertion(obj._hexLine, __INFO__);
+                    ss >> c;
+                    ParcelException::assertion(c, __INFO__);
+                    ss >> obj._redundancy;
+                    ss >> c;
+                    ParcelException::assertion(c, __INFO__);
+                    knownRedundancy = obj._redundancy;
+                    ss >> std::hex >> obj._lenght;
+                    ss >> c;
+                    ParcelException::assertion(c, __INFO__);
+                    ss >> std::hex >> obj._crc;
+                    ParcelException::assertion(obj, __INFO__);
+                    break;
+                }
+                catch (ParcelException& ex) {
+                    if (!(++retries < knownRedundancy))
+                        ParcelException::assertion(obj, __INFO__);
+                    else
+                        std::cout << ex << std::endl;
+                }
+            }
             return in;
         }
 
