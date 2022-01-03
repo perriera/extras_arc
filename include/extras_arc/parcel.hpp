@@ -115,6 +115,9 @@ namespace extras {
             Parameter _unpacked;
 
         public:
+
+            Parcel() {};
+
             Parcel(const Parameter& parcel) : _parcel(parcel) {
                 _hexed = _parcel + "_hexed.txt";
                 _packed = _parcel + "_packed.txt";

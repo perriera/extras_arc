@@ -60,6 +60,14 @@ namespace extras {
             virtual const CRC& checksum() const pure;
             virtual  std::string raw() const pure;
 
+            virtual  bool bof() const {
+                return lineNo() == 1;
+            };
+
+            virtual  bool eof() const {
+                return lineNo() == lineCount();
+            };
+
             bool operator==(const ParcelLineInterface& rhs) const {
                 return checksum() == rhs.checksum(); // lenght() == rhs.lenght() && 
             }

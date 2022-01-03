@@ -70,15 +70,42 @@ SCENARIO("Mock ParcelInterface: hexToBin", "[ParcelInterface]") {
     When(Method(mock, unpack))
         .AlwaysDo(
             [&packed, &duplicate, &hexed]() {
-                FileNotFoundException::assertion(packed, __INFO__);
-                std::ifstream in(packed);
+                auto name = packed;
+                FileNotFoundException::assertion(name, __INFO__);
+                std::ifstream in(name);
+
                 arc::HexFile hexFile;
+                arc::PackedFile badCRC;
+
+                arc::HexFile buffer;
                 while (in.good()) {
-                    arc::ParcelLine line;
-                    in >> line;
-                    if (in.good())
-                        hexFile.push_back(line.hexLine());
+                    arc::HexLine line;
+                    getline(in, line);
+                    if (line == "JUNK")
+                        break;
+                    if (line.size() > 0)
+                        buffer.push_back(line);
                 }
+
+                for (auto text : buffer) {
+                    std::stringstream ss;
+                    ss << text;
+                    arc::ParcelLine line;
+                    try {
+                        ss >> line;
+                        hexFile.push_back(line.hexLine());
+                        if (line.eof())
+                            break;
+                    }
+                    catch (exception& ex) {
+                        std::cout << ex.what() << std::endl;
+                        std::cout << line << std::endl;
+                        badCRC.push_back(line);
+                    }
+                }
+
+                if (badCRC.size() > 0)
+                    std::cout << "BadCRC count: " << badCRC.size() << std::endl;
                 std::ofstream outHex(hexed);
                 arc::ConvertFile().saveHex(outHex, hexFile);
                 outHex.close();
@@ -159,7 +186,21 @@ SCENARIO("Mock ParcelInterface: hexToBin", "[ParcelInterface]") {
     REQUIRE(!fs::exists(i.hexed()));
     REQUIRE(!fs::exists(i.packed()));
     REQUIRE(!fs::exists(i.duplicate()));
+
+    /**
+     * @brief NI-6, (remove extra chars at end of the line)
+     *
+     */
+    original = "assets/badkitty/extra_char/src.zip_imploded.zip";
+    hexed = original + "_hexed.txt";
+    packed = original + "_packed.txt";
+    duplicate = original + "_unpacked.txt";
+
+    REQUIRE(fs::exists(i.packed()));
+    i.unpack();
+
     Verify(Method(mock, pack));
     Verify(Method(mock, unpack));
     Verify(Method(mock, verify_integrity));
 }
+
