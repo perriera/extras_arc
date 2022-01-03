@@ -107,7 +107,6 @@ namespace extras {
                             ss.clear();
                         while (ss.good() && c != ',')
                             ss >> c;
-                        auto x = c;
                     }
                 }
             }
@@ -133,31 +132,16 @@ namespace extras {
              *
              */
 
-            int x, y;
-            {
-                std::stringstream ss1;
-                ss1 << *this;
-                this->_lenght = ss1.str().size();
+            std::stringstream ss1;
+            ss1 << *this;
+            this->_lenght = ss1.str().size();
 
-                std::stringstream ss2;
-                ss2 << *this;
-                std::string serialized = ss2.str();
+            std::stringstream ss2;
+            ss2 << *this;
+            std::string serialized = ss2.str();
 
-                x = crc32().update(serialized);
-            }
-            {
-                std::stringstream ss1;
-                ss1 << *this;
-                this->_lenght = ss1.str().size() + 1;
+            this->_crc = crc32().update(serialized);
 
-                std::stringstream ss2;
-                ss2 << *this;
-                std::string serialized = ss2.str();
-
-                y = crc32().update(serialized);
-            }
-
-            this->_crc = x;
         }
 
 
