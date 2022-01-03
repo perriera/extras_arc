@@ -35,7 +35,7 @@
 #include <extras/strings.hpp>
 #include <extras/crcs.hpp>
 #include <extras_arc/types.hpp>
-#include <extras_arc/parcel/Line.hpp>
+#include <extras_arc/parcel/ParcelLine.hpp>
 #include <iostream>
 #include <sstream>
 #include <netinet/in.h>
@@ -62,7 +62,7 @@ namespace extras {
                 : ArcException(msg.c_str(), whereAmI) {}
 
             static void assertion(char delimiter, const extras::WhereAmI& ref) {
-                if (delimiter != ':' && delimiter != '/')
+                if (delimiter != ':' && delimiter != '/' && delimiter != ',')
                     throw ParcelException("Bad delimiter:" + delimiter, ref);
             }
 
@@ -94,7 +94,7 @@ namespace extras {
             }
 
             static void assertion(const ParcelLineInterface& obj, const extras::WhereAmI& ref) {
-                arc::ParcelLine check(obj.lineNo(), obj.lineCount(), obj.hexLine());
+                arc::ParcelLine check(obj.lineNo(), obj.lineCount(), obj.hexLine(), obj.redundancy());
                 if (check.checksum() != obj.checksum())
                     throw ParcelException("Bad CRC:" + obj.raw(), ref);
             }

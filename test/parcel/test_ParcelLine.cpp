@@ -17,7 +17,7 @@
  */
 
 #include <extras_arc/bin2hex/ConvertLine.hpp>
-#include <extras_arc/parcel/Line.hpp>
+#include <extras_arc/parcel/ParcelLine.hpp>
 #include <iostream>
 
 #include "../vendor/catch.hpp"
@@ -46,7 +46,7 @@ SCENARIO("Test ParcelLine", "[ParcelLine]") {
         std::cout << test1 << std::endl;
         std::stringstream ss2;
         ss2 << test1;
-        arc::ParcelLine after(i, max, hexLine);
+        arc::ParcelLine after;
         ss2 >> after;
         std::string test2 = ss.str();
         std::cout << test2 << std::endl;

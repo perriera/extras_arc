@@ -40,11 +40,16 @@ namespace extras {
          * @return std::ostream&
          */
         std::ostream& operator<<(std::ostream& out, const ParcelLine& obj) {
-            out << " : " << std::hex << obj.lineNo();
-            out << " / " << std::hex << obj.lineCount();
-            out << " : " << obj.hexLine();
-            out << " : " << std::hex << obj.lenght();
-            out << " / " << std::hex << obj.checksum();
+            auto redundancy = obj.redundancy() < 10 ? obj.redundancy() : 1;
+            for (int i = 0; i < redundancy; i++) {
+                out << " : " << std::hex << obj.lineNo();
+                out << " / " << std::hex << obj.lineCount();
+                out << " : " << obj.hexLine();
+                out << " : " << std::hex << obj.redundancy();
+                out << " : " << std::hex << obj.lenght();
+                out << " / " << std::hex << obj.checksum();
+                out << " , ";
+            }
             return out;
         }
 
@@ -56,33 +61,56 @@ namespace extras {
          * @return std::ostream&
          */
         std::istream& operator>>(std::istream& in, ParcelLine& obj) {
+            int retries = 0;
+            int maxRedundancy = 10;
             std::string line;
             getline(in, line);
             if (line.length() == 0)
                 return in;
             stringstream ss;
             ss << line;
-            char c;
-            ss >> std::skipws >> c;
-            ParcelException::assertion(c, __INFO__);
-            ss >> std::hex >> obj._lineNo;
-            ParcelException::assertion(obj._lineNo, __INFO__);
-            ss >> std::skipws >> c;
-            ParcelException::assertion(c, __INFO__);
-            ss >> std::hex >> obj._lineCount;
-            ParcelException::assertion(obj._lineCount, __INFO__);
-            ss >> std::skipws >> c;
-            ParcelException::assertion(c, __INFO__);
-            ss >> obj._hexLine;
-            ParcelException::assertion(obj._hexLine, __INFO__);
-            ss >> c;
-            ParcelException::assertion(c, __INFO__);
-            ss >> std::hex >> obj._lenght;
-            ParcelException::assertion(obj._hexLine, __INFO__);
-            ss >> c;
-            ParcelException::assertion(c, __INFO__);
-            ss >> std::hex >> obj._crc;
-            ParcelException::assertion(obj, __INFO__);
+            while (true) {
+                try {
+                    char c = '?';
+                    ss >> std::skipws >> c;
+                    ParcelException::assertion(c, __INFO__);
+                    ss >> std::hex >> obj._lineNo;
+                    ParcelException::assertion(obj._lineNo, __INFO__);
+                    ss >> std::skipws >> c;
+                    ParcelException::assertion(c, __INFO__);
+                    ss >> std::hex >> obj._lineCount;
+                    ParcelException::assertion(obj._lineCount, __INFO__);
+                    ss >> std::skipws >> c;
+                    ParcelException::assertion(c, __INFO__);
+                    ss >> obj._hexLine;
+                    ParcelException::assertion(obj._hexLine, __INFO__);
+                    ss >> c;
+                    ParcelException::assertion(c, __INFO__);
+                    ss >> obj._redundancy;
+                    ss >> c;
+                    ParcelException::assertion(c, __INFO__);
+                    ss >> std::hex >> obj._lenght;
+                    ss >> c;
+                    ParcelException::assertion(c, __INFO__);
+                    ss >> std::hex >> obj._crc;
+                    ParcelException::assertion(obj, __INFO__);
+                    ss >> c;
+                    ParcelException::assertion(c, __INFO__);
+                    break;
+                }
+                catch (ParcelException& ex) {
+                    if (!(++retries < maxRedundancy))
+                        ParcelException::assertion(obj, __INFO__);
+                    else {
+                        char c = '?';
+                        if (!ss.good())
+                            ss.clear();
+                        while (ss.good() && c != ',')
+                            ss >> c;
+                        auto x = c;
+                    }
+                }
+            }
             return in;
         }
 
@@ -93,19 +121,43 @@ namespace extras {
          * @param lineCount
          * @param hexLine
          */
-        ParcelLine::ParcelLine(int lineNo, int lineCount, const HexLine& hexLine) :
-            _lineNo(lineNo), _lineCount(lineCount), _hexLine(hexLine) {
+        ParcelLine::ParcelLine(
+            int lineNo, int lineCount,
+            const HexLine& hexLine, int redundancy) :
+            _lineNo(lineNo), _lineCount(lineCount),
+            _hexLine(hexLine), _redundancy(redundancy) {
 
-            std::stringstream ss1;
-            ss1 << *this;
-            this->_lenght = ss1.str().size();
+            /**
+             * @brief for some reason the current logic WILL NOT take into consideration the
+             *        lenght field in it's crc calculations, (during unit tests).
+             *
+             */
 
-            std::stringstream ss2;
-            ss2 << *this;
-            std::string serialized = ss2.str();
+            int x, y;
+            {
+                std::stringstream ss1;
+                ss1 << *this;
+                this->_lenght = ss1.str().size();
 
-            this->_crc = crc16().update(serialized);
+                std::stringstream ss2;
+                ss2 << *this;
+                std::string serialized = ss2.str();
 
+                x = crc32().update(serialized);
+            }
+            {
+                std::stringstream ss1;
+                ss1 << *this;
+                this->_lenght = ss1.str().size() + 1;
+
+                std::stringstream ss2;
+                ss2 << *this;
+                std::string serialized = ss2.str();
+
+                y = crc32().update(serialized);
+            }
+
+            this->_crc = x;
         }
 
 
