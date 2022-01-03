@@ -93,8 +93,11 @@ namespace extras {
          * @param lineCount
          * @param hexLine
          */
-        ParcelLine::ParcelLine(int lineNo, int lineCount, const HexLine& hexLine) :
-            _lineNo(lineNo), _lineCount(lineCount), _hexLine(hexLine) {
+        ParcelLine::ParcelLine(
+            int lineNo, int lineCount,
+            const HexLine& hexLine, int redundancy) :
+            _lineNo(lineNo), _lineCount(lineCount),
+            _hexLine(hexLine), _redundancy(redundancy) {
 
             std::stringstream ss1;
             ss1 << *this;

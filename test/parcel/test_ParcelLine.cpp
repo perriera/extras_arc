@@ -17,7 +17,7 @@
  */
 
 #include <extras_arc/bin2hex/ConvertLine.hpp>
-#include <extras_arc/parcel/Line.hpp>
+#include <extras_arc/parcel/ParcelLine.hpp>
 #include <iostream>
 
 #include "../vendor/catch.hpp"

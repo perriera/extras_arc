@@ -38,7 +38,7 @@
 #include <iostream>
 #include <sstream>
 #include <extras_arc/exceptions.hpp>
-#include <extras_arc/parcel/Line.hpp>
+#include <extras_arc/parcel/ParcelLine.hpp>
 #include <extras_arc/types.hpp>
 #include <netinet/in.h>
 #include <sys/socket.h>
