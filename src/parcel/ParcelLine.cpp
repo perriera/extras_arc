@@ -43,7 +43,8 @@ namespace extras {
             out << " : " << std::hex << obj.lineNo();
             out << " / " << std::hex << obj.lineCount();
             out << " : " << obj.hexLine();
-            out << " : " << std::hex << obj.checksum();
+            out << " : " << std::hex << obj.lenght();
+            out << " / " << std::hex << obj.checksum();
             return out;
         }
 
@@ -76,6 +77,10 @@ namespace extras {
             ParcelException::assertion(obj._hexLine, __INFO__);
             ss >> c;
             ParcelException::assertion(c, __INFO__);
+            ss >> std::hex >> obj._lenght;
+            ParcelException::assertion(obj._hexLine, __INFO__);
+            ss >> c;
+            ParcelException::assertion(c, __INFO__);
             ss >> std::hex >> obj._crc;
             ParcelException::assertion(obj, __INFO__);
             return in;
@@ -91,11 +96,15 @@ namespace extras {
         ParcelLine::ParcelLine(int lineNo, int lineCount, const HexLine& hexLine) :
             _lineNo(lineNo), _lineCount(lineCount), _hexLine(hexLine) {
 
-            std::stringstream ss;
-            ss << *this;
-            std::string serialized = ss.str();
+            std::stringstream ss1;
+            ss1 << *this;
+            this->_lenght = ss1.str().size();
 
-            _crc = crc16().update(serialized);
+            std::stringstream ss2;
+            ss2 << *this;
+            std::string serialized = ss2.str();
+
+            this->_crc = crc16().update(serialized);
 
         }
 

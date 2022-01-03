@@ -52,6 +52,8 @@ SCENARIO("Test ParcelLine", "[ParcelLine]") {
         std::cout << test2 << std::endl;
         REQUIRE(test1 == test2);
         REQUIRE(before == after);
+        REQUIRE(before.hexLine() == hexLine);
+        REQUIRE(after.hexLine() == hexLine);
     }
 
 }

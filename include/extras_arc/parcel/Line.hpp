@@ -55,11 +55,12 @@ namespace extras {
             virtual  int lineNo() const pure;
             virtual  int lineCount() const pure;
             virtual const HexLine& hexLine() const pure;
+            virtual int lenght() const pure;
             virtual const CRC& checksum() const pure;
             virtual  std::string raw() const pure;
 
             bool operator==(const ParcelLineInterface& rhs) const {
-                return checksum() == rhs.checksum();
+                return lenght() == rhs.lenght() && checksum() == rhs.checksum();
             }
 
             bool operator!=(const ParcelLineInterface& rhs) const {
@@ -77,6 +78,7 @@ namespace extras {
             int _lineNo = 0;
             int _lineCount = 0;
             HexLine _hexLine;
+            int _lenght = 0;
             CRC _crc = 0;
         public:
 
@@ -94,6 +96,7 @@ namespace extras {
             virtual  int lineNo() const override { return _lineNo; };
             virtual  int lineCount() const override { return _lineCount; };
             virtual const HexLine& hexLine() const override { return _hexLine; };
+            virtual int lenght() const override { return _lenght; };
             virtual const CRC& checksum() const override { return _crc; };
 
             virtual  std::string raw() const override {
