@@ -32,41 +32,6 @@ namespace fs = std::filesystem;
 namespace extras {
     namespace arc {
 
-        std::ostream& operator<<(std::ostream& out, const ParcelLine& obj) {
-            out << " : " << std::hex << obj.lineNo();
-            out << " / " << std::hex << obj.lineCount();
-            out << " : " << obj.hexLine();
-            out << " : " << std::hex << obj.checksum();
-            return out;
-        }
-
-        std::istream& operator>>(std::istream& in, ParcelLine& obj) {
-            std::string line;
-            getline(in, line);
-            if (line.length() == 0)
-                return in;
-            stringstream ss;
-            ss << line;
-            char c;
-            ss >> std::skipws >> c;
-            ParcelException::assertion(c, __INFO__);
-            ss >> std::hex >> obj._lineNo;
-            ParcelException::assertion(obj._lineNo, __INFO__);
-            ss >> std::skipws >> c;
-            ParcelException::assertion(c, __INFO__);
-            ss >> std::hex >> obj._lineCount;
-            ParcelException::assertion(obj._lineCount, __INFO__);
-            ss >> std::skipws >> c;
-            ParcelException::assertion(c, __INFO__);
-            ss >> obj._hexLine;
-            ParcelException::assertion(obj._hexLine, __INFO__);
-            ss >> c;
-            ParcelException::assertion(c, __INFO__);
-            ss >> std::hex >> obj._crc;
-            ParcelException::assertion(obj._crc, obj._hexLine, __INFO__);
-            return in;
-        }
-
         void Parcel::pack() const {
             FileNotFoundException::assertion(original(), __INFO__);
             std::ifstream inBin(original());

@@ -93,10 +93,10 @@ namespace extras {
                         throw ParcelException("Bad HexLine:" + hexLine, ref);
             }
 
-            static void assertion(arc::CRC crc, arc::HexLine hexLine, const extras::WhereAmI& ref) {
-                arc::ParcelLine check(0, 0, hexLine);
-                if (check.checksum() != crc)
-                    throw ParcelException("Bad CRC:" + hexLine, ref);
+            static void assertion(const ParcelLineInterface& obj, const extras::WhereAmI& ref) {
+                arc::ParcelLine check(obj.lineNo(), obj.lineCount(), obj.hexLine());
+                if (check.checksum() != obj.checksum())
+                    throw ParcelException("Bad CRC:" + obj.raw(), ref);
             }
 
             static void assertion(const Filename& parcel, const Filename& unpacked, const extras::WhereAmI& ref);
