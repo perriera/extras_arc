@@ -6,7 +6,7 @@
 > To add a tag to the git repository do:
 >
 > > git tag -a v3.0.0 -m "New Parcelline format"</br>
-> > git push origin v3.-.0
+> > git push origin v3.0.0
 
 IMPORTANT:
 
