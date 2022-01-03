@@ -89,7 +89,7 @@ namespace extras {
              *
              */
             ParcelLine() {};
-            ParcelLine(int lineNo, int lineCount, const HexLine& hexLine, int redundancy = 1);
+            ParcelLine(int lineNo, int lineCount, const HexLine& hexLine, int redundancy = 4);
 
             /**
              * @brief ParcelLineInterface

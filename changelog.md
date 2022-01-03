@@ -5,8 +5,8 @@
 > and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).</br>
 > To add a tag to the git repository do:
 >
-> > git tag -a v3.0.0 -m "New Parcelline format"</br>
-> > git push origin v3.0.0
+> > git tag -a v3.1.0 -m "Added FEC to ParcelLine"</br>
+> > git push origin v3.1.0
 
 IMPORTANT:
 
@@ -34,6 +34,14 @@ Correct URL for github, (for source compare)</br>
 - Warn that only Zip files can be used by the imploder
 - Auto zip option for the imploder, (for none zip files)
 - VERIFY FILES BEFORE THEY ARE SENT
+
+#### 3.1.0 (2022-01-02)
+
+### Upgrades
+
+- Upgraded FEC on Parcelline
+- added redundency field on Parcelline
+- Previous formats will no longer work
 
 #### 3.0.0 (2022-01-02)
 
@@ -315,7 +323,8 @@ Correct URL for github, (for source compare)</br>
 
 - Conan package manager deprecated
 
-[unreleased]: https://github.com/perriera/extras_arc/compare/v3.0.0...HEAD
+[unreleased]: https://github.com/perriera/extras_arc/compare/v3.1.0...HEAD
+[3.1.0]: https://github.com/perriera/extras_arc/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/perriera/extras_arc/compare/v2.5.0...v3.0.0
 [2.5.0]: https://github.com/perriera/extras_arc/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/perriera/extras_arc/compare/v2.3.0...v2.4.0

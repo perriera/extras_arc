@@ -31,7 +31,7 @@
   */
 
 #define EXTRAS_ARC_VER_MAJOR 3
-#define EXTRAS_ARC_VER_MINOR 0
+#define EXTRAS_ARC_VER_MINOR 1
 
 #define EXTRAS_ARC_VER_PATCH 0
 
