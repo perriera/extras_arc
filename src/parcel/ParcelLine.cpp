@@ -40,7 +40,8 @@ namespace extras {
          * @return std::ostream&
          */
         std::ostream& operator<<(std::ostream& out, const ParcelLine& obj) {
-            for (int i = 0; i < obj.redundancy() + 1; i++) {
+            auto redundancy = obj.redundancy() < 10 ? obj.redundancy() : 1;
+            for (int i = 0; i < redundancy + 1; i++) {
                 out << " : " << std::hex << obj.lineNo();
                 out << " / " << std::hex << obj.lineCount();
                 out << " : " << obj.hexLine();
@@ -61,14 +62,14 @@ namespace extras {
         std::istream& operator>>(std::istream& in, ParcelLine& obj) {
             int retries = 0;
             int knownRedundancy = 0;
+            std::string line;
+            getline(in, line);
+            if (line.length() == 0)
+                return in;
+            stringstream ss;
+            ss << line;
             while (true) {
                 try {
-                    std::string line;
-                    getline(in, line);
-                    if (line.length() == 0)
-                        return in;
-                    stringstream ss;
-                    ss << line;
                     char c;
                     ss >> std::skipws >> c;
                     ParcelException::assertion(c, __INFO__);
@@ -87,7 +88,7 @@ namespace extras {
                     ss >> obj._redundancy;
                     ss >> c;
                     ParcelException::assertion(c, __INFO__);
-                    knownRedundancy = obj._redundancy;
+                    knownRedundancy = obj._redundancy < 10 ? obj._redundancy : 1;
                     ss >> std::hex >> obj._lenght;
                     ss >> c;
                     ParcelException::assertion(c, __INFO__);
@@ -98,8 +99,6 @@ namespace extras {
                 catch (ParcelException& ex) {
                     if (!(++retries < knownRedundancy))
                         ParcelException::assertion(obj, __INFO__);
-                    else
-                        std::cout << ex << std::endl;
                 }
             }
             return in;
