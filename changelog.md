@@ -32,6 +32,15 @@ Adding mock test cases </br>
 Adding unit test cases </br>
 Updated README.md accordinging</br>
 
+#### 2.6.0 (2021-12-23)
+
+### TODO: ADD
+
+- Verify (method) option on parcel, implode and wrap
+- Warn that only Zip files can be used by the imploder
+- Auto zip option for the imploder, (for none zip files)
+- VERIFY FILES BEFORE THEY ARE SENT
+
 #### 2.5.0 (2021-12-23)
 
 ### Upgrades
