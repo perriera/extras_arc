@@ -79,6 +79,9 @@ SCENARIO("Test WrapInterface: ParcelImploder3", "[WrapInterface]") {
     auto unzipCmd = "unzip -o " + newdata + " -d " + pn;
     SystemException::assertion(unzipCmd, __INFO__);
 
+    unzipCmd = "unzip -o " + testdata + " -d " + pn;
+    SystemException::assertion(unzipCmd, __INFO__);
+
     auto rezipCmd = "zip -ur " + testdata + " " + pn;
     SystemException::assertion(rezipCmd, __INFO__);
 
