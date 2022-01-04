@@ -28,6 +28,7 @@
 #include <fstream>
 #include <filesystem>
 #include <extras/filesystem/system.hpp>
+#include <extras/filesystem/filesystem.hpp>
 
 
 #include "../vendor/catch.hpp"
@@ -35,16 +36,6 @@
 using namespace extras;
 using namespace std;
 namespace fs = std::filesystem;
-
-// rsi::Lock rsi::DownloaderServer::lock(const rsi::Lock& lock) {
-//     rsi::FileNotFoundException::assertion(lock, __INFO__);
-//     arc::ParcelImploder parcelImploder(lock);
-//     auto wrapped = parcelImploder.wrap();
-//     rsi::FileNotFoundException::assertion(wrapped, __INFO__);
-//     send_file_block(wrapped);
-//     std::cout << extras::pass("send_file2 successful") << std::endl;
-//     return lock;
-// }
 
 SCENARIO("Test WrapInterface: ParcelImploder2", "[WrapInterface]") {
 
@@ -64,5 +55,34 @@ SCENARIO("Test WrapInterface: ParcelImploder2", "[WrapInterface]") {
     auto wrapped = i.wrap();
     FileNotFoundException::assertion(wrapped, __INFO__);
 
+}
+
+SCENARIO("Test WrapInterface: ParcelImploder3", "[WrapInterface]") {
+
+    SystemException::assertion("rm -rf testit; mkdir testit; ", __INFO__);
+    SystemException::assertion("cp data/src.zip testit; ", __INFO__);
+    SystemException::assertion("cp data/exparx.webflow.zip testit; ", __INFO__);
+    REQUIRE(fs::exists("testit/src.zip"));
+    REQUIRE(fs::exists("testit/exparx.webflow.zip"));
+
+    Parameter testdata = ~extras::Paths("testit/src.zip");
+    Parameter newdata = ~extras::Paths("testit/exparx.webflow.zip");
+    auto lock = testdata;
+
+    arc::ParcelImploder parcelImploder(lock);
+    arc::WrapInterface& i = parcelImploder;
+
+    FileNotFoundException::assertion(lock, __INFO__);
+
+    FileSystem fs(newdata);
+    auto pn = fs.pathname();
+    auto unzipCmd = "unzip -o " + newdata + " -d " + pn;
+    SystemException::assertion(unzipCmd, __INFO__);
+
+    auto rezipCmd = "zip -ur " + testdata + " " + pn;
+    SystemException::assertion(rezipCmd, __INFO__);
+
+    auto wrapped = i.wrap();
+    FileNotFoundException::assertion(wrapped, __INFO__);
 
 }
