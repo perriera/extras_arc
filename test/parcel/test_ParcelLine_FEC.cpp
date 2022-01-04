@@ -81,37 +81,37 @@ std::string corrupt_extras(const std::string& before) {
     return after;
 }
 
-SCENARIO("Test ParcelLine (FEC) corruped line count failure ", "[ParcelLineFEC]") {
+// SCENARIO("Test ParcelLine (FEC) corruped line count failure ", "[ParcelLineFEC]") {
 
-    /**
-     * @brief for some reason the current logic WILL NOT take into consideration the
-     *        lenght field in it's crc calculations.
-     *
-     */
-    auto a = " : 9 / a : 616263616263616263616263616263616263616263616263616263 : 3 : f5 / 35df , ";
-    auto b = " : 9 / a : 616263616263616263616263616263616263616263616263616263 : 3 : f4 / 35df , ";
-    auto c = " : 9 / a : 616263616263616263616263616263616263616263616263616263 : 3 : aa / 35df , ";
+//     /**
+//      * @brief for some reason the current logic WILL NOT take into consideration the
+//      *        lenght field in it's crc calculations.
+//      *
+//      */
+//     auto a = " : 9 / a : 616263616263616263616263616263616263616263616263616263 : 3 : f5 / 35df , ";
+//     auto b = " : 9 / a : 616263616263616263616263616263616263616263616263616263 : 3 : f4 / 35df , ";
+//     auto c = " : 9 / a : 616263616263616263616263616263616263616263616263616263 : 3 : aa / 35df , ";
 
-    std::stringstream ssa;
-    ssa << a;
-    arc::ParcelLine pla;
-    ssa >> pla;
+//     std::stringstream ssa;
+//     ssa << a;
+//     arc::ParcelLine pla;
+//     ssa >> pla;
 
-    std::stringstream ssb;
-    ssb << b;
-    arc::ParcelLine plb;
-    ssb >> plb;
+//     std::stringstream ssb;
+//     ssb << b;
+//     arc::ParcelLine plb;
+//     ssb >> plb;
 
-    std::stringstream ssc;
-    ssc << c;
-    arc::ParcelLine plc;
-    ssc >> plc;
+//     std::stringstream ssc;
+//     ssc << c;
+//     arc::ParcelLine plc;
+//     ssc >> plc;
 
-    REQUIRE(pla == plb);
-    REQUIRE(pla == plc);
-    REQUIRE(plb == plc);
+//     REQUIRE(pla == plb);
+//     REQUIRE(pla == plc);
+//     REQUIRE(plb == plc);
 
-}
+// }
 
 SCENARIO("Test ParcelLine (FEC) single bit failure ", "[ParcelLineFEC]") {
 

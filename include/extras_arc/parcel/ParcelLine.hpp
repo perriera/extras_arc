@@ -49,7 +49,7 @@ namespace extras {
          *
          */
 
-        using CRC = u_int16_t;
+        using CRC = u_int32_t;
 
         interface ParcelLineInterface {
             virtual  int lineNo() const pure;

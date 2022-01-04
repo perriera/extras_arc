@@ -14,7 +14,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/build/run-unittests-${workspaceRootFolderName}",
-      "args": ["[ParcelInterface]"],
+      "args": ["[ParcelLineFEC]"],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],
