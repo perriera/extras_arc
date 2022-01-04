@@ -22,6 +22,7 @@
 #include <extras_arc/parcel.hpp>
 #include <extras/filesystem/paths.hpp>
 #include <extras/strings.hpp>
+#include <extras/exceptions.hpp>
 #include <extras_arc/imploder.hpp>
 #include <iostream>
 #include <fstream>
@@ -47,74 +48,21 @@ namespace fs = std::filesystem;
 
 SCENARIO("Test WrapInterface: ParcelImploder2", "[WrapInterface]") {
 
-    auto cpCmd = "cp data/exparx.webflow_original.zip data/exparx.webflow.zip";
-    SystemException::assertion(cpCmd, __INFO__);
+    SystemException::assertion("rm -rf testit; mkdir testit; ", __INFO__);
+    SystemException::assertion("cp data/src.zip testit; ", __INFO__);
+    SystemException::assertion("cp data/exparx.webflow.zip testit; ", __INFO__);
+    REQUIRE(fs::exists("testit/src.zip"));
+    REQUIRE(fs::exists("testit/exparx.webflow.zip"));
 
     Parameter testdata = ~extras::Paths("data/exparx.webflow.zip");
+    auto lock = testdata;
 
-    arc::ParcelImploder parcelImploder(testdata);
+    arc::ParcelImploder parcelImploder(lock);
     arc::WrapInterface& i = parcelImploder;
 
-    //
-    // Scenario 1: Original exists
-    //
+    FileNotFoundException::assertion(lock, __INFO__);
+    auto wrapped = i.wrap();
+    FileNotFoundException::assertion(wrapped, __INFO__);
 
-    REQUIRE(i.clean() == testdata);
-    REQUIRE(fs::exists(testdata));
-    REQUIRE(!fs::exists(i.unWrapped()));
-    REQUIRE(!fs::exists(i.wrapped()));
-
-    REQUIRE(i.wrap() == i.wrapped());
-    REQUIRE(fs::exists(testdata));
-    REQUIRE(!fs::exists(i.unWrapped()));
-    REQUIRE(fs::exists(i.wrapped()));
-
-    REQUIRE(i.unWrap() == i.unWrapped());
-    REQUIRE(fs::exists(testdata));
-    REQUIRE(fs::exists(i.unWrapped()));
-    REQUIRE(!fs::exists(i.wrapped()));
-
-    REQUIRE(i.merge() == testdata);
-    REQUIRE(!fs::exists(i.unWrapped()));
-    REQUIRE(fs::exists(testdata));
-
-    REQUIRE(i.clean() == testdata);
-    REQUIRE(fs::exists(testdata));
-    REQUIRE(!fs::exists(i.unWrapped()));
-    REQUIRE(!fs::exists(i.wrapped()));
-
-    //
-    // Scenario 2: Original does not exist
-    //
-
-    REQUIRE(fs::exists(testdata));
-    REQUIRE(!fs::exists(i.unWrapped()));
-    REQUIRE(!fs::exists(i.wrapped()));
-
-    REQUIRE(i.wrap() == i.wrapped());
-    REQUIRE(fs::exists(testdata));
-    REQUIRE(!fs::exists(i.unWrapped()));
-    REQUIRE(fs::exists(i.wrapped()));
-
-    REQUIRE(fs::exists(testdata));
-    REQUIRE(fs::exists(i.wrapped()));
-    auto rmCmd = "rm data/exparx.webflow.zip";
-    SystemException::assertion(rmCmd, __INFO__);
-    REQUIRE(!fs::exists(testdata));
-    REQUIRE(fs::exists(i.wrapped()));
-
-    REQUIRE(i.unWrap() == i.unWrapped());
-    REQUIRE(!fs::exists(testdata));
-    REQUIRE(fs::exists(i.unWrapped()));
-    REQUIRE(!fs::exists(i.wrapped()));
-
-    REQUIRE(i.merge() == testdata);
-    REQUIRE(!fs::exists(i.unWrapped()));
-    REQUIRE(fs::exists(testdata));
-
-    REQUIRE(i.clean() == testdata);
-    REQUIRE(fs::exists(testdata));
-    REQUIRE(!fs::exists(i.unWrapped()));
-    REQUIRE(!fs::exists(i.wrapped()));
 
 }
