@@ -24,15 +24,16 @@
 
 #include "../vendor/catch.hpp"
 #include "../vendor/fakeit.hpp"
+#include <extras/docking/DockIt.hpp>
 
 using namespace extras;
 using namespace fakeit;
 namespace fs = std::filesystem;
 
-SCENARIO("Mock ConvertFileInterface: hexToBin", "[ConvertInterface]") {
+SCENARIO("Dock ConvertFileInterface: hexToBin", "[ConvertInterface]") {
 
-    Mock<arc::ConvertFileInterface> mock;
-    When(Method(mock, hexToBin))
+    Dock<arc::ConvertFileInterface> dock;
+    When(Method(dock, hexToBin))
         .AlwaysDo(
             [](const arc::HexFile& hexFile) {
                 arc::BinFile binFile;
@@ -43,7 +44,7 @@ SCENARIO("Mock ConvertFileInterface: hexToBin", "[ConvertInterface]") {
                 }
                 return binFile;
             });
-    When(Method(mock, binToHex))
+    When(Method(dock, binToHex))
         .AlwaysDo(
             [](const arc::BinFile& binFile) {
                 arc::HexFile hexFile;
@@ -69,19 +70,19 @@ SCENARIO("Mock ConvertFileInterface: hexToBin", "[ConvertInterface]") {
             hexFile.push_back(line);
     }
 
-    arc::ConvertFileInterface& i = mock.get();
+    arc::ConvertFileInterface& i = dock.get();
     binFile = i.hexToBin(hexFile);
     hexFile = i.binToHex(binFile);
     REQUIRE(i.hexToBin(hexFile) == binFile);
     REQUIRE(i.binToHex(binFile) == hexFile);
-    Verify(Method(mock, hexToBin));
-    Verify(Method(mock, binToHex));
+    Verify(Method(dock, hexToBin));
+    Verify(Method(dock, binToHex));
 }
 
-SCENARIO("Mock ConvertFileInterface: loadBin", "[ConvertInterface]") {
+SCENARIO("Dock ConvertFileInterface: loadBin", "[ConvertInterface]") {
 
-    Mock<arc::ConvertFileInterface> mock;
-    When(Method(mock, loadBin))
+    Mock<arc::ConvertFileInterface> dock;
+    When(Method(dock, loadBin))
         .AlwaysDo(
             [](std::istream& in, int columns) {
                 arc::BinFile binFile;
@@ -98,7 +99,7 @@ SCENARIO("Mock ConvertFileInterface: loadBin", "[ConvertInterface]") {
                 }
                 return binFile;
             });
-    When(Method(mock, saveBin))
+    When(Method(dock, saveBin))
         .AlwaysDo(
             [](std::ostream& out, const arc::BinFile& binFile) {
                 for (auto binLine : binFile) {
@@ -107,7 +108,7 @@ SCENARIO("Mock ConvertFileInterface: loadBin", "[ConvertInterface]") {
                 }
             });
 
-    When(Method(mock, loadHex))
+    When(Method(dock, loadHex))
         .AlwaysDo(
             [](std::istream& in) {
                 arc::HexFile hexFile;
@@ -119,7 +120,7 @@ SCENARIO("Mock ConvertFileInterface: loadBin", "[ConvertInterface]") {
                 }
                 return hexFile;
             });
-    When(Method(mock, saveHex))
+    When(Method(dock, saveHex))
         .AlwaysDo(
             [](std::ostream& out, const arc::HexFile& hexFile) {
                 for (auto hexLine : hexFile) {
@@ -140,7 +141,7 @@ SCENARIO("Mock ConvertFileInterface: loadBin", "[ConvertInterface]") {
     std::ifstream inHex(h1);
     REQUIRE(inHex.good());
 
-    arc::ConvertFileInterface& i = mock.get();
+    arc::ConvertFileInterface& i = dock.get();
     binFile = i.loadBin(inBin, 40);
     hexFile = i.loadHex(inHex);
     {
@@ -153,7 +154,7 @@ SCENARIO("Mock ConvertFileInterface: loadBin", "[ConvertInterface]") {
     }
     REQUIRE(fs::file_size(b1) == fs::file_size(b2));
     REQUIRE(fs::file_size(h1) + 1 == fs::file_size(h2));
-    Verify(Method(mock, loadBin));
-    Verify(Method(mock, loadHex));
+    Verify(Method(dock, loadBin));
+    Verify(Method(dock, loadHex));
 
 }

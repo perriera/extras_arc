@@ -26,12 +26,13 @@
 
 #include "../vendor/catch.hpp"
 #include "../vendor/fakeit.hpp"
+#include <extras/docking/DockIt.hpp>
 
 using namespace extras;
 using namespace fakeit;
 namespace fs = std::filesystem;
 
-SCENARIO("Mock WrapInterface: Parcel", "[WrapInterface]") {
+SCENARIO("Dock WrapInterface: Parcel", "[WrapInterface]") {
 
     auto cpCmd = "cp data/exparx.webflow_original.zip data/exparx.webflow.zip";
     SystemException::assertion(cpCmd, __INFO__);
@@ -39,9 +40,9 @@ SCENARIO("Mock WrapInterface: Parcel", "[WrapInterface]") {
     Parameter original = ~extras::Paths("data/exparx.webflow.zip");
     Parameter packed = extras::replace_all(original, "webflow.zip", "webflow.zip_packed.txt");
     Parameter unpacked = extras::replace_all(original, "webflow.zip", "webflow.zip_duplicate.bin");
-    Mock<arc::WrapInterface> mock;
+    Dock<arc::WrapInterface> dock;
 
-    When(Method(mock, wrap))
+    When(Method(dock, wrap))
         .AlwaysDo(
             [&original]() {
                 arc::Parcel parcel(original);
@@ -50,7 +51,7 @@ SCENARIO("Mock WrapInterface: Parcel", "[WrapInterface]") {
                 return x;
             });
 
-    When(Method(mock, unWrap))
+    When(Method(dock, unWrap))
         .AlwaysDo(
             [&original]() {
                 arc::Parcel parcel(original);
@@ -59,7 +60,7 @@ SCENARIO("Mock WrapInterface: Parcel", "[WrapInterface]") {
                 return y;
             });
 
-    arc::WrapInterface& i = mock.get();
+    arc::WrapInterface& i = dock.get();
 
     arc::Parcel parcel(original);
     parcel.clean();
@@ -79,7 +80,7 @@ SCENARIO("Mock WrapInterface: Parcel", "[WrapInterface]") {
     REQUIRE(fs::exists(parcel.original()));
     REQUIRE(!fs::exists(parcel.packed()));
     REQUIRE(!fs::exists(parcel.duplicate()));
-    Verify(Method(mock, wrap));
-    Verify(Method(mock, unWrap));
+    Verify(Method(dock, wrap));
+    Verify(Method(dock, unWrap));
 
 }

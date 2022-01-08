@@ -29,26 +29,27 @@
 
 #include "../vendor/catch.hpp"
 #include "../vendor/fakeit.hpp"
+#include <extras/docking/DockIt.hpp>
 
 using namespace extras;
 using namespace fakeit;
 using namespace std;
 namespace fs = std::filesystem;
 
-SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
+SCENARIO("Dock WrapInterface: ParcelImploder", "[WrapInterface]") {
 
     auto cpCmd = "cp data/exparx.webflow_original.zip data/exparx.webflow.zip";
     SystemException::assertion(cpCmd, __INFO__);
     Parameter testdata = ~extras::Paths("data/exparx.webflow.zip");
-    Mock<arc::WrapInterface> mock;
+    Dock<arc::WrapInterface> dock;
 
-    When(Method(mock, original))
+    When(Method(dock, original))
         .AlwaysDo(
             [&testdata]() {
                 return testdata;
             });
 
-    When(Method(mock, wrap))
+    When(Method(dock, wrap))
         .AlwaysDo(
             [&testdata]() {
                 arc::Imploder arc(testdata);
@@ -58,7 +59,7 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
                 return parcel.packed();
             });
 
-    When(Method(mock, wrapped))
+    When(Method(dock, wrapped))
         .AlwaysDo(
             [&testdata]() {
                 arc::Imploder arc(testdata);
@@ -66,7 +67,7 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
                 return parcel.packed();
             });
 
-    When(Method(mock, unWrap))
+    When(Method(dock, unWrap))
         .AlwaysDo(
             [&testdata]() {
                 arc::Imploder arc(testdata);
@@ -81,7 +82,7 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
                 return arc.imploded();;
             });
 
-    When(Method(mock, unWrapped))
+    When(Method(dock, unWrapped))
         .AlwaysDo(
             [&testdata]() {
                 arc::Imploder arc(testdata);
@@ -92,7 +93,7 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
                     return arc.imploded();
             });
 
-    When(Method(mock, merge))
+    When(Method(dock, merge))
         .AlwaysDo(
             [&testdata]() {
                 arc::Imploder arc(testdata);
@@ -109,7 +110,7 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
                 return testdata;
             });
 
-    When(Method(mock, clean))
+    When(Method(dock, clean))
         .AlwaysDo(
             [&testdata]() {
                 arc::Imploder arc(testdata);
@@ -119,7 +120,7 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
                 return testdata;
             });
 
-    arc::WrapInterface& i = mock.get();
+    arc::WrapInterface& i = dock.get();
 
     //
     // Scenario 1: Original exists
@@ -185,11 +186,11 @@ SCENARIO("Mock WrapInterface: ParcelImploder", "[WrapInterface]") {
 
     // 
 
-    Verify(Method(mock, wrap));
-    Verify(Method(mock, unWrap));
-    Verify(Method(mock, wrapped));
-    Verify(Method(mock, unWrapped));
-    Verify(Method(mock, merge));
-    Verify(Method(mock, clean));
+    Verify(Method(dock, wrap));
+    Verify(Method(dock, unWrap));
+    Verify(Method(dock, wrapped));
+    Verify(Method(dock, unWrapped));
+    Verify(Method(dock, merge));
+    Verify(Method(dock, clean));
 
 }

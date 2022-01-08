@@ -29,24 +29,25 @@
 
 #include "../vendor/catch.hpp"
 #include "../vendor/fakeit.hpp"
+#include <extras/docking/DockIt.hpp>
 
 using namespace extras;
 using namespace fakeit;
 namespace fs = std::filesystem;
 
-SCENARIO("Mock ParcelInterface: hexToBin", "[ParcelInterface]") {
+SCENARIO("Dock ParcelInterface: hexToBin", "[ParcelInterface]") {
 
     Parameter original = ~extras::Paths("data/cplusplusorg.freeformjs.imploded.zip");
     Parameter hexed = original + "_hexed";
     Parameter packed = original + "_packed";
     Parameter duplicate = original + "_unpacked";
-    Mock<arc::ParcelInterface> mock;
-    When(Method(mock, original)).AlwaysReturn(original);
-    When(Method(mock, hexed)).AlwaysReturn(hexed);
-    When(Method(mock, packed)).AlwaysReturn(packed);
-    When(Method(mock, duplicate)).AlwaysReturn(duplicate);
+    Dock<arc::ParcelInterface> dock;
+    When(Method(dock, original)).AlwaysReturn(original);
+    When(Method(dock, hexed)).AlwaysReturn(hexed);
+    When(Method(dock, packed)).AlwaysReturn(packed);
+    When(Method(dock, duplicate)).AlwaysReturn(duplicate);
 
-    When(Method(mock, pack))
+    When(Method(dock, pack))
         .AlwaysDo(
             [&original, &packed, &hexed]() {
                 FileNotFoundException::assertion(original, __INFO__);
@@ -68,7 +69,7 @@ SCENARIO("Mock ParcelInterface: hexToBin", "[ParcelInterface]") {
 
             });
 
-    When(Method(mock, unpack))
+    When(Method(dock, unpack))
         .AlwaysDo(
             [&packed, &duplicate, &hexed]() {
                 auto name = packed;
@@ -118,7 +119,7 @@ SCENARIO("Mock ParcelInterface: hexToBin", "[ParcelInterface]") {
             }
     );
 
-    When(Method(mock, verify_integrity))
+    When(Method(dock, verify_integrity))
         .AlwaysDo(
             [&original, &duplicate]() {
                 FileNotFoundException::assertion(original, __INFO__);
@@ -128,7 +129,7 @@ SCENARIO("Mock ParcelInterface: hexToBin", "[ParcelInterface]") {
             }
     );
 
-    When(Method(mock, merge))
+    When(Method(dock, merge))
         .AlwaysDo(
             [&original, &duplicate]() {
                 FileNotFoundException::assertion(duplicate, __INFO__);
@@ -138,7 +139,7 @@ SCENARIO("Mock ParcelInterface: hexToBin", "[ParcelInterface]") {
             }
     );
 
-    When(Method(mock, clean))
+    When(Method(dock, clean))
         .AlwaysDo(
             [&hexed, &packed, &duplicate]() {
                 if (fs::exists(hexed))
@@ -157,7 +158,7 @@ SCENARIO("Mock ParcelInterface: hexToBin", "[ParcelInterface]") {
     if (fs::exists(duplicate))
         fs::remove(duplicate);
 
-    arc::ParcelInterface& i = mock.get();
+    arc::ParcelInterface& i = dock.get();
     REQUIRE(i.original() == original);
     REQUIRE(i.hexed() == hexed);
     REQUIRE(i.packed() == packed);
@@ -200,8 +201,8 @@ SCENARIO("Mock ParcelInterface: hexToBin", "[ParcelInterface]") {
      // REQUIRE(fs::exists(i.packed()));
      // i.unpack();
 
-     // Verify(Method(mock, pack));
-     // Verify(Method(mock, unpack));
-     // Verify(Method(mock, verify_integrity));
+     // Verify(Method(dock, pack));
+     // Verify(Method(dock, unpack));
+     // Verify(Method(dock, verify_integrity));
 }
 

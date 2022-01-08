@@ -85,7 +85,32 @@ SCENARIO("Test WrapInterface: ParcelImploder3", "[WrapInterface]") {
     auto rezipCmd = "zip -ur " + testdata + " " + pn;
     SystemException::assertion(rezipCmd, __INFO__);
 
-    auto wrapped = i.wrap();
-    FileNotFoundException::assertion(wrapped, __INFO__);
+    {
+        auto wrapped = i.wrap();
+        FileNotFoundException::assertion(wrapped, __INFO__);
 
+        auto unwrapped = i.unWrap();
+        FileNotFoundException::assertion(unwrapped, __INFO__);
+
+        auto fn1 = i.merge();
+        FileNotFoundException::assertion(fn1, __INFO__);
+        auto fn2 = i.clean();
+        FileNotFoundException::assertion(fn2, __INFO__);
+    }
+
+    {
+        auto wrapped = i.wrap();
+        FileNotFoundException::assertion(wrapped, __INFO__);
+
+        auto rmCmd = "rm " + testdata;
+        SystemException::assertion(rmCmd, __INFO__);
+
+        auto unwrapped = i.unWrap();
+        FileNotFoundException::assertion(unwrapped, __INFO__);
+
+        auto fn1 = i.merge();
+        FileNotFoundException::assertion(fn1, __INFO__);
+        auto fn2 = i.clean();
+        FileNotFoundException::assertion(fn2, __INFO__);
+    }
 }

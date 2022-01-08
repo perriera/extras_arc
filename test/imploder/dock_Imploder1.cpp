@@ -25,29 +25,30 @@
 
 #include "../vendor/catch.hpp"
 #include "../vendor/fakeit.hpp"
+#include <extras/docking/DockIt.hpp>
 
 using namespace extras;
 using namespace fakeit;
 namespace fs = std::filesystem;
 
-SCENARIO("Mock ImploderInterface: part1", "[ImploderInterface]") {
+SCENARIO("Dock ImploderInterface: part1", "[ImploderInterface]") {
 
     Filename original = ~extras::Paths("data/exparx.webflow.zip");
     Path originalDir = original + ".dir";
     Filename imploded = original + "_imploded.zip";
     Filename exploded = original + "_exploded.zip";
 
-    Mock<arc::ImploderInterface> mock;
-    When(Method(mock, original)).Return(original);
-    When(Method(mock, imploded)).Return(imploded);
-    When(Method(mock, exploded)).Return(exploded);
+    Dock<arc::ImploderInterface> dock;
+    When(Method(dock, original)).Return(original);
+    When(Method(dock, imploded)).Return(imploded);
+    When(Method(dock, exploded)).Return(exploded);
 
-    When(Method(mock, unzip)).AlwaysDo([](const Filename& filename, const Path& dir)
+    When(Method(dock, unzip)).AlwaysDo([](const Filename& filename, const Path& dir)
         {
             auto cmd = "unzip -o " + filename + " -d " + dir + " >/dev/null";
             SystemException::assertion(cmd.c_str(), __INFO__);
         });
-    When(Method(mock, rezip)).AlwaysDo([&original](const Filename& imploded, const Path& dir)
+    When(Method(dock, rezip)).AlwaysDo([&original](const Filename& imploded, const Path& dir)
         {
             // std::cout << "hello" << std::endl;
             auto script = imploded + ".sh";
@@ -58,18 +59,18 @@ SCENARIO("Mock ImploderInterface: part1", "[ImploderInterface]") {
             ss.close();
             ScriptException::assertion(script.c_str(), __INFO__);
         });
-    When(Method(mock, rmdir)).AlwaysDo([](const Path& dir)
+    When(Method(dock, rmdir)).AlwaysDo([](const Path& dir)
         {
             fs::remove_all(dir);
         });
-    When(Method(mock, rm)).AlwaysDo([](const Filename& filename)
+    When(Method(dock, rm)).AlwaysDo([](const Filename& filename)
         {
             fs::remove(filename);
         });
-    When(Method(mock, implode)).Return();
-    When(Method(mock, explode)).Return();
+    When(Method(dock, implode)).Return();
+    When(Method(dock, explode)).Return();
 
-    arc::ImploderInterface& i = mock.get();
+    arc::ImploderInterface& i = dock.get();
 
     REQUIRE(i.original() == original);
     REQUIRE(i.imploded() == imploded);
@@ -80,12 +81,12 @@ SCENARIO("Mock ImploderInterface: part1", "[ImploderInterface]") {
     i.rezip(imploded, originalDir);
     i.rmdir(originalDir);
     i.rm(imploded);
-    Verify(Method(mock, original));
-    Verify(Method(mock, imploded));
-    Verify(Method(mock, exploded));
-    Verify(Method(mock, unzip));
-    Verify(Method(mock, implode));
-    Verify(Method(mock, explode));
-    Verify(Method(mock, rezip));
+    Verify(Method(dock, original));
+    Verify(Method(dock, imploded));
+    Verify(Method(dock, exploded));
+    Verify(Method(dock, unzip));
+    Verify(Method(dock, implode));
+    Verify(Method(dock, explode));
+    Verify(Method(dock, rezip));
 }
 

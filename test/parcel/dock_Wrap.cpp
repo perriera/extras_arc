@@ -25,36 +25,37 @@
 
 #include "../vendor/catch.hpp"
 #include "../vendor/fakeit.hpp"
+#include <extras/docking/DockIt.hpp>
 
 using namespace extras;
 using namespace fakeit;
 namespace fs = std::filesystem;
 
-SCENARIO("Mock WrapInterface: virgin", "[WrapInterface]") {
+SCENARIO("Dock WrapInterface: virgin", "[WrapInterface]") {
 
     auto cpCmd = "cp data/exparx.webflow_original.zip data/exparx.webflow.zip";
     SystemException::assertion(cpCmd, __INFO__);
 
     Parameter before = ~extras::Paths("data/exparx.webflow.zip");
     Parameter after = extras::replace_all(before, "webflow.zip", "webflow.imploded.zip");
-    Mock<arc::WrapInterface> mock;
+    Dock<arc::WrapInterface> dock;
 
-    When(Method(mock, wrap))
+    When(Method(dock, wrap))
         .AlwaysDo(
             [&after]() {
                 return after;
             });
 
-    When(Method(mock, unWrap))
+    When(Method(dock, unWrap))
         .AlwaysDo(
             [&before]() {
                 return before;
             });
 
-    arc::WrapInterface& i = mock.get();
+    arc::WrapInterface& i = dock.get();
     REQUIRE(i.wrap() == after);
     REQUIRE(i.unWrap() == before);
-    Verify(Method(mock, wrap));
-    Verify(Method(mock, unWrap));
+    Verify(Method(dock, wrap));
+    Verify(Method(dock, unWrap));
 
 }

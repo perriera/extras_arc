@@ -28,19 +28,20 @@
 
 #include "../vendor/catch.hpp"
 #include "../vendor/fakeit.hpp"
+#include <extras/docking/DockIt.hpp>
 
 using namespace extras;
 using namespace std;
 using namespace fakeit;
 namespace fs = std::filesystem;
 
-SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
+SCENARIO("Dock ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
 
     Filename zipFile = "testit/src.zip";
     Pathname zipTo = "testit/";
 
-    Mock<arc::ZipperInterface> mock;
-    When(Method(mock, unzip))
+    Dock<arc::ZipperInterface> dock;
+    When(Method(dock, unzip))
         .AlwaysDo(
             [&zipFile, &zipTo]() {
                 FileNotFoundException::assertion(zipFile, __INFO__);
@@ -49,7 +50,7 @@ SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
                 auto unzip = "unzip -o " + zipFile + " -d " + fn2 + " >/dev/null";
                 SystemException::assertion(unzip.c_str(), __INFO__);
             });
-    When(Method(mock, rezip))
+    When(Method(dock, rezip))
         .AlwaysDo(
             [&zipFile, &zipTo]() {
                 FileNotFoundException::assertion(zipFile, __INFO__);
@@ -67,7 +68,7 @@ SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
                 ss.close();
                 ScriptException::assertion(script, __INFO__);
             });
-    When(Method(mock, create))
+    When(Method(dock, create))
         .AlwaysDo(
             [&zipFile, &zipTo]() {
                 PathNotFoundException::assertion(zipTo, __INFO__);
@@ -87,7 +88,7 @@ SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
                 ss.close();
                 ScriptException::assertion(script2, __INFO__);
             });
-    When(Method(mock, append))
+    When(Method(dock, append))
         .AlwaysDo(
             [&zipFile, &zipTo]() {
                 PathNotFoundException::assertion(zipTo, __INFO__);
@@ -119,7 +120,7 @@ SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
     SystemException::assertion("rm -rf testit && mkdir testit", __INFO__);
     SystemException::assertion("cp data/src.zip testit/src.zip", __INFO__);
 
-    arc::ZipperInterface& i = mock.get();
+    arc::ZipperInterface& i = dock.get();
     // test unzip
     REQUIRE(fs::exists("testit/src.zip"));
     REQUIRE(!fs::exists("testit/src"));
@@ -157,10 +158,10 @@ SCENARIO("Mock ZipperInterface: unzip/rezip/create", "[MockZipperInterface]") {
     REQUIRE(fs::exists("testit/src"));
     REQUIRE(fs::exists("testit/src/app"));
 
-    Verify(Method(mock, unzip));
-    Verify(Method(mock, rezip));
-    Verify(Method(mock, create));
-    Verify(Method(mock, append));
+    Verify(Method(dock, unzip));
+    Verify(Method(dock, rezip));
+    Verify(Method(dock, create));
+    Verify(Method(dock, append));
 
     SystemException::assertion("rm -rf testit", __INFO__);
 

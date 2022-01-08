@@ -26,13 +26,14 @@
 
 #include "../vendor/catch.hpp"
 #include "../vendor/fakeit.hpp"
+#include <extras/docking/DockIt.hpp>
 
 using namespace extras;
 using namespace fakeit;
 using namespace std;
 namespace fs = std::filesystem;
 
-SCENARIO("Mock WrapInterface: Imploder", "[WrapInterface]") {
+SCENARIO("Dock WrapInterface: Imploder", "[WrapInterface]") {
 
     auto cpCmd = "cp data/exparx.webflow_original.zip data/exparx.webflow.zip";
     SystemException::assertion(cpCmd, __INFO__);
@@ -40,9 +41,9 @@ SCENARIO("Mock WrapInterface: Imploder", "[WrapInterface]") {
     Parameter original = ~extras::Paths("data/exparx.webflow.zip");
     Parameter imploded = extras::replace_all(original, "webflow.zip", "webflow.zip_imploded.zip");
     Parameter exploded = extras::replace_all(original, "webflow.zip", "webflow.zip_exploded.zip");
-    Mock<arc::WrapInterface> mock;
+    Mock<arc::WrapInterface> dock;
 
-    When(Method(mock, wrap))
+    When(Method(dock, wrap))
         .AlwaysDo(
             [&original]() {
                 arc::Imploder arc(original);
@@ -50,7 +51,7 @@ SCENARIO("Mock WrapInterface: Imploder", "[WrapInterface]") {
                 return arc.imploded();
             });
 
-    When(Method(mock, unWrap))
+    When(Method(dock, unWrap))
         .AlwaysDo(
             [&original]() {
                 arc::Imploder arc(original);
@@ -58,7 +59,7 @@ SCENARIO("Mock WrapInterface: Imploder", "[WrapInterface]") {
                 return arc.exploded();
             });
 
-    arc::WrapInterface& i = mock.get();
+    arc::WrapInterface& i = dock.get();
 
     arc::Imploder arc(original);
     arc.clean();
@@ -78,7 +79,7 @@ SCENARIO("Mock WrapInterface: Imploder", "[WrapInterface]") {
     REQUIRE(fs::exists(arc.original()));
     REQUIRE(!fs::exists(arc.imploded()));
     REQUIRE(!fs::exists(arc.exploded()));
-    Verify(Method(mock, wrap));
-    Verify(Method(mock, unWrap));
+    Verify(Method(dock, wrap));
+    Verify(Method(dock, unWrap));
 
 }
