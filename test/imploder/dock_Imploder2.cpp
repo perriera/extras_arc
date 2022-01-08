@@ -26,18 +26,19 @@
 
 #include "../vendor/catch.hpp"
 #include "../vendor/fakeit.hpp"
+#include <extras/docking/DockIt.hpp>
 
 using namespace extras;
 using namespace fakeit;
 namespace fs = std::filesystem;
 
-SCENARIO("Mock ImploderInterface: part2", "[ImploderInterface]") {
+SCENARIO("Dock ImploderInterface: part2", "[ImploderInterface]") {
 
     Filename original = ~extras::Paths("data/exparx.webflow.zip");
     arc::Imploder arc(original);
 
-    Mock<arc::ImploderInterface> mock;
-    When(Method(mock, implode)).AlwaysDo([&arc, &original]() {
+    Dock<arc::ImploderInterface> dock;
+    When(Method(dock, implode)).AlwaysDo([&arc, &original]() {
         arc.unzip(original, original + ".dir");
         for (auto& p : fs::recursive_directory_iterator(original + ".dir"))
             if (!p.is_directory() && arc.isImplodable(p.path())) {
@@ -52,7 +53,7 @@ SCENARIO("Mock ImploderInterface: part2", "[ImploderInterface]") {
         arc.rmdir(original + ".dir");
         });
 
-    When(Method(mock, explode)).AlwaysDo([&arc, &original]() {
+    When(Method(dock, explode)).AlwaysDo([&arc, &original]() {
         auto cp = "cp " + arc.imploded() + " " + arc.exploded();
         SystemException::assertion(cp.c_str(), __INFO__);
         arc.unzip(arc.exploded(), arc.exploded() + ".dir");
@@ -72,10 +73,10 @@ SCENARIO("Mock ImploderInterface: part2", "[ImploderInterface]") {
         arc.rmdir(original + ".dir");
         });
 
-    arc::ImploderInterface& i = mock.get();
+    arc::ImploderInterface& i = dock.get();
     i.implode();
     i.explode();
-    Verify(Method(mock, implode));
-    Verify(Method(mock, explode));
+    Verify(Method(dock, implode));
+    Verify(Method(dock, explode));
 }
 

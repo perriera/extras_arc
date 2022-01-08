@@ -21,31 +21,32 @@
 
 #include "../vendor/catch.hpp"
 #include "../vendor/fakeit.hpp"
+#include <extras/docking/DockIt.hpp>
 
 using namespace extras;
 using namespace fakeit;
 
-SCENARIO("Mock ConvertLineInterface", "[ConvertInterface]") {
+SCENARIO("Dock ConvertLineInterface", "[ConvertInterface]") {
 
-    Mock<arc::ConvertLineInterface> mock;
-    When(Method(mock, hexToBin))
+    Dock<arc::ConvertLineInterface> dock;
+    When(Method(dock, hexToBin))
         .AlwaysDo(
             [](const arc::HexLine& hexLine) {
                 arc::BinLine binLine = arc::hexToBytes(hexLine);
                 return binLine;
             });
-    When(Method(mock, binToHex))
+    When(Method(dock, binToHex))
         .AlwaysDo(
             [](const arc::BinLine& binLine) {
                 arc::HexLine hexLine = arc::bytesToHex(binLine);
                 return hexLine;
             });
 
-    arc::ConvertLineInterface& i = mock.get();
+    arc::ConvertLineInterface& i = dock.get();
     arc::BinLine binLine = { 'a', 'b', 'c' };
     arc::HexLine hexLine = i.binToHex(binLine);
     REQUIRE(i.hexToBin(hexLine) == binLine);
     REQUIRE(i.binToHex(binLine) == hexLine);
-    Verify(Method(mock, hexToBin));
-    Verify(Method(mock, binToHex));
+    Verify(Method(dock, hexToBin));
+    Verify(Method(dock, binToHex));
 }
